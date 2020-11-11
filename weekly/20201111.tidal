@@ -1,0 +1,51 @@
+
+-- thanks for listening! ...and bearing with me trying to use vim with tidal for the first time :/
+
+d1 $ slow 8 $ note (arp "down" "< c4'major7@0.0125 ~@1.9875 >") # s "supermandolin"
+    # sustain 10
+    # attack 0.5
+    # release 10
+    # gain 1.2
+    # tremdp 0.5 # tremr 0.125
+    # distort 0.4
+    # hpf (slow 64 $ range 500 3000 saw)
+    # delayt 2
+    # dfb 0.6
+    # delay 3
+
+do
+    d1 $ silence
+    d2 $ silence
+    d3 $ silence
+    d5 $ silence
+    d6 $ silence
+
+hush
+
+d2 $ slow 2 $ note "<c!3 [a d]  >" # s "superchip"
+    # octave 2
+    # lpf 3000
+    # legato 1.15
+    
+d3 $ s "< ~!6 gretsch:8 ~>"
+    # speed 0.4
+    -- # hpf 2000
+    # gain 1.5
+
+d4 $ slow 4 $ struct "t(23,35)" $ s (choose ["gretsch:2", "gretsch:3"])
+    # speed (choose [1, 1, 1, -1, 0.5, 0.2])
+    # room 1
+    # comb 0.9
+    # octave (choose [6,7,8])
+
+
+d5 $  s "birds:0/7?"
+    -- # gain 0
+
+d6 $ slow 2 $ s "808bd:1"
+    # room 1
+
+d7 $ loopAt 4 $ s "lidellst:6"
+    # djf (slow 8 saw)
+
+
