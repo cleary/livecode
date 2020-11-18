@@ -1,0 +1,28 @@
+-- 20201118 
+
+d1 $ slice 4 "1" $ s "lidelldrone:1" # up "<0!14 2 9>"
+
+d2 $ struct "t*4" $ s "808bd:3" # rel 0.1 # lpf 800 # gain 1.2 
+
+d3 $ struct "t(3,8,<0 2 3>)" $ s "808sd:5" # hpf 1500 # gain 1.6
+
+d4 $ n "a7*18" # s "supervibe" # hpf 4000 # up (range 0 2 (slow 32 sine)) # rel (range 0.1 0.5 (slow 8 sine))
+    # gain "<1!6 0!12>"
+    # speed (perlin + 0.5)
+
+d5 $ fast "2 1!3" $ (0.125 <~) $ note (arp "down" "<a'maj7 a'maj7'ii> ~ ~") |+ note "<0!14 2 9>" # s "bass3:2" # legato "0.3 1"
+    # gain "<0!6 1!6> "
+    # room 0.5
+    # sz 0.5
+    # lpf 2000
+    # octave 3
+
+do 
+    xfade 5 silence
+    xfade 3 silence
+    xfade 1 silence
+
+    
+
+
+
