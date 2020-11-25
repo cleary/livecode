@@ -1,2 +1,8 @@
 # livecode
-My crappy Live code for Tidalcycles, Supercollider and potentially others
+repository for my Tidalcycles, Supercollider (and potentially other languages) livecoded musical journey
+
+---
+## weekly
+code archive from my (approx) weekly [twitch livestream](https://twitch.tv/clearyss)
+
+video highlights/archives on [youtube](https://www.youtube.com/channel/UC2p7hQGQ7BG1UUQjEqHHvVA?view_as=subscriber)
