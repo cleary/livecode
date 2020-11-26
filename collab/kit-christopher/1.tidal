@@ -1,6 +1,6 @@
 d1 $ stack [ 
     someCyclesBy 0.66 ((# detune 0.66) . (# legato 1.5)) $ 
-		every 4 (sometimes ((+ n "<6 5> <5 6> <0 -1>") . (# octave (choose [4,5,6]) ))) $
+		every 4 (sometimes (jux (+ n "<6 5> <5 6> <0 -1>") . (# octave (choose [4,5,6]) ))) $
 		n (arp "converge up" "<[af'sus2'8@3 af'sus4'8@1.5] [af'six'12|df'maj9'12]>") # 
         s "supertron" # 
         octave "3 2 3 3" # 
