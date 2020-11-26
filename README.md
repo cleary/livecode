@@ -3,6 +3,10 @@ repository for my Tidalcycles, Supercollider (and potentially other languages) l
 
 ## repository layout
 
+### collab/*
+
+collection of musical collaborations
+
 ### weekly/*
 
 code archive from my (approx) weekly [twitch livestream](https://twitch.tv/clearyss)
