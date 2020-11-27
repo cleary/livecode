@@ -18,8 +18,9 @@ let swingPat = "<t f> f f <[f!3 t]>"
           |+ n "<0 5 0 -7>"
           # gain 1
           # lpf (range 500 15000 $ slow 16 sine) 
-        , struct (swingPat) 
-          $ s "clubkick" 
+        , $ struct (swingPat) 
+          $ s "808sd:11"
+          # gain 1.25
         , repeatCycles 4 
           $ struct "<t*8 t*12>" 
           $ s "linnhats" 
@@ -39,7 +40,10 @@ let swingPat = "<t f> f f <[f!3 t]>"
           # legato 1
           |+ n "<0 5 0 -7>"
           # gain 0.88
-        , struct (swingPat) $ s "clubkick"
+        , struct (swingPat) $ s "clubkick" 
+          # gain 1.2
+        , (1 ~>) $ every 4 (# gain 1) $ struct (inv swingPat) $ s "clubkick"
+          # gain 0
         , degradeBy 0.22
           $ struct "t*16"
           $ s "linnhats"
@@ -54,4 +58,4 @@ let swingPat = "<t f> f f <[f!3 t]>"
         )
       ]
 in
-d1 $ ur 32 "a" pats [] # cps (115/240)
+d1 $ ur 32 "a b" pats [] # cps (115/240)
