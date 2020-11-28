@@ -1,35 +1,54 @@
-let swingPat = "<t f> f f <[f!3 t]>" 
+let swingPat = "<t f> f f <[f!3 t]>"
+    swingPat' = "<t f> t f <[f!3 t]>"
     pats =
       [
-        ("a", stack [ 
-          someCyclesBy 0.66 ((# detune 0.66) . (# legato 1.5)) 
-          $ someCyclesBy 0.44 (sometimes (jux (+ n "<6 5> <5 6> <0 -1>") . (# accelerate "<-0.9 0.1> <0.1 -0.9> <0 0.2>") . (# octave (choose [4,5,6]) ))) 
+        ("a1", stack [
+         struct "t*16"
+          $ n "[af'sus4,f] [af'sus2,df]"
+          # s "superhoover"
+          # octave "<4 5 4 3 4>"
+          # legato 1
+          |+ n "<0 5 0 -7>"
+          # gain 1
+          # lpf (range 500 15000 $ slow 16 sine)
+        , superimpose (0.25 ~>) . (# coarse 3) . (off 1.25 (id))
+          $ struct (swingPat)
+          $ s "linnhats"
+          # gain 1.111
+          ]
+          ),
+        ("a2", stack [
+          someCyclesBy 0.66 ((# detune 0.66) . (# legato 1.5))
+          $ someCyclesBy 0.44 (sometimes (jux (+ n "<6 5> <5 6> <0 -1>") . (# accelerate "<-0.9 0.1> <0.1 -0.9> <0 0.2>") . (# octave (choose [4,5,6]) )))
           $ n (arp "converge up" "<[af'sus2'8@3 af'sus4'8@1.5] [af'six'12|df'maj9'12]>")
           # s "supertron"
           # octave "3 2 3 3"
-          # legato 1 
+          # legato 1
           |+ n "<0 5 0 -7>"
-          # gain 0.88
-        , struct "t*16" 
+          # gain 0.84
+        , struct "t*16"
           $ n "af'sus4 af'sus2"
           # s "superhoover"
           # octave "<4 5 4 3 4>"
-          # legato 1 
+          # legato 1
           |+ n "<0 5 0 -7>"
           # gain 1
-          # lpf (range 500 15000 $ slow 16 sine) 
-        , $ struct (swingPat) 
+          # lpf (range 500 15000 $ slow 16 sine)
+        , struct (swingPat)
           $ s "808sd:11"
           # gain 1.25
-        , repeatCycles 4 
-          $ struct "<t*8 t*12>" 
-          $ s "linnhats" 
+        , slow 2
+          $ struct (inv swingPat)
+          $ s "clubkick"
+        , repeatCycles 4
+          $ struct "<t*8 t*12>"
+          $ s "linnhats"
         , repeatCycles 2
-          $ cat [n "df f@5", n "df fs'five@5"] 
-          # s "superchip" 
-          # legato 1 
-          # octave 3 
-          # gain 1.25 
+          $ cat [n "df f@5", n "df fs'five@5"]
+          # s "superchip"
+          # legato 1
+          # octave 3
+          # gain 1.25
           ]
           ),
         ("b", stack [
@@ -40,9 +59,12 @@ let swingPat = "<t f> f f <[f!3 t]>"
           # legato 1
           |+ n "<0 5 0 -7>"
           # gain 0.88
-        , struct (swingPat) $ s "clubkick" 
+        , struct (swingPat)
+          $ s "clubkick"
           # gain 1.2
-        , (1 ~>) $ every 4 (# gain 1) $ struct (inv swingPat) $ s "clubkick"
+        , (1 ~>) $ every 4 (# gain 1)
+          $ struct (inv swingPat)
+          $ s "clubkick"
           # gain 0
         , degradeBy 0.22
           $ struct "t*16"
@@ -55,7 +77,60 @@ let swingPat = "<t f> f f <[f!3 t]>"
           # octave 2
           # gain 1.25
         ]
+        ),
+        ("c1", stack [
+          off 1.25 (fast "2 1 2")
+          $ n (arp "pinkydown [down ~ up]" "<f'7sus4'8 f'min7'12@1.5 af'sus4'6@2.5>")
+          # s "superfm"
+          # ratio1 "<1.11 2.11 3.11>"
+          # octave "4 5 3"
+          # voice "2 1 2 4"
+          # egrate11 "2 4 3"
+        , slow 2
+          $ struct "t*6 t*3"
+          $ n "af'maj"
+          # s "superpwm"
+          # gain "0.77"
+        , struct (swingPat')
+          $ n "bf"
+          # s "superchip"
+          # legato 1
+          # octave "2 3"
+          # gain 1.25
+        , struct "<t*24 t*8>"
+          $ s "linnhats cp"
+          # squiz "5 10 1 1 4 8 10"
+        , s "clubkick"
+        ]
+        ),
+        ("c2", stack [
+          off 1.25 (fast "2 1 2")
+          $ n (arp "pinkyup [up ~ down]" "<f'7sus4'16 f'min7'24@1.5 af'sus4'12@2.5>")
+          # s "superfm"
+          # ratio1 "<1.11 2.11 3.11>"
+          # octave "4 5 3"
+          # voice "2 3 2 4"
+          # egrate11 "2 4 3"
+        , slow 2
+          $ struct "t*6 t*3"
+          $ n "df'sus2 af'maj fs'sus2 df'maj9"
+          # s "superpwm supersquare"
+          # gain "0.77 0.66"
+        , struct (swingPat')
+          $ cat [n "bf", n "af", n "df", n "fs"]
+          # s "superchip"
+          # legato 1
+          # octave 2
+          # gain 1.25
+        , struct "<t*24 t*8> <t*12 t*16> <t*4 t*36>"
+          $ s "linnhats"
+          # gain 0.88
+        , s "clubkick"
+        , someCyclesBy 0.33 (stutWith 16 (1/36) (|* gain 0.97))
+          $ struct "t(2,8,<1 3>)"
+          $ s "cp"
+        ]
         )
       ]
 in
-d1 $ ur 32 "a b" pats [] # cps (115/240)
+d1 $ ur 80 "a1 a2 b c1 c2" pats [] # cps (115/240)
