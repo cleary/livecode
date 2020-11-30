@@ -6,14 +6,22 @@
 
 setcps (125/240)
 
-d1 $ slow 4 $ note "<f2 g2>!3 <c4'maj7 c3'maj7'iii>" # s "superfm"
+let pat = "<t(3,8) t*2> t"
+in
+d1  $ foldEvery [3,4] (# feedback 1) 
+    $ foldEvery [3,4] (jux (# octave 7))
+    $ off "<0.125!3 1/3 >" ((# squiz 2) . (# gain 0.7) . (# legato (choose [0.1, 0.5, 2, 1])) ) 
+    $ slow 4 
+    $ struct pat 
+    $ note "<[fs3 e3 d3] g2> <c4'maj7 c3'maj7'iii>" 
+    # s "superfm"
     # amp1 1
     # amp2 0
     # amp3 (2/3)
     # amp4 0
-    # amp5 0
+    # amp5 1
     # amp6 0
-    # egrate11 1
+    # egrate11 "< 10 1>"
     # egrate12 10
     # egrate13 10
     # eglevel11 1
@@ -28,6 +36,9 @@ d1 $ slow 4 $ note "<f2 g2>!3 <c4'maj7 c3'maj7'iii>" # s "superfm"
     # eglevel32 0
     # eglevel33 0
     # eglevel34 1.5
+    # ratio5 4
+    # mod13 "< 1 0 2 0 8>"
+    # voice "1 3 2 4"
 
 -- superfm modifiers
 let -- modulators
