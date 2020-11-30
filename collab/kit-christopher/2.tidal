@@ -7,7 +7,9 @@
 setcps (125/240)
 
 d1 $ stack [
-  slow 4 $ note "<f2 g2>!3 <c4'maj7 c3'maj7'iii>" # s "superfm"
+  slow 4
+    $ note "<f2 g2>!3 <c4'maj7 c3'maj7'iii>" 
+    # s "superfm"
     # amp1 1
     # amp2 0
     # amp3 (2/3)
@@ -36,14 +38,20 @@ d1 $ stack [
     # s "superfm"
     # octave "4 5 3"
     # legato (range 0.75 2.5 $ slow 16 tri)
-    # gain 0.82
+    # gain 0.79
     # amp1 1
     # ratio2 2
     # mod21 0.05
     # mod31 0.0125
     # eglevel21 4
     # voice "1 0 2 3"
-  ]
+  , s "808bd*4"
+  , (0.144 <~)
+    $ struct "t*4"
+    $ "808:0"
+    # n 10
+    # gain 0.71
+  ] # cps (118/240)
 
 -- superfm modifiers
 let -- modulators
