@@ -32,26 +32,29 @@ d1 $ stack [
     # eglevel33 0
     # eglevel34 1.5
   , someCyclesBy 0.22 (const $ "~")
-    $ foldEvery [4,5] (off "0.75 0.5" (# lpf 1000) . (# detune1 4))
-    $ struct "t(<3 5>,<8 10 12 8>,<2 1 3 2>)"
-    $ n (arp "[up pinkyup] [down pinkydown]" "<a'm9'6 g'maj9'8>")
+    $ foldEvery [4,5] (off "0.75 0.5" (# lpf 1000) . (# detune1 4) . (# pan 0.25))
+    $ struct "<t*16?!3 t(<5 3 9>,<8 8 16>,<0 2>)>"
+    $ n (arp "<[<up down> pinkyup]!3> [converge pinkydown]" "<<f'maj7'iii'6 a'm9'6> <g'dom7'ii'8 b'm7f5'8>>!3 <[c'maj7'iii c'maj7]> ~ ")
     # s "superfm"
+    # pan (range 0.5 0.95 (slow 4 cosine))
     # octave "4 5 3"
     # legato (range 0.75 2.5 $ slow 16 tri)
     # gain 0.79
     # amp1 1
     # ratio2 2
+    # ratio3 4
     # mod21 0.05
-    # mod31 0.0125
+    # mod31 (slow 4 cosine)
     # eglevel21 4
     # voice "1 0 2 3"
-  , s "808bd*4"
+  , $ s "808bd*4"
   , (0.144 <~)
     $ struct "t*4"
     $ "808:0"
     # n 10
     # gain 0.71
   ] # cps (118/240)
+
 
 -- superfm modifiers
 let -- modulators
