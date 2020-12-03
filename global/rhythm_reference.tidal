@@ -1,0 +1,30 @@
+-- reggae
+do  let accent = "[ 0.7 1 0.7 1]"
+    d1 $ struct "t?0.9 ~ t ~" $ "bd" -- kick
+    d2 $ struct "t t(3,8) t t" $ gain accent # s "cpu:1" -- rimshot
+    d3 $ struct "[~ t!3]*4" $ gain accent # s "cpu:4" -- closed hh
+
+
+-- Indian - Taala-like
+d1 $ stack [
+      struct "[t@1.5 t]" $ n "2" # s "lo"
+    , struct "<[t t t ~ ~] [~ t t t t]>" $ n "3 2 5" # s "lo"
+    , struct "<[~ [t t] ~ ~ [t t]] [[t t] ~ ~ [t t] [t t]]>" $ n "3 5 3 5" # s "lo"
+    ]
+
+-- son clave 3/2
+d1 $ n " [0 [~ 0]] [~ 0] [~ 0] [0 ~] " # s "lo:1"
+
+-- son clave 2/3
+d1 $ n " [0 [~ 0]] [~ 0] [~ 0] [0 ~] " # s "lo:1"
+
+-- Cuban - basic Tumbao
+d1 $ s "[ lo:4, ~ lo:3 ~ lo:3*2, lo:2*2 . [~ lo2]. lo:2*2 . [~ lo:2] ]"
+
+-- rx queen - deftones
+d1 $ stack [
+    struct "<[t t ~ t*2] [[~ t] ~ [~ t] <~ [~ t]>]> " $ s "dr_few:0"
+    , struct "<[~ ~ t ~] [~ [~ t] ~ [<~ t> <t ~>]]>" $ s "cpu:2"
+    , struct "<[[~ t]!3 ~] t*4>" $ s "cpu:5"
+    , struct "~!3 <t*2 [~ t]>" $ s "cpu:5" # rel 0.3
+]
