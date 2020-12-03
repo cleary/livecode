@@ -1,0 +1,45 @@
+-- https://www.youtube.com/watch?v=_uASsk8nHvQ&t=427s
+
+let pat = binary 64
+
+do  d2 silence 
+    d4 silence 
+    d1 $ foldEvery [8,16,30,32] (#accelerate 6) $ struct (pat) $ slow 4 $ note (scale "ionian" "<1 2 -1 -2 -3 1 4 0>") # s "superchip"
+        #octave 2
+        # lpf 2000
+        # legato 1.07
+        # accelerate 6
+        # squiz 3
+        # gain 0.8
+
+d1 silence
+
+d3 silence
+unsolo 5
+
+quieten
+
+d2 $ s "[808bd:3*4, [~ 808sd:3 ~ 808sd:3]]"
+    # room 0.5
+    # sz 0.5
+    # orbit 0
+
+d3 $ s "~ h2ogmsn:9/2 ~ ~"
+    # speed "-1"
+
+d4 $ stack [
+    s "hh*4"
+    , s "hh(9,16)"
+]
+
+d5 $ degradeBy (choose[0.1]) $ every 4 (iter' 4) $ off "s" (|+ n 7) $ n (arp "down" "<[ d'minor7'ii d'minor7] [e'minor7'ii e'minor7] [b'm7f5'ii b'sus4] <[a'minor7'ii a'minor7] [c'maj7'ii c'maj7]> >") # s "supercomparator"
+    # octave 6
+    # pan (slow 17 sine)
+    # djf 0.3
+    # gain 0.6
+    # room 0.6
+    # sz 0.4
+
+import Sound.Tidal.Chords
+
+chordList

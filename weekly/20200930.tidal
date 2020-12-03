@@ -1,0 +1,46 @@
+-- welcome .... revisiting the long samples
+-- chord management ideas from this great newmoon set from th4:
+-- https://www.youtube.com/watch?v=alTqtIngNgI
+
+d1 $ slow 2 $ up "<'min7 ['thirteen 'aug] 'maj7 'maj7>" 
+    # s "<lidellvox:8 lidellvox:4 [ lidellvox:5 lidellvox:7] lidellvox:0>"
+
+d2 $ slow 2 $ struct "t t*2? t t?" $ up "<2 [6 5] [7 0] 0>" # s "pluck:5"
+    # gain 1.2
+    # octave (choose[4,3])
+
+d3 $ every 8 (off 0.25 (# n (run (choose[4,8,6])))) $ n "13 [2? [~ 13?]]" #s "gretsch "
+    # room 0.5
+    # sz 0.5
+
+d4 $ swing 6 $ n "19*16?" # s "gretsch"
+    # gain (slow 4 $ range 0.3 1 sine )
+
+
+xfade  silence
+xfade 3 silence
+
+
+d5 $ every 7 (# up "4'sus4 7'sus4") $ rarely (off 0.125 (|+ n 9)) $ every 3 (iter' 4) $ n (arp "<up down>" "<d'min7 d'min7'ii f'dom7 f'dom7'ii c'maj7'ii c'maj7 c'maj7'ii c'maj7>") 
+    # s "superpiano"
+    # lpf 2000
+    # sustain 5
+    # shape 0.4
+    # octave (choose[4,5,6])
+
+
+
+import Sound.Tidal.Chords
+
+chordList
+
+
+-- https://gist.github.com/cleary
+-- tidal_function_helpers.tidal
+
+let move p = foldEvery [3,4] (0.25 <~) $ p -- 
+    quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
+    quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
+    slide x = accelerate (2 **| (x |/ 12) - 1) -- accelerate by x semitones
+    inverse 0 = 1
+    inverse 1 = 0

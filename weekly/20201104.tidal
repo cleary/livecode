@@ -1,0 +1,22 @@
+-- https://www.youtube.com/watch?v=bPy7HjRhIMM
+
+setcps 0.5
+
+d1 $ slow 4 $ n "c1" # s "superpwm" # legato 7 # gain "1.15" # room 0.2 # size 0.2
+
+d2 $ plyWith 3 (# squiz 4 ) $ n "g5/4" # s  "superpwm" # hpf 8000 # room 0.2 # sz 0.2 # orbit 0 
+
+d3 $ every 16 (# attack 0.4) $ rarely (struct "t/6" . (# up "e'minor7")) $ slow 4 $ n "c5" # s "superfm"  
+
+d4 $ rarely (jux rev) $ slow 8 $ n (arp "down" "g7'dom7/3") # s "superchip" 
+    # accelerate (choose [-1, -0.5, 0.25, -1, 0, 0, 0]) 
+    # hpf 6000
+    # gain 0.7
+
+d4 silence
+
+xfade 5 silence
+
+d5 $ slow 4 $ struct ("t(3,8)*4") $ n "g2" # s "supercomparator" # gain 1.2
+
+-- that'll do, thanks for listening
