@@ -1,0 +1,46 @@
+-- https://www.youtube.com/watch?v=hOFFX58lKnk
+
+-- 20200923.tidal
+
+setcps 0.5
+
+
+  d1 $ slow 4 $ stack [
+        n "0(5,8) [[2 0] 0]"   # s "cpu"
+        , s "cpu:20*4 cpu:20(5,8)?0.7"
+        , s "cpu:4*16?"
+    ] # room 0.7 # sz 0.3
+
+d1 silence
+
+    d2 $ degrade $ ply 3 $ slow 8 $ move $ struct "t(5,8) [[~ t] t]" $ s "superchip" # octave 3  # note "<-5!7 0!7>"
+        # room 0.7
+        # gain 0.8
+        # squiz 6
+        # lpf 1000
+
+
+unsolo 1
+
+d3 $ degradeBy 0.4 $ every 8 (struct "t(5,8) t(3,8)")$ struct "t*64?0.1" $ every 4 (rev) $ note (scale "ritusen" "0..14") # s "superfm" # octave (choose [7,5,6])
+    # squiz (slow 7 sine + 3 )
+    # gain 0.8
+
+
+    d3 $ silence
+    d2 $ silence 
+    
+    d4 $ jux (rev) $ every 8 (struct "t(5,8) t(3,8)")$ struct "t*6?0.1" $ every 4 (rev) $ note (scale "ritusen" "0..14") 
+        # s "supermandolin" # octave (choose [7,8,6])
+        # rel 2
+        # gain 1.2
+        # sustain 2
+    
+d4 silence
+
+
+d3  $ off 0 (# up (choose [4, 10])) $ degradeBy 0.7 $ every 3 ( iter' 4) $ struct "t(3,8) t t" $ n (run "23") # s "lidellvox" # up "7" # legato 1.3
+
+d3 silence
+
+d4 
