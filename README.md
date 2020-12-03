@@ -7,6 +7,14 @@ repository for my Tidalcycles, Supercollider (and potentially other languages) l
 
 collection of musical collaborations
 
+### global/*
+
+helper files
+
+### sets/*
+
+code archive from live sets
+
 ### weekly/*
 
 code archive from my (approx) weekly [twitch livestream](https://twitch.tv/clearyss)
