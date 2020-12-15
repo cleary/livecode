@@ -1,4 +1,5 @@
 -- Dirt-Samples
+-- +estuary
 d1 $ slow 2 $ s "bass3" <| n (run 10) -- softer synth bass, 0 = A2, 1-4 = C#2, 5 = G#2, 6-7 = D3, 8 = C2 9-10 = B2(woah)
 d1 $ slow 2 $ s "pluck" <| n (run 16) -- double bass, pitch in filename, 9 = E1, vscode swaps # compared to superdirt
   -- n (toScale [5,6,10,12,15,2,4] (run7)) -- pluck C major scale-ish
@@ -13,7 +14,16 @@ d1 $ slow 2 $ s "dbass" <| n (run 2) -- C3 varying attack bass synth
 d1 $ slow 2 $ s "dsynth" <| n (run 2) -- C4 - C6 hard attack synth
 d1 $ slow 2 $ s "lo" <| n (run 7) -- conga hits
 
-
+-- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
+-- +estuary
+d1 $ slow 2 $ s "demung" <| n (run 8) -- 7=C5 bell w/overtones (ascending) 0=~D4 1=<E 2=F 3=>G 4=A 5=<B 6=D4 7=C5
+d1 $ slow 2 $ s "fada" <| n (run 8) -- female vox, mult notes per sample C4 A4 B3 D E F G
+d1 $ slow 2 $ s "gong" <| n (run 8) -- 7=C2 deep distorted bass 0=G1 (# up "[5|-7]" = [C2|C1])
+d1 $ slow 2 $ s "kendhang" <| n (run 18) -- acoustic bongo sounds
+d1 $ slow 8 $ s "kenong" <| n (run 8) -- 7=C5 0=muted hit, 1-7 bells 1=>D3 2=E 3=F 4=G 5=A 6=B
+d1 $ slow 4 $ s "peking" <| n (run 8) -- high bells 0=~D6 1=~D6 2=<E 3=F 4=>G 5=A 6=<B 7=D5
+d1 $ slow 2 $ s "saron" <| n (run 7) -- clear bell (ascending) 0=~D5 1=<E 2=F 3=>G 4=A 5=<B 6=D5
+d1 $ slow 4 $ s "slenthem" <| n (run 8) -- 7=C4 deep bells 0=D2 1=D2 2=<E 3=F 4=>G 5=A 6=<B 7=C4
 
 -- thanks to tedthetrumpet for the idea
 -- https://club.tidalcycles.org/t/superdirt-synth-reference/1541/9
