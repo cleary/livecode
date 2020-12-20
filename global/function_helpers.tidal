@@ -1,4 +1,4 @@
--- https://gist.github.com/cleary
+-- https://github.com/cleary/livecode/
 -- tidal_function_helpers.tidal
 
 let move34 p = foldEvery [3,4] (0.25 <~) $ p -- every 3rd and 4th cycles shift beat by 1/4 cycle 
@@ -6,6 +6,9 @@ let move34 p = foldEvery [3,4] (0.25 <~) $ p -- every 3rd and 4th cycles shift b
     quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
     quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
     bendBy x = accelerate (2 **| (x |/ 12) - 1) -- accelerate by x semitones
+
+-- text representation of patterns
+drawLine $ "x y" -- also drawLineSz , unsure of extra functionality provided though
 
 -- superfm alternate notation, see https://club.tidalcycles.org/t/superfm/1761/8
     -- (1 <= op <= 6)

@@ -1,4 +1,5 @@
 -- Dirt-Samples
+-- +estuary
 d1 $ slow 2 $ s "bass3" <| n (run 10) -- softer synth bass, 0 = A2, 1-4 = C#2, 5 = G#2, 6-7 = D3, 8 = C2 9-10 = B2(woah)
 d1 $ slow 2 $ s "pluck" <| n (run 16) -- double bass, pitch in filename, 9 = E1, vscode swaps # compared to superdirt
   -- n (toScale [5,6,10,12,15,2,4] (run7)) -- pluck C major scale-ish
@@ -13,7 +14,34 @@ d1 $ slow 2 $ s "dbass" <| n (run 2) -- C3 varying attack bass synth
 d1 $ slow 2 $ s "dsynth" <| n (run 2) -- C4 - C6 hard attack synth
 d1 $ slow 2 $ s "lo" <| n (run 7) -- conga hits
 
+-- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
+-- +estuary
+d1 $ slow 2 $ s "demung" <| n (run 8) -- 7=C5 bell w/overtones (ascending) 0=~D4 1=<E 2=F 3=>G 4=A 5=<B 6=D4 7=C5
+d1 $ slow 2 $ s "fada" <| n (run 8) -- female vox, mult notes per sample C4 A4 B3 D E F G
+d1 $ slow 2 $ s "gong" <| n (run 8) -- 7=C2 deep distorted bass 0=G1 (# up "[5|-7]" = [C2|C1])
+d1 $ slow 2 $ s "kendhang" <| n (run 18) -- acoustic bongo sounds
+d1 $ slow 2 $ s "kenong" <| n (run 8) -- 7=C5 0=muted hit, 1-7 bells 1=>D3 2=E 3=F 4=G 5=A 6=B
+d1 $ slow 2 $ s "peking" <| n (run 8) -- high bells 0=~D6 1=~D6 2=<E 3=F 4=>G 5=A 6=<B 7=D5
+d1 $ slow 2 $ s "saron" <| n (run 7) -- clear bell (ascending) 0=~D5 1=<E 2=F 3=>G 4=A 5=<B 6=D5
+d1 $ slow 2 $ s "slenthem" <| n (run 8) -- 7=C4 deep bells 0=D2 1=D2 2=<E 3=F 4=>G 5=A 6=<B 7=C4
 
+-- supercontinent: https://github.com/dktr0/supercontinent
+-- +estuary
+d1 $ slow 2 $ s "akCymb" <| n (run 3) -- long cymbal rolls, 2= tambourine shake out
+d1 $ slow 2 $ s "akMech" <| n (run 4) -- max reverb percussion 0=double kick 1=~snare 2=triplet snare 3=ride
+d1 $ slow 2 $ s "ch2018" <| n (run 12) -- 3=C3 filtered e-organ short, crescendo release
+d1 $ slow 2 $ s "ch2018R" <| n (run 13) -- ambient organ playing long
+d1 $ slow 2 $ s "chKk" <| n (run 4) -- electronic perc inc hh with each sound 
+d1 $ slow 2 $ s "chKm02" <| n (run 7) -- 6=C4 decelerated synth notes, octave 4 ish
+d1 $ slow 2 $ s "chKmpad" <| n (run 1) -- airtube drone
+d1 $ slow 2 $ s "chMado" <| n (run 6) -- long ambient filtered gong microtonal ascending 
+d1 $ slow 2 $ s "chSoup01" <| n (run 1) -- B6 med-hi filtered e-piano note
+d1 $ slow 2 $ s "chSoup02" <| n (run 5) -- E5 similar sound to 01, multi note arpeggios 
+d1 $ slow 2 $ s "etBooka" <| n (run 6) -- ~G organ + kids voice 5="booka"
+d1 $ slow 2 $ s "etJuice" <| n (run 22) -- electronic glitch perc sounds
+d1 $ slow 4 $ s "etPad" <| n (run 15) -- 0-9=ambient noise, 10-14=middle eastern prayer 
+d1 $ slow 2 $ s "etPerc" <| n (run 22) -- electronic perc sounds 0=kick 1=snare 20/21=triangle
+d1 $ slow 4 $ s "gtrm" <| n (run 6) -- guitar arppeggios/chords
 
 -- thanks to tedthetrumpet for the idea
 -- https://club.tidalcycles.org/t/superdirt-synth-reference/1541/9
