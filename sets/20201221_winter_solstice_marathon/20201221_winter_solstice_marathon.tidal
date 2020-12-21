@@ -1,12 +1,14 @@
 -- https://github.com/cleary/livecode/
 
--- hi all - a massive thanks to all the people working behind the scenes
--- I apologise, but this is pre-recorded... I've spent the afternoon really unwell
--- I took the opportunity in between bouts of throwing up to record... sorry :(
+-- hi all
+-- a massive thanks from me to the organisers of this summer/winter solstice marathon
+-- you guys have done a tremendous job, and I know you're building a simpler future for
+-- these sorts of events too - thankyou
 
--- This is the debut of a new track I've been working on called
--- When Eric met Alex - enjoy 
+-- my name is Bernard Gray (cleary) from Griffith in NSW Australia
+-- this is my first fully composed/sequenced track using tidalcycles, I hope you enjoy, it's called
 
+-- When Eric met Alex
 
 d1 $ qtrigger 1 $ stack [
       note "< bf'maj7'iii ~ c'maj7 b'min7'ii>" # s "superpiano" # tremdp 1 # tremr 1.5
@@ -351,14 +353,50 @@ d1 $ qtrigger 1 $ seqP [
 
 -- FUNCTION HELPERS BERNARD.
 -- AND CHANGE THE VIDEO.
-d1
-    $ qtrigger 1
-    $ n ( scale "<ionian>" "<[2 2 [2, 4]@2] [2 2 [2, -1]@2] [2 4 [0, -2]@1.5 1@0.5] [2, -3, 4] [3 3 [3, -4]@1.5 3@0.5] [3 2 [2,-1] 2*2] [4 4 3 1] [0, 2, 4] >")
-    # s "supervibe"
+-- as promised ....
+
+xfade 1
+    $ sometimes (palindrome) $ jux (off 2 (# octave 6)) $ n ( scale "<aeolian locrian phrygian lydian>" "<[2 2 [2, 4]@2] [2 2 [2, -1]@2] [2 4 [0, -2]@1.5 1@0.5] [2, -3, 4] [3 3 [3, -4]@1.5 3@0.5] [3 2 [2,-1] 2*2] [4 4 3 1] [0, 2, 4] >")
+    # s "superfm"
     # cps 0.7
---     # amp1 1
---     # amp2 0
---     # amp3 1
---     # amp4 0
---     # amp5 1
---     # amp6 0
+    # amp1 1
+    # amp2 0
+    # amp3 0
+    # amp4 0
+    # amp5 1
+    # amp6 0
+    # voice (choose [1,2,3,4])
+    # lpf (range 400 3000 (slow 32 saw ))
+    # ratio5 (choose [0.25, 0.5, 2, 4])
+    # mod56 1.03
+    # ratio6 1.5
+
+
+d2 $ fast 2 $ stack [
+        fast 2 $ struct "<[10000000][11000010] [[11][01]000010] [[0][01]010011] >" $ s "dr_few"
+        , someCyclesBy 0.5 (ply (choose [2, 4, 3])) $ struct (inv "<[10000000] [11000010] [[11][01]000010] [[0][01]010011]>") $ s "linnhats" # hpf (range 3000 10000 (slow 8 sine))
+        , fast 2 $ struct "t(5,16,<0 2>)" $ s "gretsch:20"
+]
+
+
+d3
+    $ jux (off 2 (# octave 6)) $ note ( scale "<aeolian locrian phrygian lydian>" "<[2 2 [2, 4]@2] [2 2 [2, -1]@2] [2 4 [0, -2]@1.5 1@0.5] [2, -3, 4] [3 3 [3, -4]@1.5 3@0.5] [3 2 [2,-1] 2*2] [4 4 3 1] [0, 2, 4] >")
+    |+ note "<0!8 4!8>"
+    # s "superhammond"
+    # note "<0 0 0 d'sus2>" # gain "<1 1 1 0.8>"
+    # legato (choose [0.3,0.2,0.7,1.3,1])
+    # pan 1
+
+d4
+    $ rarely (# accelerate (choose [0.5, 0.8, 3])) $ jux (off 2 (# octave 6)) $ note ( scale "<aeolian locrian phrygian lydian>" "<[2 2 [2, 4]@2] [2 2 [2, -1]@2] [2 4 [0, -2]@1.5 1@0.5] [2, -3, 4] [3 3 [3, -4]@1.5 3@0.5] [3 2 [2,-1] 2*2] [4 4 3 1] [0, 2, 4] >")
+    |+ note "<0!8 4!8>"
+    # s "superchip"
+    # octave 2
+    # note "<0 0 0 d>"
+    # legato (choose [0.4,0.1,0.7,1.3,0.9])
+    # squiz (choose [2,2,1,1,0,0])
+    # pan 0
+
+solo 1
+
+-- Thanks everyone
