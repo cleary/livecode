@@ -1,0 +1,50 @@
+xfade 3 $ foldEvery [7,8] (off 0.125 ((+ note 8) . fast 2 . (# cut 1))) 
+    $ slow 4 
+    $ note "[0*2, [~ <8 7 [9 7 5] 4 ~ ~>], <-5 ~>]" # s "gtr:2"
+    # lpf (range 500 5000 (slow 32 saw)) 
+
+xfade 1 $ silence
+
+d2 $ slow 2 
+    $ s "[808bd:1*8, [~ [cpu(<5 7 11>,<8 16>,<0 2>)]]]"
+    # n (irand 20)
+    # room 0.7
+
+clutch 2 $ s "dr_few*8"
+    # room (range 0.3 1 (slow 32 saw))
+
+d3 $ every 16 ((9 ~>) . fast 8 ) 
+    $ fast 4 $ every 2 (sometimes (off 0.125 (rev))) 
+    $ struct (binary "<200 220 180>") 
+    $ note (run "<14 24 7 16>") # s "arpy:0" # octave 7
+
+d4 $ slow 4 $ struct "<t t t(11,16) t>"
+    $ n "<0 0 0>  "
+    # s "superfm"
+    # legato "<1.05!2 [0.7 1 1 0.2 1.2 0.8] 1.05>"
+    # octave 4
+    # amp1 1
+    # amp2 1
+    # amp3 0
+    # amp4 0
+    # amp5 0
+    # amp6 1
+    # ratio2 2
+    # ratio3 3
+    # ratio4 4
+    # ratio5 0.5
+    # ratio6 0.25
+    # feedback 1
+    # mod16 1
+    # mod66 1
+    # mod11 1
+    # mod23 1
+    # mod34 1
+    # mod45 1
+    # eglevel62 0.1
+    # eglevel63 1.5
+    # egrate63 0.5
+    # room 1
+    # gain 0.9
+
+
