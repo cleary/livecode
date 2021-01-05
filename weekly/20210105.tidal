@@ -1,0 +1,17 @@
+d1 $ stack [
+      whenmod 16 14 (ply "<[2 4] [3 2]>" ) $ struct "t*4" $ s "linnhats" # nudge (range "-0.02" 0.05 (slow 32 sine)) # hcutoff (range 6000 12000 (slow 7 sine))
+    , struct "t" $ s "dr_few"
+    , whenmod 8 6 (ghost) $ struct "~ t" $ s "gretsch:20"
+] #room 0.4
+
+d3 silence
+
+-- https://github.com/cleary/samples-flbass
+d2 $ stack [
+    chop 8 $ note (scale "ionian" "<0!4 <-2 3> <-4 [5 4]>>") # s "flbass" |< n "<0 ~ 0 ~ 0 [3 0]>"
+    , whenmod 16 10 ((off 0.125 (# n "13")) . (# legato 0.2)) $ 
+    note "[5 <4!3 <[4 9]!3 [4 9 16]>>]*2" # s "flbass:12" 
+] # room 0.4 # sz 0.4
+
+d3 $ chop "<16 8>" $ stutWith 3 (1/3) (|* squiz "1.1") $ note (scale "ionian" "<0 ~ ~ ~ < ~  4> ~>") # s "gtr:2" # gain 0.7 # lpf 600
+
