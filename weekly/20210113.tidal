@@ -1,0 +1,29 @@
+d1 $ density 1 $ struct "<[1001] [00010010] [~|1] t(7,11)?0.4 >" 
+    $ note (scale "major" "<e f [a,d] [a,d]>") 
+    # s "flbass:14" |+ note "<0 0 0 [2|5]>" 
+    # room 0.5 # orbit 1
+
+unmute 2
+
+d2 $ slow 2 $ note (scale "major" "<d4'minor g3'major'ii c4'major ~>") 
+    # s "superhoover"
+    # lpf 1000
+    # room 0.5
+    # rel 10
+    # sustain 5
+    # gain 0.9
+
+d3 $ stack [
+    s "dr_few/2" # lpf 800,
+    s "~ [click*2|click(5,8)]" |< n (irand 20) # speed (choose [-1, 1]),
+    density 0.3 $ slow 2 $ struct "<t t t? t(7,11)?0.6>" $ s "gretsch:19"
+       #  nudge "[0 0.04]"
+    , slow 2 $ swing 2 $ struct "[t*8|t*6|t*4]" $ s "linnhats" # hpf 10000
+] # cps 0.6
+
+
+d4 $ slow 2 $ note (scale "major" "<d g c [~ g4 c a4]>")
+    # s "<flbass!3 flbass:6>"
+    # room 1 # orbit 0
+
+d4 silence
