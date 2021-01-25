@@ -1,0 +1,49 @@
+
+-- this is the yoshimi synth, I'm trying to get outside the superdirt builtin synths a bit...
+
+unmute 3
+
+unmute 4 
+
+d1 
+    $ striate 4
+    $ note  "< [[c4, g4],[e5, b5],[d6]] [[b3],[ds5, g5, a5],[d6]] [[e4, b4],[d6, g6, a6],[b6]] [[d4],[a5, f6],[cs6]]>"
+    # s "midi"
+    -- # sustain 10
+    # legato 1.02
+    # gain 0.3
+    # cps 0.6
+    # hcutoff 2000
+    
+    unmute 1
+
+d2 
+    $ someCyclesBy 0.25 (off 0.5 (fast 2 . (|+ note "<7>")))
+    $ whenmod 8 6 (off (0.125/2) (hurry "<2 3 1 0.5>" . (# coarse 8))) 
+    $ degradeBy "<0 0.7 0 0.2>" 
+    $ note (arp "<updown up converge disconverge thumbup>" "<c'maj9 b'aug e'min7 d'min13>" )
+    # s "flbass:14"
+    # legato "<[2] [[2 0.6]!2] [5] [0.1]?>"
+    # gain 1.2
+    # silence
+
+d4 
+    $ almostNever (# n (irand 15) ) $ struct "<[1101100[11]]!3 [<01>000<10>0<01><10>]>"
+    $ note  "< [c6 g5 b6 e6] [[b5]] [e b4 g a6] [ [d f a a8 g] ]>"
+    # s "flbass"
+    |< n (6)
+    # legato (choose [4, 0.1, 0.2, 0.3, 6])
+    -- # sustain 10
+    # gain 1.2
+
+
+-- thanks for listening ;)
+
+d3
+    $ stack [
+        whenmod 8 7 (soak 2 (density 2)) $ density 0.25 $ struct "<[10001000]!3 [1000<10>0<01>0]>" $ s "dr_few"
+        --, density 0.5 $ struct "t(9,11,<3 2>)" $ s "linnhats!3 808oh:1" # hcutoff 4000
+        --, struct "0100<1000><0010>" $ s "808oh:1"
+        --, whenmod 4 3 (ghost) $ struct "01" $ s "cpu:2" # gain 1.2
+    ] # orbit 2 # room 0.5 # sz 0.4
+    # silence

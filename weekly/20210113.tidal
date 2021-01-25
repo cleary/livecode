@@ -1,5 +1,6 @@
-d1 $ density 1 $ struct "<[1001] [00010010] [~|1] t(7,11)?0.4 >" 
+d1 $ reset $ density 1 $ struct "<[1001] [00010010] [~|1] t(7,11)?0.4 >" 
     $ note (scale "major" "<e f [a,d] [a,d]>") 
+    -- $ note (scale "major" "<4 5 [9,2] [9,2]>") 
     # s "flbass:14" |+ note "<0 0 0 [2|5]>" 
     # room 0.5 # orbit 1
 
@@ -27,3 +28,7 @@ d4 $ slow 2 $ note (scale "major" "<d g c [~ g4 c a4]>")
     # room 1 # orbit 0
 
 d4 silence
+
+note (scale "major" "<d >") --f [a,d] [a,d]>")
+
+note (scale "major" "<2 >") -- f [a,d] [a,d]>")
