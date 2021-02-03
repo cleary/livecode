@@ -1,0 +1,68 @@
+-- morning all, late practice
+-- working on basslines, and maybe some other stuff today
+
+-- got to get ready for work, thanks for listening
+
+xfade 4 silence
+
+d1 
+    $ note  "< [[c4, g4],[e5, b5],[d6]] [[[b3],[ds5, g5, a5],[d6]]@2.5 [[d4],[a5, f6],[cs6]]@1.5]  [[e4, b4],[d6, g6, a6],[b6]] [[d4],[a5, f6],[cs6]]>"
+    # s "plaits"
+    # engine 3
+    # legato 0.98
+    # gain 0.8
+    # att 1
+    # rel 10
+    # cps 0.4
+    # harm 0.4
+    # timbre (slow 8 saw)
+    # morph 0.8
+    # pan (slow 8 saw)
+
+d4 
+    $ note  "< [[c4]] [b3@2.5 ds4@1.5] e4 d4>"
+    # s "superzow"
+    # legato 1.02
+    # gain 0.75
+    # att 1
+    # rel 10
+
+d2  
+    $ degradeBy 0.25
+    $ whenmod 8 5 (off 0.125 (# n "8") . (sometimesBy 0.25 ((# n (choose[14,15,16])))))
+    -- $ whenmod 16 15 (fast 4 . (# note (scale "ritusen" (run 8))) . (# n (irand 16)) )
+    $ note "<[[c5 c5] [~@0.875 b5@0.125] ~ [~ [b5 c6]]] [bf5 ~ [ ~@0.25 d5@0.75] [~@0.3 ds5@0.7]] [[e5 e5] ~ ~ [~ [gs5 a5]]] [d5 [~@0.85 d5@0.15] ~ ~] >"
+    # s "flbass"
+    |< n "<[[1 1] 1 0 0] >"
+    # cut 1
+    # room 0.3 # sz 0.3
+    # orbit 1
+
+d3  
+    $ fast 2 
+    $ chop "<8 <8 0>>"
+    $ loopAt 1 $ s "breaks125"
+    # orbit 2
+    # gain (wchoose [(1.2, 0.15), (0,0.85)])
+
+do 
+    mute 1
+
+    mute 3
+
+
+do 
+    unmute 1
+    unmute 3
+
+
+
+d1 $ struct "[t!3 ~] ~ ~ ~"  $ note (scale "major" "<11 10 8 7>") # s "flbass:16"
+    # ringsbright (slow 3 tri)
+    # ringsfreq "<120 80 30 60>"
+    # ringsmodel 4
+    # ringsstruct 0.25
+    # gain 1.4
+    # ringsdamp (choose [0.7, 0.2, 0.4, 1])
+    -- # ringstrig 1
+    -- # ringsintern_exciter 1
