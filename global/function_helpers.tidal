@@ -10,6 +10,11 @@ let move34 p = foldEvery [3,4] (0.25 <~) $ p -- every 3rd and 4th cycles shift b
 -- text representation of patterns
 drawLine $ "x y" -- also drawLineSz , unsure of extra functionality provided though
 
+-- estuary - list all samples:
+-- 1. open a new browser tab at https://estuary.mcmaster.ca
+-- 2. go to solo mode
+-- 3. enter into the terminal: !localview audiomap
+
 -- superfm alternate notation, see https://club.tidalcycles.org/t/superfm/1761/8
     -- (1 <= op <= 6)
 let fmamp :: Int -> Pattern Double -> ControlPattern
