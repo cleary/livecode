@@ -1,0 +1,47 @@
+let pat = "<[10[101]][[1010]01]>"
+
+anticipate 3 silence
+
+d1
+    $ s "<alphabet:24 [[alphabet:10 alphabet:17] numbers:8]>"
+    # cut 1
+    # pan 0.8
+    # speed "< 1!3 0.8 >"
+    # cps 0.6
+
+d2 
+    $ whenmod 16 13 (soak 3 (* speed 1.7))
+    $ struct (inv pat)
+    $ slice 6 (run 6)
+    $ s "<alphabet:24 [[alphabet:10 alphabet:17] numbers:8]>"
+    # vowel "<i [e u] a>"
+    # speed 0.8
+    # distort 2
+    # pan 0.2
+
+
+d3
+    $ whenmod 16 15 (density 2 . ply (choose [2,3]). stut 3 0.6 0.2 . (# cutoff (range 100 2000 (isaw))))
+    $ someCyclesBy 0.2 (degradeBy 0)
+    $ degrade 
+    $ struct (pat)
+    $ s "808sd:6"
+    # shape 0.3
+    # orbit 2 # room 0.2 # sz 0.2
+
+
+d4
+    $ ply "4"
+    $ struct (pat)
+    $ s "[glitch:1, linnhats]"
+    # up 12
+    # legato "0.2 0.2 5 [0.2 5]" 
+    # gain 1.2
+
+
+d5 
+    $ whenmod 16 15 (density 3)
+    $ struct (inv pat)
+    $ s "[dr_few, 808bd:1/8]"
+
+
