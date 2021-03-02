@@ -1,0 +1,35 @@
+xfade 1
+    $ whenmod 8 6 (iter 2 . rev)
+    $ someCycles (# amp "0 0.6")
+    $ density 2
+    $ note "{ -2 <4!8 5!8> 7 -15 0 -10 -12 2 10 -19 2 4 14 19 }%16"
+    |+ up "< 0!8 7!4  5!4 >"
+    # s "superpiano"
+    # sustain "0 4 0 4"
+    # release 10
+    # hcutoff
+    # cps 0.3
+    # gain 0.5
+    # octave 5
+
+                         -- I give up for the night, thanks for listening
+
+
+xfade 3 silence
+
+
+    $ off 0 (density 0.25 . (# n "0") . (# cut 1))
+    $ struct "<t*2 ~> t t [~ [t t]]"
+    $ whenmod 8 6 (iter 2 . rev)
+    $ note "{ -2 <4!8 5!8> 7 -15 0 -10 -12 2 10 -19 2 4 14 19 }%8"
+    |+ up "< 0!8 7!4  5!4 >"
+    # s "flbass:14"
+    # octave 5
+    # room 0.8
+
+d 
+
+    $ stack [
+        press $ slow 4 $ s "808bd:1(5,11)" # gain 1.2
+    ]
+
