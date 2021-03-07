@@ -4,7 +4,6 @@ d1 $ slow 2 $ s "bass3" <| n (run 10) -- softer synth bass, 0 = A2, 1-4 = C#2, 5
 d1 $ slow 2 $ s "gtr" <| n (run 3) -- progressively more distorted guitar *=C3
 d1 $ slow 2 $ s "moog" <| n (run 7) -- C1,C2,C3,G0,G1,G2,G3
 d1 $ slow 2 $ s "pluck" <| n (run 16) -- double bass, pitch in filename, 5=C3, vscode swaps # compared to superdirt
-  -- n (toScale [5,6,10,12,15,2,4] (run7)) -- pluck C major scale-ish
 d1 $ slow 2 $ s "sax" <| n (run 21) -- sax long notes, pitch in filename, 5 = C2
 
 
