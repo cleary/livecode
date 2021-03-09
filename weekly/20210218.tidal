@@ -1,0 +1,35 @@
+setcps (80/240)
+
+do
+d1 
+    $ every' 8 "[0|1]" ((# gain "1 0 0 1 0 0") . (# squiz 4) . (# pan (square)))
+    $ off "<0.1 0.25 0.125 0>" ((|- up "<24 17>") . (# cut 1))
+    $ whenmod 8 7 ((chop "8 6 16") . (# legato 0.20) . (# pan saw) . (# cutoff (range 200 6000 (isaw))))
+    $ whenmod 8 5 ((# speed "0.25 -1 -1 1") . (# accelerate "<-0.5 0.2 -0.2>"))
+    $ sometimes ((# coarse "<8 6 2 0>"))
+    $ slow 2 $ slice "16" (run "0..<17 <15 4?> 6 3>")$ s "kit1"
+    # legato "<0.5 [0.95 0.92 0.9]>"
+    # shape 0.4
+d2 
+    $ rarely (jux brak)
+    $ whenmod 8 7 ((# gain "0 0 1") . (fast "1.5") )
+    $ stack [
+        sometimesBy 0.5 (fast "4 0 0") $
+        every' 8 "[0|1]" (# s "dr_few*2 ~ ~ dr_few*2 ~ ~") $
+        whenmod 8 5 (# pan "0 0.5") $
+        s "dr_few*2 ~ [~ [~ dr_few?]] [[cp,cpu:2] dr_few? 808oh:1? ~]"
+        , 
+        -- s "~*2 ~ [~ [~ ?]] [[cp,cpu:2] ? 808oh:1? ~]"
+        -- , 
+        ((struct "<t*24 t(27,32) t*32>") . (# hcutoff (range 12000 17000 (slow 4 sine)))) $ s "linnhats" # legato (0.2) 
+    ] 
+d3 
+    $ struct "<[[[1|0]1][11][1111][110[1|0]]] 0 <t(11,17) 0> 0>"
+    $ note (arp "<disconverge converge thumbdown >" "<c'maj13'10 f4'maj9'10!2>")
+    |- note "-5"
+    # s "lober"
+    |< n "<[1 14 0] 6 6 6>" 
+    # octave "<-2 0 -1 0 >"
+    # shape 0.2
+    # distort "<0.2 0 0 0>"
+    # cut 1
