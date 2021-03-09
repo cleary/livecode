@@ -1,0 +1,47 @@
+let c = (140/240)
+
+let pats =
+        [
+            ("a", every' 4 1 (zoom (0, 0.75) . (# cps (c * (4/3))))
+                $ stack [
+                    s "<bd [bd*2 ~ < ~ [ ~ bd ]> ~]>"
+                    , press $ s "cp"
+                    , s "[hh*8, [~!7 linnhats:3]]"
+                    , struct "t [t*2 ~ <~ [~ t]> ~]" $
+                    note (arp "<up converge down thumbupdown>" "<c'min9'o!2 d'min7'o!2>" ) #
+                    s "flbass:6" # cut 1
+                ] # cps c
+            ),
+            ("b", jux brak $ every' 4 3 (zoom (0.25, 1) . (# cps (c * (4/3))))
+                $ stack [
+                    s "<bd*2 [bd*3 ~ < ~ [ ~ bd ]> ~]>"
+                    , press $ s "cp"
+                    , s "[hh*8, [~!3 linnhats:3*2 ~!3 linnhats:3]]"
+                ] # cps c
+            ),
+            ("c", every' 2 0 (zoom (0, 0.5) . (# cps (c * (4/2))))
+                $ stack [
+                    s "<bd*2 [bd*2 ~ [ ~ bd ]] [~ [~ bd*2]]>"
+                    , press $ s "[cp*2, sd ]"
+                    , s "[hh(7,8), [~!3 linnhats:3 ~!3 linnhats:3]]"
+                    , fast 2 $ struct "t [t*2 ~ <~ [~ t]> ~]" $
+                    note (arp "<down thumbupdown converge disconverge>" "<c'min9'o!2 d'min7'o!2>" ) #
+                    s "flbass:14" # cut 1
+                ] # cps c
+            ),
+            ("d", every' 2 0 (zoom (0.25, 1) . (# cps (c * (4/3))))
+                $ stack [
+                    press $ s "cp(5,11)"
+                    , s "[hh*8 [~!7 linnhats:3]]"
+                    , fast 2 $ struct "t*2 ~ ~ ~" $
+                    s "flbass:6" |- up 12 # cut 1
+                ] # cps c # djfbus 1 (cF 0.5 "21")
+            )
+        ]
+in
+d1 $ ur 16 "a b c d" pats []
+
+
+-- thanks for listening guys
+
+
