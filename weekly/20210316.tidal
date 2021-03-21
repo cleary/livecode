@@ -1,0 +1,40 @@
+-- cpluck: https://github.com/cleary/samples-cello-plucked
+unsolo 3 
+ 
+d1
+    $ every 4 (zoom (0, 0.75) ) 
+    $ rarely (ply 2) $ stack [
+        struct "t(5,12)" 
+        $ s "cpluck:11"
+        , struct "~ t" $ s "cpluck:12"
+    ]
+    # crush 2
+    # pan (perlin + 0.2)
+    # cps (140/240)
+
+-- cbow: https://github.com/cleary/samples-cello-bowed
+
+d3
+    $ note "<e c ~ ~>" # s "cbow" |< n "<16 15>"
+    # cut 1
+
+d2
+    $ degradeBy 0.7
+    $ whenmod 16 12 (fast "<2 2 2 0.5>" . (|+ up "<0 5 0 7>") . (|< n 4 ))
+    $ whenmod 8 4 (iter 4)
+    $ rarely (press)
+    $ struct "t(<5 7>,12,<0 2>)"
+    $ note (arp "<[down thumbdown] <disconverge converge>>" "<e'maj7'o c'min9'o [c'min9'o d'm7s5/2] [c'sus4'7 e'maj7'3/2]>")
+    # s "cbow" |< n (choose[14,11,6,6,11])
+    # cut 1
+
+
+d1 
+    $ stack [
+        slow 32 $ note (scale "minor" "0 18 7? 5 0 1 0? 4"),
+        slow 16 $ note (scale "minor" "0? 0 7 5 0 1? 0 4"),
+        slow 8 $ note (scale "minor" "0 -2 4? 5 0 2 11 14"),
+        someCycles (struct "t(5,12)") $ slow 4 $ note (scale "minor" "0 -4 7 5? 0 1 0 4"),
+        slow 2 $ note (scale "minor" "7 5 14? 12 7 1? 7 11")
+    ] # s "[cbow:4, cbow:9, cpluck:11]"
+    # cps 0.3
