@@ -1,0 +1,36 @@
+-- good morning 
+
+
+d1
+    $ someCycles (while (every 2 rev $ "{t f f f f f}%20") (# up 5))
+    $ note "<c!1 a!2 <a [a@3 g@1]> >" 
+    # s "yoshimi"  
+    # cps 0.4
+    # cut 1
+
+
+d2 
+    -- $ while (every 2 rev $ "{t f f f t f f}%20") (off 0.2 (# s "[cpu2|gabba]"))
+    -- $ someCycles (while (every 2 rev $ "{t? f f f f f}%20") (# up 5))
+    $ note (arp "updown" "<c'five'24!3 <a'sus4'24 [a'sus4'12 g'dom7'12]>>") 
+    # sound "[flbass:15]"
+    # octave (choose [3])
+
+d3 silence
+
+
+    $ stack [
+        every' 4 3 (ply 2) $ struct "<[t t t < t [~ t?] t [~ t?]>]>"
+        $ s "dr_few"
+        , struct "<[t ~ ~ < ~ [~ t] ~ [t*2]>]>"
+        $ s "cpu:6" # hcutoff 4000
+        , someCyclesBy 0.2 (ply "3 2 4") $(0.125 ~>) $ s "[linnhats*4,[~ ~ ~ linnhats:3?] ]"
+    ]
+
+
+-- thanks for listening :)
+
+
+quieten = mapM_ (\i -> xfade i silence) [1 .. 16]
+
+quieten
