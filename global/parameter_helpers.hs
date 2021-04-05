@@ -1,7 +1,4 @@
--- https://github.com/cleary/livecode/
--- global/parameter_helpers.tidal
-
-let -- mutable synths
+let 
     timbre = pF "timbre"
     color = pF "color"
     model = pI "model"
@@ -17,8 +14,7 @@ let -- mutable synths
     lpgdecay = pF "lpgdecay"
     lpgcolour = pF "lpgcolour"
     lpg d c = lpgdecay d # lpgcolour c
-
-let -- mutable effects
+-- mutable effects
     cloudspitch = pF "cloudspitch"
     cloudspos = pF "cloudspos"
     cloudssize = pF "cloudssize"
@@ -75,11 +71,9 @@ let -- mutable effects
     verbfreeze = pI "verbfreeze"
     verbdiff = pF "verbdiff"
     verb w t d h = verbgain 1 # verbwet w # verbtime t # verbdamp d # verbhp h
-
-
 -- superfm
 -- basic functions notation
-let -- modulators
+-- modulators
     mod11 = pF "mod11"
     mod12 = pF "mod12"
     mod13 = pF "mod13"
@@ -194,30 +188,30 @@ let -- modulators
 
 -- superfm alternate notation, see https://club.tidalcycles.org/t/superfm/1761/8
     -- (1 <= op <= 6)
-let fmamp :: Int -> Pattern Double -> ControlPattern
-    fmamp op = pF ("amp" ++ show op)
-    -- sets the ratio for operator 'op'.
-    -- the frequency is note * ratio + detune Hz
-    -- (1 <= op <= 6)
-    fmratio :: Int -> Pattern Double -> ControlPattern
-    fmratio op = pF ("ratio" ++ show op)
-    -- set the detune for operator 'op'
-    fmdetune :: Int -> Pattern Double -> ControlPattern
-    fmdetune op = pF ("detune" ++ show op)
-    -- set the modulation of oerator opa by operator opb
-    -- if opa == opb, then the modulation amount is multiplied by the
-    -- 'feedback' parameter
-    fmmod :: Int -> Int -> Pattern Double -> ControlPattern
-    fmmod opa opb = pF ("mod" ++ show opa ++ show opb)
-    -- feedback
-    fmfeedback :: Pattern Double -> ControlPattern
-    fmfeedback = pF "feedback"
-    -- Envelope definition: each operator has an envelop with 4 steps
-    fmeglevel :: Int -> Int -> Pattern Double -> ControlPattern
-    fmeglevel op step = pF ("eglevel" ++ show op ++ show step)
-    -- Envelope definition: sets the rate at which the envelope moves
-    -- between steps.  Low numbers are slow, high numbers are fast.
-    fmegrate :: Int -> Int -> Pattern Double -> ControlPattern
-    fmegrate op step = pF ("egrate" ++ show op ++ show step)
+--let fmamp :: Int -> Pattern Double -> ControlPattern
+--    fmamp op = pF ("amp" ++ show op)
+--    -- sets the ratio for operator 'op'.
+--    -- the frequency is note * ratio + detune Hz
+--    -- (1 <= op <= 6)
+--    fmratio :: Int -> Pattern Double -> ControlPattern
+--    fmratio op = pF ("ratio" ++ show op)
+--    -- set the detune for operator 'op'
+--    fmdetune :: Int -> Pattern Double -> ControlPattern
+--    fmdetune op = pF ("detune" ++ show op)
+--    -- set the modulation of oerator opa by operator opb
+--    -- if opa == opb, then the modulation amount is multiplied by the
+--    -- 'feedback' parameter
+--    fmmod :: Int -> Int -> Pattern Double -> ControlPattern
+--    fmmod opa opb = pF ("mod" ++ show opa ++ show opb)
+--    -- feedback
+--    fmfeedback :: Pattern Double -> ControlPattern
+--    fmfeedback = pF "feedback"
+--    -- Envelope definition: each operator has an envelop with 4 steps
+--    fmeglevel :: Int -> Int -> Pattern Double -> ControlPattern
+--    fmeglevel op step = pF ("eglevel" ++ show op ++ show step)
+--    -- Envelope definition: sets the rate at which the envelope moves
+--    -- between steps.  Low numbers are slow, high numbers are fast.
+--    fmegrate :: Int -> Int -> Pattern Double -> ControlPattern
+--    fmegrate op step = pF ("egrate" ++ show op ++ show step)
     
-    
+d1 $ s "bd:0"    

@@ -15,6 +15,13 @@ d1 $ slow 2 $ s "dbass" <| n (run 2) -- C3 varying attack bass synth
 d1 $ slow 2 $ s "dsynth" <| n (run 2) -- C4 - C6 hard attack synth
 d1 $ slow 2 $ s "lo" <| n (run 7) -- conga hits
 
+-- dirt-jv1080 by @yaxu
+d1 $ slow 16 $ s "jvgabba" <| n (run 80) -- mostly percussive elements, 0=kick, 2=snare
+d1 $ slow 16 $ s "jx" <| n (run 72) -- C1 med release trem synth, increasing chromatically
+d1 $ slow 16 $ s "pulse" <| n (run 60) -- C2 short release synth, increasing chromatically
+d1 $ slow 16 $ s "rash" <| n (run 72) -- C1 med release synth, increasing chromatically
+d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromatically
+
 -- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
 -- +estuary
 d1 $ slow 2 $ s "demung" <| n (run 8) -- 7=C5 bell w/overtones (ascending) 0=~D4 1=<E 2=F 3=>G 4=A 5=<B 6=D4 7=C5
