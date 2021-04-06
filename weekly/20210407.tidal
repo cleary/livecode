@@ -1,0 +1,45 @@
+-- replay https://youtu.be/mlc_G2L50Ug
+
+d1 
+    $ note "<[~@1.5 af'maj9'o@1 g4'dom7@1.5 ] c4'min9'o c'min9>"
+    #s "superpiano"
+    # hcutoff 5000
+    # room 0.2
+
+unmute 1
+
+do
+    d4 silence
+    d2 silence
+    d3 
+        $ (0.125 ~>)
+        $ rolled
+        $ note "<[c4'min9'o  ] c5'min9'o c6'min9>"
+        # s "uku"
+        # room 0.2
+
+d2 
+    $ note "<[c@1.5 af@1 g@1.5 ] c c6>"
+    # s "flbass:1"
+    # cut 1
+
+unsolo 4
+
+d4 
+    $ whenmod 8 7 (sometimes (brak))
+    $ stack [
+        rarely (ply 2) $ s "auto" <| n "0 1 2 4 5 6 7 8"
+        , slow 2 $ n (irand 9) # s "claus(5,16,2)"
+        , struct "01110111" $ s "cr:11" |+ up 12 # cutoff 3000
+    ]
+
+d3
+    $ whenmod 8 4 (# up "<12 7>")
+    $ struct "<t(5,12) [t [~ t]] [t(3,8,3) t] [~ t]>"
+    $ note (arp "<down up thumbupdown>" "<[~@1.5 af'maj9'o@1 g4'dom7@1.5 ] c4'min9'o c'min9>")
+    # s "uku"
+    # gain 1.3
+
+    
+
+
