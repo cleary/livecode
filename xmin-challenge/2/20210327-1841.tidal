@@ -1,0 +1,8 @@
+d1 
+    $ whenmod 16 14 (brak . (# hcutoff 2000))
+    $ stack [
+        while "{f f f f t t f t t f}%20" (rev . fast 2)
+        $ s "[[bd*2 ~ ~ ~] , [~ [cp,[sd:1(3,8,<0 2>)]?]?0.1]]"
+        , slow 4 $ struct "t(21,32)"
+          $ s "linnhats" <| n (irand 20)
+    ] # room 0.5 # shape 0.5 # crush 2

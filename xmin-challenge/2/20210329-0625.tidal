@@ -1,0 +1,9 @@
+
+d2 
+    $ whenmod 16 14 (fast "<2 [3 4]>" . (|+ up 7) . (# octave (choose[4,3,5])))
+    $ whenmod 8 7 (#gain "1/2")
+    $ every 2 (jux (rev))
+    $ chop 12 
+    $ s "[cbow:1, cbow:9]"
+    # rel "1 0.1 0.1 0.1"
+    |+ up (scale "locrian" "0 0 11 11 2 6 7 8 9 10 5")

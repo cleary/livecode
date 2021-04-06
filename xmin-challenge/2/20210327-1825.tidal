@@ -1,0 +1,12 @@
+d1 
+    $ whenmod 8 6 (ply "[3|2]")
+    $ stack [
+        slow 2 
+        $ struct "t(5,12)"
+        $ n (run 40) 
+        # s "jvgabba"
+      , struct "f(5,12)"
+        $ s "cpu" |< n (irand 20)
+      , struct "t*12?"
+        $ s "linnhats"
+    ]
