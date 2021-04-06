@@ -19,8 +19,6 @@ let
     quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
     quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
     accBy x = accelerate (2 **| (x |/ 12) - 1) -- accelerate by x semitones
-    -- rolled chords (arpeggiated long notes in a chord)
-    -- eg d1 $ rolled $ n "c4'min" # s "superpiano" # sustain 4
 
 
 -- text representation of patterns
