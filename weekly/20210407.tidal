@@ -8,6 +8,8 @@ d1
 
 unmute 1
 
+-- rolled: ref https://github.com/cleary/livecode/blob/main/global/function_helpers.hs
+
 do
     d4 silence
     d2 silence
