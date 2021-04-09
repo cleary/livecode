@@ -43,11 +43,3 @@ let
 -- text representation of patterns
 -- drawLine $ "x y" -- also drawLineSz , unsure of extra functionality provided though
 
--- estuary view functions 
---   1. open a new browser tab at https://estuary.mcmaster.ca
---   2. go to solo mode
---   3. enter into the terminal: 
---
--- !presetview default (return to the default view)
--- !localview audiomap (list all samples)
--- !localview [] (show visuals only)

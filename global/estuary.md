@@ -1,4 +1,26 @@
-## JSoLang reuse vars example
+# estuary view functions 
+
+  1. open a new browser tab at https://estuary.mcmaster.ca
+  2. go to solo mode
+  3. enter into the terminal: 
+
+```
+!presetview default (return to the default view)
+!localview audiomap (list all samples)
+!localview [] (show visuals only)
+```
+
+# JSoLang reuse vars example
+
+## What is it?
+
+A way to define a new livecoding meta-language on the fly (live) in estuary(!)
+
+It uses peg.js as a parser (peg.js provide an online parser for debugging too)
+
+## How to
+
+This example is like a replacement for `let` in tidal - define reusable code referenced via variables
 
 eval in a low number panel
 
@@ -18,14 +40,14 @@ anyCharacter = .
 
 // specific replacement rules, the i makes the find operation
 // case insensitive
-chords = "chords"i { return "<[~@1.5 af'maj9@1 g4'dom7@1.5 ] c4'min9 c'min9>" }
+chords = "chords"i { return "<[c4'm9'8@1.5 af'maj9@1 g4'dom7@1.5 ] c4'm9'16 c'm9'12>" }
 ```
 
-use chords in another panel
+use the `chords` var in another panel
 
 ```
 ##simple-text-replacement 
 
-note "chords"
-# s "sprvibe"
+note (arp "<[up down thumbup] down down>" "chords")
+# s "sid"
 ```
