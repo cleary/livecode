@@ -38,6 +38,14 @@ let
     quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
     quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
     accBy x = accelerate (2 **| (x |/ 12) - 1) -- accelerate by x semitones
+    -- kindohm, ref: https://blog.tidalcycles.org/kindohm-interview/
+    rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p
+    -- lwlsn, ref: https://youtu.be/t2KeNblKSFM?t=261
+    modFunc p = 
+                every 4 ((#crush 0.5) . rip 0.125 0.25) $
+                every 5 (jux rev) $
+                every 6 (# speed "0.5 -1 -1 0.75") $ p
+
 :}
 
 -- text representation of patterns
