@@ -1,7 +1,7 @@
 # synths
 notes on various synths, synthdefs, plugins etc
 
-### Mutable Instruments ugens
+## Mutable Instruments ugens
 
 Mutable instruments eurorack modules ported to SuperCollider. Includes effects, and synths
 
@@ -14,7 +14,7 @@ Forked with tidal/superdirt bindings:
 Simplified/Managed Install with Ansible:
  - https://github.com/cleary/ansible-tidalcycles
 
-### Vital Spectral Warping Wavetable Synth
+## Vital Spectral Warping Wavetable Synth
 
 > Give new life to wavetables by using Vital's spectral oscillator warping.
 >
