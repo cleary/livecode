@@ -18,6 +18,8 @@ A way to define a new livecoding meta-language on the fly (live) in estuary(!)
 
 It uses peg.js as a parser (peg.js provide an online parser for debugging too)
 
+See [here](https://github.com/dktr0/estuary/tree/dev/JSoLangs) for more examples 
+
 ## How to
 
 This example is like a replacement for `let` in tidal - define reusable code referenced via variables
@@ -50,4 +52,12 @@ use the `chords` var in another panel
 
 note (arp "<[up down thumbup] down down>" "chords")
 # s "sid"
+```
+
+# CineCer0
+
+Use a github url as a video source:
+
+```
+https://github.com/.../file.mp4?raw=true
 ```
