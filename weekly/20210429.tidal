@@ -1,5 +1,8 @@
 -- vital synth: growl bass sidechain 
 -- bendy bass
+
+-- replay: https://youtu.be/W1pVikTaDX0
+
 let 
     -- bpat = "<[11] [11010111] >"
     bpat = "<[11] [11]>"
