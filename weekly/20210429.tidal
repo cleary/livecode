@@ -1,0 +1,44 @@
+-- vital synth: growl bass sidechain 
+-- bendy bass
+let 
+    -- bpat = "<[11] [11010111] >"
+    bpat = "<[11] [11]>"
+    tempo = 0.7
+    midimute c = while ((/= 0) <$> cF 1 c) (const silence)
+    bassline = "<[d f] [e [e g]]>"
+
+d1 
+    $ off (range "-0.15" "0.15" (slow 3 saw) ) ((|- up 5) . (# gain "0 0 1 1 0 0 1 1"))
+    $ struct "t(5,32,4)"
+    $ s "arpy"
+    # crush 4
+    # cps 0.5
+
+
+
+d2 
+    $ midimute "106"
+    $ slow 2
+    $ whenmod 16 0 (superimpose (struct "t(9,16,<0 6>)" . fast "<1!4 2!4 4!4 8!4>"  . (# s "cbow:8") . (|+ up "<4 0>"). (# cut "-1"))  )
+    $ note (scale "phrygian" "<5 4 2 3 4 2 1 0>")
+    # s "midi0"
+    # octave 4
+    # crushbus 2 (7 * "^24" + 1)
+    # legato 1.2
+
+do
+    d1 silence
+    d3 silence
+
+d3 
+    $ stack [
+            midimute "104" $ s "[bd, dr_few]*4",
+            midimute "105" $ s "[~ linnhats]*4" # legato 0.2 # djf 0.8
+        ] # djfbus 3  (cF 0.6 "25")
+
+
+--    $ midimute "104"
+--    # djfbus 1 (cF 0.5 "25")
+--    # ampbus 2 ("^26")
+
+
