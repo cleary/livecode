@@ -1,0 +1,24 @@
+-- vital synth: growl bass sidechain 
+-- bendy bass
+d1
+    $ someCyclesBy 0.05 (linger 0.5)
+    $ someCyclesBy 0.11 (|* up 1.2 )
+    $ sometimesBy 0.1 (struct "<t(11,16) t(21,32)>")
+    $ struct "<[11010111] [11]>"
+    $ note "<[e [e g]] [d f]>"
+    # s "midi0"
+    # legato (choose [1.5, 0.5, 0.8, 1.3])
+    # octave 4
+
+d2 
+    $ stack [
+            every' 8 7 (chop 8 
+                . linger 0.25
+                . rev
+                . fast "2"
+                . sometimes (# accelerate 0.2)
+                . jux brak 
+                ) 
+            $ loopAt 2 $ s "breaks125"
+            # cps 0.7
+        ]

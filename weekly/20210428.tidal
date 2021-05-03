@@ -1,0 +1,40 @@
+-- vital synth: growl bass sidechain 
+-- bendy bass
+let 
+    -- bpat = "<[11] [11010111] >"
+    bpat = "<[11] [11]>"
+    tempo = 0.7
+
+let pats = [
+            ("a", struct bpat $ every' 4 3 (linger 0.5)
+            $ note "<[d f] [e [e g]]>"
+            # s "midi0"
+            # legato (1.2)
+            # octave 4
+            # cps tempo
+            ),
+            ("b", superimpose (rev . (# s "cbow:7?" ) . (|- up "23") . (# legato 4))
+            $ struct bpat
+            $ while (every 2 rev $ "{t t f f f t t? f f f}%20") (fast "<4 6>")
+            $ (0.25 ~> ) $ note (scale "phrygian" ((run "<12 24>") + 1)) # s "[midi0]"
+            # verb 0.9 0.9 0.2 0.2
+            # gain 0.9
+            )
+        ]
+in
+d1 
+    $ ur 8 "a" pats []  
+
+d2 silence
+
+d2
+    $ stack [
+            whenmod 8 4 (chunk 4 (hurry 2) . palindrome)
+            $ loopAt 2
+            $ s "breaks125"
+            # gain 1.2
+            # room 0.2,
+            struct bpat $ s "dr_few" 
+        ]
+
+

@@ -1,0 +1,150 @@
+-- good morning 
+-- 
+
+-- the plan for today involves a bunch of stuff
+-- 1. I've been working through an excellent FACT tutorial by Digital Selves/Lizzie
+-- 2. Mutable Ugens again (a bit at least)
+-- 3. A wavetable synth called Vital, which has been forked for easy linux install here:
+--    https://github.com/taylordotfish/vital
+
+
+d1 
+    $ struct kpat
+    $ n "c" # s "plaits" 
+    # engine 12
+
+let 
+    kpat = "[t(3,8,<0 1 2>) [f t t f]]"
+    cpat = (choose [0,2,4,8,7,12])
+    bpat = "<[[0|4] [1|3] [7] [6|5]] [[0] [1] [4 5] [6 4]]>"
+    rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p
+    modFunc p = 
+                every 2 ((# crush 0.5) . rip 0.125 0.25) $
+                every 5 (jux rev) $
+                every 6 (# speed "0.5 -1 -1 0.75") $ p
+do
+    let pats = [
+                ("a", whenmod 16 14 (degradeBy 0.7)
+                $ whenmod 24 22 ((# legato 0.1) . ply 4 . (|+ up 24))
+                $ rarely (ply 2)
+                $ whenmod 4 2 (modFunc)
+                -- $ sometimes (|+| note "<8 5>" )
+                $ struct kpat
+                $ palindrome
+                $ note (scale "minor" bpat)
+                # s "[dbass:1, bassfoo]"
+                -- # s "plaits" |- up 24
+                -- # s "[plaits]" |- up 12
+                # engine 12
+                # shape 0.3
+                # sustain 0.3 # rel 0.4 # attack 0.1
+                # speed "[1, 1.02]"
+                # cps 0.48
+                |* gain 0
+                # clouds 0.4 0.4 0.1 0.2
+                # cloudsblend 0.9 0.9 0.1 0.1
+                # cloudsfreeze 1
+                ),
+                ("b", whenmod 16 14 (degradeBy 0.7)
+                $ whenmod 24 22 ((# legato 0.1) . ply 4 . (|+ up 24))
+                $ rarely (ply 2)
+                $ whenmod 4 2 (modFunc)
+                -- $ sometimes (|+| note "<8 5>" )
+                $ struct kpat
+                $ palindrome
+                $ note (scale "minor" bpat)
+                -- # s "[dbass:1, bassfoo]"
+                # s "plaits" |- up 24
+                -- # s "[plaits]" |- up 12
+                # engine 12
+                # shape 0.3
+                # sustain 0.3 # rel 0.4 # attack 0.1
+                # speed "[1, 1.02]"
+                # cps 0.48
+                )
+            ]
+    in
+    d1 $ ur 48 "a " pats []
+
+unmute 1 
+
+mute 2
+
+unmute 3
+
+silence 4
+
+d1
+    $ whenmod 16 14 (degradeBy 0.7)
+    $ whenmod 24 22 ((# legato 0.1) . ply 4 . (|+ up 24))
+    $ rarely (ply 2)
+    $ whenmod 4 2 (modFunc)
+    -- $ sometimes (|+| note "<8 5>" )
+    $ struct kpat
+    $ palindrome
+    $ note (scale "minor" bpat)
+    # s "[dbass:1, bassfoo]"
+    -- # s "plaits" |- up 24
+    -- # s "[plaits]" |- up 12
+    # engine 12
+    # shape 0.3
+    # sustain 0.3 # rel 0.4 # attack 0.1
+    # speed "[1, 1.02]"
+    # cps 0.48
+    |* gain 0
+    # clouds (range 0.4 0.9 (slow 4 sine)) 0.4 0.1 (slow 7 sine)
+    # cloudsblend 0.9 0.9 0.1 0.1
+    # cloudsfreeze 0
+
+d2 
+    $ sometimes (ply 2)
+    $ stack [
+        whenmod 16 14 (# gain 0)
+          $ whenmod 24 22 (fast 2)
+          $ off (0.125) (# sound "bd:3")
+          $ struct kpat
+          $ s "[bd, dr_few, wobble?]"
+          # shape 0.5
+        , 
+        every 2 ( superimpose ((struct "~ ~ ~ [~ t] ") . (# sound "ho:3")))
+           $ whenmod 24 22 (# gain 0)
+           $ whenmod 16 14 (fast 2)
+           $ (0.125 ~>) $ struct ("t*4")
+           $ s "hc" <| n (irand 5)
+           # hcutoff 4000
+           # crush (range 1.1 3 (slow 7 sine))
+        , 
+        every 4 ((# speed "-0.75") . (# hcutoff "200")) 
+        $ whenmod 9 8 (jux (struct kpat) . (# hcutoff 2000))
+        $ s "<auto>"
+        # n (choose[0,1,2,4,5,6,7,8,9]) 
+        # coarse "<2 4 6>"
+        # speed (choose [0.8, 0.7, 0.5])
+        # shape "0.3"
+    ]
+
+do
+    d4 
+        $ whenmod 24 22 (# silence)
+        $ whenmod 18 14 (superimpose ((# sound "superchip/4") . (|- up 24) . (# djf (slow 4 saw))) . (# squizbus 1 ("<0 2>")))
+        $ whenmod 5 3 (struct "t(5,8,<0 1 2>)" . off (0.0125) (#octave (choose [3,4,5])))
+        $ every 5 (degradeBy 0.7)
+        $ every 3 (# accelerate "[-1| 1.3]")
+        $ whenmod 8 6 (modFunc ) 
+        $ sometimes (|* speed 1.4)
+        $ s "808*8"
+        # speed (range 0.8 1.2 (slow 10 sine))
+        # gain 1.2
+        # shape 0.5
+    unmute 2
+
+d3
+    $ chop "<2 4 8>"
+    $ whenmod 24 22 (# vowel (choose["a","e","o"]))
+    $ sometimes (# accelerate "0.8 -0.2")
+    $ struct (slow 4 $ ascii "a b [c d] e")
+    $ s "[speech|speakspell]" # n (irand 24)
+    # sustain 0.25
+    # rel 0.3
+    # shape 0.4 
+    # up 7

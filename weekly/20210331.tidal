@@ -1,0 +1,19 @@
+d1
+    $ while "{110110101110111}%20" ( slow 2 . jux rev)
+    $ s "auto" <| n "1 2 4 5 6 7 8" |* gain 0
+    -- $ s "cbow" |* gain 0
+    # clouds (segment 128 $ slow 3 sine) 0.1 "0.05"  (slow 4 tri)
+    # cloudsblend 0.5 0.4 0.3 0.7
+    # cloudsfreeze 1
+    # verb 0.9 "[0.9!3 0]" 0.2 0.2 # orbit 2
+
+d2 
+    $ slow 4
+    $ while "{10000010000011}%3" ((# up "0 1 0 0") . (#squizbus 2 (range 1 7 (saw))))
+    $ struct "<t(5,12) t(3,8) ~ t*16?>"
+    $ while "{110000011000010101100}%20" (slow 4 . rev)
+    $ iter' "<2 4 6>"
+    $ note (scale "locrian" "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15")
+    # s "[cbow:10?0.4, cbow:11?0.3]"  
+    # ampbus 1 (range 0.3 0.6 (slow 7 sine))
+    # verb 0.9 0.9 0.1 0.1 # orbit 1
