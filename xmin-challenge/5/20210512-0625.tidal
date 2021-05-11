@@ -1,0 +1,29 @@
+d1
+    $ stack [
+            whenmod 8 6 (palindrome . jux rev) $
+            every' 16 15 (brak) 
+            $ rarely (fast 2 . (# vowel "<a e i u>")) $
+            s "[bd sd, [hh|ho]*4?]" |* gain 1
+    ]
+    # clouds "^21" "^22" 0.3 "^23"
+    # cloudsblend 0.9 0.9 0.1 0.1
+    # verb "^21" "^22" "^23" "^24"
+    # cloudsfreeze 0
+
+d1
+    $ loopAt 1 
+    $ "moog*4" |* gain 0
+    # speed 0.5
+    # clouds "2" "^26" "^27" "^28"
+    # cloudsblend "2" "^22" "^23" "^24"
+    # cloudsfreeze 1
+
+d2 
+    $ whenmod 19 16 (density "<2 1 2 4>" . iter 4)
+    $ while "{11100000010101100000}%20" (someCyclesBy 0.3 (palindrome . jux rev))
+    $ every (floor <$> 127 * "^25") (ply "[12 | 4 | 16]")
+    $ struct "<t ~ ~ [t*2 ~ ~ ~]>"
+    $ n (irand 12)
+    # s "[bd?, dr_few?0.7] "
+    # verb 0.9 0.9 0.1 0.1
+    # orbit 2
