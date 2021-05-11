@@ -1,0 +1,26 @@
+d1
+    $ while "{10111000101100}%20" (zoom (0.5, 1))
+    $ every' 17 3 (density 3)
+    $ someCyclesBy 0.2 (# vowel (choose ["a","e","u"]))
+    $ stack [
+            struct (binary "<158 092 200 100>")
+            $ sometimesBy 0.2 (# pan "[100110011001]")
+            $ s "[bd, dr_few]"
+            # speed (choose [1,1,1,1.05,0.98])
+          , s "~ [jvgabba:18?0.1, rash]" # crush 4 # rel "<1 0.2>"
+          , (0.125 ~>) $ s "hc*4"
+          , s "[hc*4]?0.7"
+          , s "~!3 [~ oh:3]"
+        ] # djfbus 1 (range 0.3 1 ((slow 7 cosine) + (slow 2 saw) - (perlin)))
+          # shape 0.4
+          # verb 0.3 0.3 0.2 0.2
+
+d2 
+    $ s "[moog, moog:2?]/8 "
+    # crush 4
+    # verb 0.3 0.9 0.2 0.2
+    # speed 0.5
+    # ampbus 2 "<0.5 0? 0.5 [[0 0.5]!5]>"
+    # panbus 3 ("<0.5 0.5 [0.8 0.2 0.8 ]>")
+    # up "<0!8 8>"
+
