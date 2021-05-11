@@ -7,7 +7,7 @@ let
     -- bpat = "<[11] [11010111] >"
     bpat = "<[11] [11]>"
     tempo = 0.7
-    midimute c = while ((/= 0) <$> cF 1 c) (const silence)
+    midimute c = while ((/= 0) <$> cF 0 c) (const silence)
     bassline = "<[d f] [e [e g]]>"
 
 d1 
