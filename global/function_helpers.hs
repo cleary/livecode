@@ -45,7 +45,9 @@ let
                 every 2 ((#crush 0.5) . rip 0.125 0.25) $
                 every 5 (jux rev) $
                 every 6 (# speed "0.5 -1 -1 0.75") $ p
-
+    -- momentary mute via midi, use as `$ mmute "104"` where 104 is the midi button ref
+    -- push the button to mute, release to unmute
+    mmute c = while ((/= 0) <$> cF 0 c) (const silence)
 :}
 
 -- text representation of patterns
