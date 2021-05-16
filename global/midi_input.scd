@@ -1,6 +1,5 @@
 // Evaluate the block below to start the mapping MIDI -> OSC.
 // specifically mapped for my launchpad mini
-// solos currently not working
 (
 var mutes, solos, muteAll, soloAll, unmuteAll, unsoloAll, hush;
 var playbackControl, playbackState;
