@@ -1,0 +1,38 @@
+-- RUDIMENTS: EFFECTS
+-- a standard set of practice challenges
+-- to try and improve memory and speed
+-- of execution in Tidalcycles
+
+-- gated samples with control busses
+let gate = "<t(<11 9>,16,<0 3>)>"
+    abgate = stitch (inv gate) 0.5 0
+in
+d1
+    $ stack [
+            s "moog/2"
+            # cut 1
+            # ampbus 1 abgate
+            , (struct gate $ s "bd") 
+            |< n (irand 8)
+        ]
+    
+-- Mutable Instruments Ugens: clouds (non-standard)
+-- toggle `amb` for ambient frozen noise
+--   clouds p s d t = cloudsgain 1 # cloudspos p # cloudssize s # cloudsdens d # cloudstex t
+--   cloudsblend w s f r = cloudsgain 1 # cloudswet w # cloudsspread s # cloudsfb f # cloudsrvb r
+-- `panic` may also be your friend if you don't unfreeze before close...
+let amb = 0
+in
+d1
+    $ loopAt 1
+    $ s "moog" |* gain (1 - amb)
+    # clouds 0.4 0.4 0.1 0.7
+    # cloudsblend 0.7 0.3 0.2 0.7
+    # cloudsfreeze amb
+
+-- Mutable Instruments Ugens: verb
+--   verb w t d h = verbgain 1 # verbwet w # verbtime t # verbdamp d # verbhp h
+d1
+    $ s "[bd sn, [ ~ hc]*4, cc/8]"
+    |< n (irand 16)
+    # verb "^21" 0.9 0.1 0.1

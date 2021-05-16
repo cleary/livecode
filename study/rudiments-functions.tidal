@@ -1,0 +1,32 @@
+-- RUDIMENTS: FUNCTIONS
+-- a standard set of practice challenges
+-- to try and improve memory and speed
+-- of execution in Tidalcycles
+
+-- note
+
+-- n
+
+-- struct
+d1
+    $ (struct "t(11,16)" $ s "bd")
+
+-- ur
+let pats = 
+        [
+            ("a", 
+                (struct "t*4" $ s "auto") 
+                # nTake "auto" [4..11]
+            )
+            , ("b",
+                (struct "t(<9 11>, 16, <0 3>)" $ s "amencutup"
+                )
+            )
+        ]
+    fx = [
+            ("hp", (# hcutoff 6000))
+            , ("lp", (# hcutoff 200))
+            , ("cl", ((# clouds 0.4 0.5 0.2 0.7) . (# cloudsblend "^21" 0.9 "^22" "^23")))
+        ]
+in
+d1 $ ur 12 "a a:lp b:cl" pats fx
