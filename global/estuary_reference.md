@@ -29,13 +29,7 @@ eval in a low number panel
 ```
 ##JSoLang vars
 
-// an example JSoLang that takes provided text
-// and applies some number of rules to replace text
-// with alternate text. Basic idea: repeatedly try
-// to match specific rules that return something
-// different than the text they match, and whenever
-// that fails simply match and return the next character
-
+// note variable name defs here
 main = x:allRules* { return "##tidal\n" + x.join("") }
 allRules = chords / kickpat / anyCharacter
 anyCharacter = .
