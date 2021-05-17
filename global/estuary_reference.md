@@ -27,30 +27,27 @@ This example is like a replacement for `let` in tidal - define reusable code ref
 eval in a low number panel
 
 ```
-##JSoLang simple-text-replacement
+##JSoLang vars
 
-// an example JSoLang that takes provided text
-// and applies some number of rules to replace text
-// with alternate text. Basic idea: repeatedly try
-// to match specific rules that return something
-// different than the text they match, and whenever
-// that fails simply match and return the next character
-
+// note variable name defs here
 main = x:allRules* { return "##tidal\n" + x.join("") }
-allRules = chords / anyCharacter
+allRules = chords / kickpat / anyCharacter
 anyCharacter = .
 
 // specific replacement rules, the i makes the find operation
 // case insensitive
 chords = "chords"i { return "<[c4'm9'8@1.5 af'maj9@1 g4'dom7@1.5 ] c4'm9'16 c'm9'12>" }
-```
-
-use the `chords` var in another panel
+kickpat = "kickpat"i { return "<[10000[01]0[01]] [1 1 1 0]>" }
 
 ```
-##simple-text-replacement 
 
-note (arp "<[up down thumbup] down down>" "chords")
+use the `chords` and `kickpat` patterns in another panel
+
+```
+##vars
+
+struct "kickpat"
+$ note (arp "<[up down thumbup] down down>" "chords")
 # s "sid"
 ```
 
