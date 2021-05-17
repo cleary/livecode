@@ -16,6 +16,21 @@ d1
             |< n (irand 8)
         ]
     
+-- stut repeat# feedback time 
+d1
+    $ stut 16 0.7 0.125
+    $ s "bass:2/2"
+
+-- stutWith repeat# time function
+d1
+    $ stutWith 16 0.125 (|* crush 1.1)
+    $ s "bass:2/2"
+
+-- plyWith repeat# (pattern)
+d1
+    $ plyWith 16 (|* crush 1.3 )
+    $ s "bass:2/2"
+
 -- Mutable Instruments Ugens: clouds (non-standard)
 -- toggle `amb` for ambient frozen noise
 --   clouds p s d t = cloudsgain 1 # cloudspos p # cloudssize s # cloudsdens d # cloudstex t
@@ -27,7 +42,7 @@ d1
     $ loopAt 1
     $ s "moog" |* gain (1 - amb)
     # clouds 0.4 0.4 0.1 0.7
-    # cloudsblend 0.7 0.3 0.2 0.7
+    # cloudsblend 0.5 0.7 0.3 0.7
     # cloudsfreeze amb
 
 -- Mutable Instruments Ugens: verb (non-standard)
