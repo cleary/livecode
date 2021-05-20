@@ -1,0 +1,64 @@
+-- Replay: https://youtu.be/Dv-rn5rFBsE
+
+-- hi ... playing with @mindofmatthew's excellent midi patches for routing
+-- solo/mute/etc controls via osc to midi, and remembering state
+
+-- getting a lot of xruns... superhammond I think
+
+-- losing control ... 
+
+-- I think that settles it... I may be in need of some better hardware :)
+
+-- thanks for listening
+
+-- midi0=yoshimi(20:1) Cormi_Sound:Bassoon
+
+panic
+
+let 
+    chords = "<[b4, f] [e, g, a]>"
+
+
+d1
+    $ stut 16 (0.125/2) 0.25
+    $ slow 4
+    $ note chords
+    -- # s "[supervibe, superhammond?]"
+    # s "supervibe"
+    # octave 4
+    -- # cutoff 8000
+    -- # verb 0.7 0.7 0.1 0.1
+    -- # orbit 0
+    -- # amp 0.1
+
+
+d2 
+    $ whenmod 16 14 (off (0.125/2) (superimpose (# note "c6" )))
+    -- $ someCyclesBy (cF 0.2 "21") (off (0.125/2) (superimpose (# note "c6" )))
+    $ (struct "t(11,16)"
+    -- $ rolled'
+    $ n "a"
+    -- $ note "<b'five a'min'i>"
+    # s "supermandolin")
+    # sustain 10
+    # hcutoff ("^21" * 20000)
+    # octave (choose[4,3,2,5])
+    # gain 1.1
+
+d3
+    $ slow 2
+    $ whenmod 32 30 (fast "<[1.5 2] [2 4]>")
+    $ stack [
+            someCyclesBy (cF 0.2 "22")  (jux (superimpose ( stutWith 8 0.125 (|* crush 1.2) . (0.125 ~>) . (# n (run "[24|8|4|32]")) . (# s "cpu")))) $
+            s "auto:4*2 ~"
+            -- , s "~ auto:6"
+            -- , stut 4 0.1 0.7 $ s "[ ~ amencutup:11/4] ~" # speed "-0.6"
+            -- , s "cc/16?" # crush 1.1 # cutoff 3000 # panbus 1 "saw"
+            -- , (struct "f(11,16)" $ s "auto:9") # gain "[[1 0.8 0.8 0.8]*2 [0.8 1 0.8 0.8]*2]"
+        ] 
+    # verb 0.9 0.9 0.1 0.1
+
+
+d4 $ slow 4 $ note chords # s "midi0"
+    # amp 0.7
+    # release 10
