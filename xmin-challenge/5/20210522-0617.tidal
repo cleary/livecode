@@ -1,0 +1,39 @@
+d1
+    $ whenmod 32 30 (iter' 4 . jux rev . density 2)
+    $ (struct "t*2 t*3 t*4 t*3"
+    $ note (arp "down" "<c'min11'20 ~ ~ df'min13'19 ~>")
+    # s "superpiano")
+    # nudge (range "-0.025" 0.075 ((slow 3 sine) + cosine))
+    # sustain 5
+    # lpf 2000
+    # octave 4
+    # cps "<0.47!4 0.55>"
+    # pan 0.8
+    # verb 0.8 0.6 0.1 0.1
+
+
+d2 
+    $ almostNever (# gain "0@0.25 1@3.75")
+    $ stack [
+            s "[<bd [bd*2 ~@3]>, dr_few/2]"
+            , whenmod 32 28 (# silence) $
+            sometimesBy 0.05 (degradeBy 0.7) $
+            sometimesBy 0.1 (ply "[8|16|4]" . (#cut 1)) $
+            chop "[4 | 6]" $ hurry "<2>" $ loopAt 2 $ s "breaks125"
+            , whenmod 32 30 (off 0.25 (# s "realclaps")) $
+            every 4 (jux rev) $ press $ s "[realclaps, cp]" |< n (irand 6)
+        ] # verb 0.8 0.4 0.1 0.1
+
+let gate = "<t(<11 9>,16,<0 3>)>"
+    abgate = stitch (inv gate) 0.5 0
+in
+d3 
+    $ every "<9 17>" ((# ampbus 1 abgate) . jux (# crush 1.2))
+    $ struct "<t*2 ~ t? ~ <[tf*2 tf*4 tf*2] ~ > <~ [t*2 t*4 t*2]> >"
+    $ note (arp "<up converge down thumbup>" "<c4'min11'20!3 df4'min13'19!2>")
+    # s "flbass"
+    # legato "0.3 0.9 0.3 2"
+    # lpf 200
+    # verb 0.6 0.4 0.1 0.1
+    # octave 4
+    # pan 0.3
