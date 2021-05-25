@@ -32,3 +32,10 @@ let pats =
         ]
 in
 d1 $ ur 12 "a a:lp b:cl" pats fx
+
+-- zoom for time sig changes
+let c = (140/240)
+in
+d1
+    $ every' 4 1 (zoom (0, 0.75) . (# cps (c * (4/3))))
+    $ s "bd cp"
