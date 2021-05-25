@@ -5,9 +5,15 @@
   3. enter into the terminal: 
 
 ```
-!presetview default (return to the default view)
+!listviews (see what views are available)
+!presetview n (choose one from above output)
+!publishview def (set current view as default for all users?)
+!presetview def (return to the default view)
+!dumpview (see what current view code looks like)
 !localview audiomap (list all samples)
 !localview [] (show visuals only)
+!showtempo (query tempo)
+!setcps x.y (set cps)
 ```
 
 # JSoLang reuse vars example

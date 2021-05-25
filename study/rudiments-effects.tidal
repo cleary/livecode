@@ -28,7 +28,7 @@ d1
 
 -- plyWith repeat# (pattern)
 d1
-    $ plyWith 16 (|* crush 1.3 )
+    $ plyWith 16 (|* crush 1.3)
     $ s "bass:2/2"
 
 -- Mutable Instruments Ugens: clouds (non-standard)
