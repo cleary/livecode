@@ -1,0 +1,54 @@
+d1
+    $ whenmod 32 28 ((# cps 0.6) . (loopAt 4) . (# s "breaks125")
+      .  (# verb (slow 4 saw) (slow 2 saw) 0.1 0.1))
+    $ every 16 (brak . fast 2)
+    $ every 5 (palindrome . jux (rev))
+    $ stack [
+        s "[bd*32, dr_few:0]?" |< n (irand 7)
+        # cps (fast 4 $ perlin + 0.5) # pan (choose [0.3, 0.7, 0.3])
+        # room 0.3 # sz 0.4
+        , sometimesBy 0.8 (ply "[4|16]")
+        $ s "linnhats*8?" |< n (irand 7)
+        , almostNever (ply "[4|16]")
+        $ press
+        $ sometimes (ghost)
+        $ s "sn" |< n (irand 7)
+        # ampbus 1 (range 0.4 0.7 ((slow 7 sine) + saw)) # pan 0.7
+    ]
+
+d2
+    $ whenmod 32 30 (fast 2 . (# up 5))
+    $ whenmod 28 26 (const silence)
+    $ whenmod 15 13 (const silence)
+    $ whenmod 50 45 ((# s "cbow:7") . (# pan 0.8))
+    $ every 9 (chop 4 . hurry 2)
+    $ rarely (ply 4 . (# up "[7 | 12]"))
+    $ striate 16
+    $ s "[lidvox:12, lidvox:7 ]"
+    # ampbus 2 (rand * 0.5)
+    # verb "^21" "^21" 0.1 0.1
+    # clouds 0.4 0.4 0.3 0.7
+    # cloudsblend 0.7 "^23" 0.6 0.4
+    # gain 0.8
+
+panic
+
+d3
+    $ every 13 (plyWith 4 (* gain 0.7))
+    $ someCyclesBy 0.2 (off 0.125 (# s "flbass:14")) 
+    $ whenmod 32 28 ((# gain 1.2) . ghost . (ply 2))
+    $ s "[bass3:8, bassfoo:1](5,8,<2 0>)"
+    # legato (range 0.2 1 (fast 3 square))
+    # room 0.4
+    # sz 0.4
+    # gain 1.2
+
+xfade 4 silence
+
+xfade 4 
+    $ loopAt 2 
+    $ s "moog" |* gain 0.01
+    # clouds (segment 128 $ (range 0.1 1 (slow 3 sine)) ) "^21" "^22" "^23"
+    # cloudsblend 0.9 "^24" "^25" "^26"
+    # cloudsfreeze 0
+    # amp 0.8
