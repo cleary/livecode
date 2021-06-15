@@ -1,3 +1,5 @@
+-- replay: https://youtu.be/4879ty-neF8 
+
 let gate = "<t(5,8) t(5,8,2) t>"
     ampgate = stitch gate 0.5 0
 in
