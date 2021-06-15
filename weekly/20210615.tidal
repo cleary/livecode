@@ -1,0 +1,42 @@
+let gate = "<t(5,8) t(5,8,2) t>"
+    ampgate = stitch gate 0.5 0
+in
+d1
+    $ rolled'
+    -- $ struct gate
+    $ note "<d'min7'o g'dom7 c'major9'o a'minor9'o>"
+    # s "gtr:2"
+    # ampbus 1 ampgate
+    # djfbus 2 (cF 0.5 "21")
+    # cps 0.55
+    # verb 0.4 0.4 0.1 0.1
+    # gain 0.5
+    # crush 1.01
+    # squizbus 3 (range 1.01 5 (slow 32 sine) )
+
+d2 
+    $ whenmod 8 6 (sometimes (ply "[2|3]"))
+    $ every 7 (palindrome . jux rev)
+    $ whenmod 16 14 (ply 8 . (# legato 0.5))
+    $ off 0.125 ((# sound "[flbass:14]") . (|+ up "<0 2>"))
+    $ struct "<t(<3 5>,8,<2 0>) t>" 
+    $ note (scale "ionian" ("0 5 6" + "<1 4 0 5>"))
+    # s "flbass:0" |< n "6 6 <0!3 1>" |* gain 1
+    # cut "-1"
+    # djfbus 2 "^21"
+    # verb 0.9 0.9 0.1 "^22"
+
+let gate = "<t(5,8) t(5,8,2)>"
+    ampgate = stitch (inv gate) 0.5 0
+in
+d3 
+    $ every' 4 3 (fast 2)
+    $ every 7 (palindrome . jux rev)
+    $ stack [
+            (3 ~> ) $ (struct "[t*2 [~ t]/4]" $
+            s "auto:4")
+            , someCycles (ply "2 4 8") $ s "[~ auto:8]*4"
+            , whenmod 17 16 (plyWith 32 (# crush 1.5)) $ s "[~ auto:6]"
+    ]
+    # djfbus 2 "^21"
+    # verb 0.9 0.9 0.1 "^22"
