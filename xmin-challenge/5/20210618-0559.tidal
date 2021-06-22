@@ -1,0 +1,23 @@
+d1 
+    $ chop 8
+    $ every 5 (off 0 (ply "2 1!7" . (# up "[7,5] 4 7 [8,4]") . (# speed "-1")))
+    $ superimpose (rev . struct "<t(3,8) t>" . (|- up "24" ) . (# legato 2))
+    $ every 7 (# accBy "1 0 0 7")
+    $ while "{10100110000100010}%20" (segment 64 . (# legato 0.8) . (# squiz 1.3) . (# clouds 0.4 0.4 0.3 0.4) . (#cloudsblend 0.6 0.7 0.7 0.7) . (# pan "<0 0.5 1>"))
+    $ s "singingreporter"
+    # cps (100/240)
+    # up "0 <2 0> <3 0> <0 [0 -2]>"
+    # legato "1 <0.5 1> <1 0.5> <0.2 1>"
+
+
+d2
+    $ loopAt 1
+    $ chop 8
+    $ almostNever (fast 4)
+    $ sometimesBy 0.3 (slow 2 . ply "1 1 1 1 16 1 1 1")
+    $ every 5 (palindrome . rev)
+    $ sometimes (ply "2 1 2")
+    $ s "breaks125:2"
+    # gain "<1 [0 1] 1!2>"
+
+panic
