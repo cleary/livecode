@@ -1,0 +1,28 @@
+d1
+    $ every 2 (degrade)
+    $ whenmod 18 16 (# silence)
+    $ while "{1001001100001}%20" 
+        (fast 2 . (# speed (range 1.1 1.7 (slow 2 saw))))
+    $ chop "8 16"
+    $ s "[house]"
+    |- up 24 + (scale "egyptian" (run 14))
+    # gain "1010101010101010101010101010"
+    # legato "0.5 1 0.8 0.5"
+    # shape 0.3
+    # pan (range 0.2 0.8 (slow 4 saw))
+    
+-- this is destroying supercollider...
+
+d2 
+    $ someCycles (palindrome . iter 2)
+    $ stack [
+        s "{808bd:1 ~ [bd ~ ~ bd]}%4"
+        , s "{~ click ~ click:1*2}%3"
+        , whenmod 18 16 (striate 8 . (# pan "01010101")) $
+        someCycles (ply "[2|4|1]" . (# pan (range 0.2 0.6 isaw))) 
+         $ ((0.125/2) ~> ) $ s "feelfx*8" |< n (irand 8)
+         # hcutoff 10000
+         # up 12
+    ]
+    # shape 0.3
+    # verb 0.4 0.4 0.1 0.1
