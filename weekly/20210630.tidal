@@ -1,0 +1,66 @@
+d1 
+    -- $ s "[[cc:2|cc:2|cc:2|[cc:2*4 cc:2*8]]/16, 808bd:1*2, ab:7(<5 6 7>,<8 16>,<3 0 2 0>)]" 
+    $ stack [
+            slow 4 $ s "[909(<3 5>,8)]" 
+            , every 8 (# gain 1) $ s "~ ~ ~ sd:2" # gain 0 # cutoff 2000
+        ]
+    # rel 0.3
+    # shape 0.4
+    # verb 0.9 0.9 0.1 0.1
+    # pan (range 0.2 0.8 (slow 17 sine))
+
+
+-- thanks for listening :)
+
+
+xfade 2 
+    $ degradeBy 0.825
+    $ someCycles (# speed "-1")
+    $ loopAt 4
+    $ someCyclesBy 0.2 (palindrome . iter 2)
+    $ while "{00010000001000000010000001}%20" press
+    $ whenmod 24 22 (degradeBy "<[0.2 0.4 0.6][0.7 0.8 0.9 0]>")
+    $ whenmod 16 14 ((# hcutoff (range 500 10000 (slow 2 sine))) . (# vowel "<[o e] [i a]>"))
+    $ slice 8 (stack [
+        "<[0*2 0*4 0*8 0*16] [0*4]!15>"
+        , "<[~ 3]!15 [3*6 3*12 3*[24|6]]>"
+        , "[~ 1]*4"
+        , "[2(<9 3 5 11>,16,<0 2>)]"
+        , "1/4"
+    ]
+    )
+    $ s "<breaks125!18 breaks165!2>"
+    # gain 0.95
+    # djf "^21"
+
+let pat = binary "<205 110 140 110>"
+    gainpat = stitch (pat) 0.85 0
+in
+d4 
+    $ whenmod 32 30 (# cutoff (range 100 10000 (slow 2 isaw)))
+    $ sometimesBy 0.5 (# squiz 4) 
+    $ sometimesBy 0.67 ((# crush 2) . (|+ up "[12]"))
+    $ every 2 (slow "[8 | 0.75 | 0.925 | [0.25 0.525 0.825 1] | [3 6]]" . (0.25 ~>))
+    $ note (arp "<down converge up>" "<[a'minor9'8@1.5 a4'minor9'iii]>")
+    # s "[flbass:7]"
+    # cut 1
+    # shape 0.4
+    # verb 0.8 0.5 0.1 0.1
+    |+ up "<0!6 2!2>"
+    # gain gainpat
+    # djf "^21"
+
+let pat = "t(<3 5>,8)"
+    amppat = slow 4 $ stitch (pat) 0.5 0.3
+in
+d5
+    $ note ("<a5'minor9'o@7  b5'minor9'ii@1  >")
+    # s "jrhodes:4"
+    # cutoff 1000
+    # gain 0.8
+
+stitch (inv pat) 0 0.5 $ 
+
+import Sound.Tidal.Chords
+
+chordList
