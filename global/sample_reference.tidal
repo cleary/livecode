@@ -27,16 +27,26 @@ d1 $ slow 4 $ s "ht" <| n (run 16) -- hi toms - many repeated samples
 d1 $ slow 4 $ s "mt" <| n (run 16) -- mid toms - many repeated samples
 d1 $ slow 4 $ s "lt" <| n (run 16) -- lo toms - many repeated samples
 d1 $ slow 2 $ s "hh" <| n (run 13) -- full kit set inc some synth 2=ttscratch 3=2rev 4=7th stab
+d1 $ slow 16 $ s "tabla2" <| n (run 46) -- individual tabla hits
 d1 $ slow 2 $ s "hh27" <| n (run 13) -- full kit set, std perc sounds
+d1 $ slow 4 $ s "ul" <| n (run 10) -- 0: high ping, rest electronic percussion sounds
+d1 $ slow 1 $ s "uxay" <| n (run 3) -- 0-1: kick, 2: hi ping
+d1 $ slow 2 $ s "ulgab" <| n (run 5) -- low freq kick-ish electronic percussion sounds
+d1 $ slow 2 $ s "v" <| n (run 6) -- electronic kit
+d1 $ slow 2 $ s "voodoo" <| n (run 5) -- analog kit
+d1 $ slow 1 $ s "wobble" <| n (run 1) -- deep bass freq
+
 
 
 -- Dirt-Samples
 -- +vocal
 -- +estuary
-d1 $ slow 2 $ s "h" <| n (run 7) -- short toddler words (mostly 'dad') 
+d1 $ slow 2 $ s "h" <| n (run 7) -- short toddler words (mostly 'dad')
+d1 $ slow 6 $ s "vox" <| n (run 3) -- male voice long samples (la, ma ta), then pitch adjusted
+d1 $ slow 5 $ s "ver" <| n (run 20) -- male voice, spanish samples **not on the beat
 
 -- jamie-lidell-iso
-d1 $ slow 2 $ s "lidellvox" <| n (run 23) -- CMaj scale 3+ octaves from C4, # legato
+d1 $ slow 2 $ s "lidvox" <| n (run 23) -- CMaj scale 3+ octaves from C4, # legato
 
 -- samples-extra
 d1 $ slow 2 $ s "dbass" <| n (run 2) -- C3 varying attack bass synth
