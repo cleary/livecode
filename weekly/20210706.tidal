@@ -1,0 +1,59 @@
+let melody = ["[4@3 [6 7]]",
+              "[8@2.5 9 7]",
+              "[6 <2 5>]",
+              "[<~@3 4@3> <[3 4f] ~>]"]
+in
+d1
+    $ off (0.125/2) ((# s "uku") . (# pan 0.3))
+    $ whenmod 21 19 (palindrome . iter 2)
+    $ whenmod 15 11 (# silence) 
+    $ note (scale "lydian" $ cat melody)
+    # s "[midi0]"
+    # cps 0.3
+    # octave 6
+
+
+d2 silence
+
+    $ note "<g d [b <e a>] [~ < ~ [b e] >] >"
+    # s "flbass:0"
+    # cut 1
+
+d6 
+    $ note "<g d [b <e a>] [~ < [b e] ~ >] >"
+    # s "< cbow:0 >"
+    # cut 1
+    # verb 0.8 0.7 0.1 0.1
+    # gain 0.8
+    # shape 0.4
+    # cutoff 1000
+    # pan 0.35
+    # legato 1.1
+
+d1 silence
+
+d3 
+    $ rolled'
+    $ note "<g4'sus4'8 d4'minor9'8 b4'm7f5'8 ~ >"
+    # s "midi0"
+
+d4 
+    $ whenmod 21 19 (fast 4 . palindrome . iter 2)
+    $ s "[[bd [~ <~ bd>]] ~]"
+    # speed "0.5"
+    # verb 0.9 0.9 0.1 0.1
+    # orbit 3
+    # gain 1.1
+
+d5 
+    $ whenmod 15 11 (fast 2 . ghost) 
+    $ rarely (plyWith 8 (* gain 0.8))
+    $ s "<~ [~ snare] >"
+    # hcutoff 2000
+    # gain 0.8
+    # orbit 3
+
+
+do 
+    d4 silence
+    d5 silence
