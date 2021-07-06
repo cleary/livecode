@@ -6,7 +6,7 @@ let melody = ["[4@3 [6 7]]",
               "[<~@3 4@3> <[3 4f] ~>]"]
 in
 d1
-    $ off (0.125/2) ((# s "uku") . (# pan 0.3))
+    $ off (range 0.01 0.05 (slow 7 sine)) ((# s "uku") . (# pan 0.3))
     $ whenmod 21 19 (palindrome . iter 2)
     $ whenmod 15 11 (# silence) 
     $ note (scale "lydian" $ cat melody)
@@ -15,8 +15,7 @@ d1
     # octave 6
 
 
-d2 silence
-
+d2
     $ note "<g d [b <e a>] [~ < ~ [b e] >] >"
     # s "flbass:0"
     # cut 1
@@ -31,8 +30,6 @@ d6
     # cutoff 1000
     # pan 0.35
     # legato 1.1
-
-d1 silence
 
 d3 
     $ rolled'
@@ -54,8 +51,3 @@ d5
     # hcutoff 2000
     # gain 0.8
     # orbit 3
-
-
-do 
-    d4 silence
-    d5 silence
