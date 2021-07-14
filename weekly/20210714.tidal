@@ -1,0 +1,58 @@
+-- vital synth preset: chorusy keys
+
+xfadeIn 1 16
+    $ every' 4 2 (press)
+    $ every' 4 1 (swing 4)
+    $ every 4 (slow 2 . off "q" (|+ up 4))
+    $ note (arp "<<down up>!7 disconverge >" "<[c'dom'16]!3 [c'dom'24]>")
+    # s "midi0"
+    # octave "< 4 3>"
+    |+ up "<0 [2 2 2 1] -5 -4>"
+
+d2
+    $ superimpose (chop "<16 [24 32]>" . (# s "[ade?, cbow:9?0.2]") . (loopAt 4) . (# speed "-1") . (# coarse 4))
+    $ loopAt 2
+    $ slice 8 "<[[ 0 ] ~ [0*4] [~ 4*6]]!2 [~ 1*2 2 3 4*2 ~ 6*3 7 ]>"
+    $ s "[breaks125]"
+    # room 0.8
+    # sz 0.4
+
+
+xfadeIn 3 16 
+    $ struct (binary "<100 200 200 <254 994> >")
+    $ note "<[c4 c5]!3 [c3 c4!3]>"
+    # s "dbass:4"
+    # verb 0.9 0.9 0.1 0.1
+    # orbit 2
+
+d4 
+    $ s "<[~ sn:1] ~>"
+    # orbit 2
+    
+
+d5
+    $ struct "{~ [[~ t] ~] ~ ~ ~}%2" 
+    $ s "superfm"
+    |- up "<17 12 24 5>"
+    # legato "<3.3 1.8 4>"
+    # amp1 1
+    # amp2 1
+    # amp3 0
+    # amp4 0
+    # amp5 0
+    # amp6 1
+    # ratio2 2
+    # ratio3 3
+    # ratio4 4
+    # ratio5 0.5
+    # ratio6 0.25
+    # feedback 1
+    # mod11 1
+    # mod16 1
+    # mod66 1
+    # mod23 1
+    # mod34 1
+    # mod45 1
+    # eglevel62 0.1
+    # eglevel63 1.5
+    # egrate63 0.5 
