@@ -48,6 +48,20 @@ let
     -- momentary mute via midi, use as `$ mmute "104"` where 104 is the midi button ref
     -- push the button to mute, release to unmute
     mmute c = while ((/= 0) <$> cF 0 c) (const silence)
+
+    -- by pulu - clamp number pattern to given range, scale the output
+    crop :: Pattern Double -> Pattern Double -> Pattern Double -> Pattern Double
+    crop l r x = (max l (min r x) - l) / (r - l)
+    -- d1 $ let
+    --   kn = cF 0 "kn1"
+    --   in id
+    --   $ n "<<0!2 -2> <1 ~> <4 7 5 8>>*16"
+    --   # s "supervibe"
+    --   # release 0.05
+    --   -- 1st half of knob opens filter:
+    --   # lpf (rangex 400 12000 $ crop 0 0.5 kn)
+    --   -- 2nd half adds reverb:
+    --   # room (range 0 0.15 $ crop 0.5 1 kn)
 :}
 
 -- text representation of patterns
