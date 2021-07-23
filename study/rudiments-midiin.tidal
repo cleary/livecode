@@ -1,0 +1,23 @@
+-- RUDIMENTS: MIDI INPUT
+-- a standard set of practice challenges
+-- to try and improve memory and speed
+-- of execution in Tidalcycles
+
+-- use midi input from external controllers
+d1 
+    $ s "bd*16"
+    # djf (cF 0.5 "0")
+    # hcutoff (rangex 400 12000 (cF 0 "1"))
+    # crush (rangex 6 1 (cF 6 "2"))
+    # pan (cF 0.5 "3")
+
+-- use midi input from external controllers
+-- with control busses
+d1 
+    $ loopAt 4
+    $ s "breaks152"
+    # djfbus 1 (cF 0.5 "0")
+    # hcutoffbus 2 (rangex 400 12000 (cF 0 "1"))
+    # squizbus 3 (range 1 6 (cF 1 "2"))
+    # panbus 4 (range "-1" 1 (cF 0.5 "3"))
+
