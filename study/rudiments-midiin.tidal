@@ -10,8 +10,7 @@ d1
     # hcutoff (rangex 400 12000 (cF 0 "1"))
     # crush (rangex 6 1 (cF 6 "2"))
     # pan (cF 0.5 "3")
-
--- use midi input from external controllers
+    
 -- with control busses
 d1 
     $ loopAt 4
