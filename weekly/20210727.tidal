@@ -1,0 +1,39 @@
+-- replay: https://youtu.be/xI5V6znWmr8
+
+
+d1 
+    -- $ off 0.0125 ((# panbus 1 (range (-0.8) 0.8 (fast 1.9 sine))) . (# hcutoff 4000). (# s "plaits")) 
+    $ slow 1
+    -- $ note (arp "<up down converge thumbdown>" "<a4'minor11'o d'dom7'o f4'major7 <g4'dim7'o c'major7'o>>")
+    $ note "<a4'minor11'o d'dom7'o f4'major7 <g4'dim7'o c'major7'o>>"
+    # s "flbass:14"
+    # verb 0.4 0.4 0.1 0.1
+
+
+d2 
+    $ whenmod 16 15 (slice 8 "2*8 2*16" . (# gain (range 0.2 0.9 (saw))))
+    $ someCyclesBy 0.2 (rev)
+    $ rarely (ply 2)
+    $ whenmod 21 19 (superimpose (chop 4 . hurry 2))
+    $ loopAt 1
+    $ slice 8 "0 1 [2] [3*2] 4 5 6 [7 ~ ~ 0?]"
+    $ s "breaks125"
+    # cps 0.3
+    # room 0.2
+    # sz 0.1
+    # shape 0.4
+    # gain 0.9
+
+d3 
+    $ stack [
+            s "909*4",
+            (0.125 ~>) $ s "ho:3*4" # hcutoff 6000,
+            sometimes (ply 3) $ s "hh*16" # hcutoff 8000
+    ]        
+    # shape 0.4
+
+
+d4
+    $ note (scale "lydian" "<[a ] [~ [~!3 [f g]]] a [~ [c@3 b@1]] >") 
+    # s "flbass:0"
+
