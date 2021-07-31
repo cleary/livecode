@@ -1,6 +1,7 @@
 -- Dirt-Samples
 -- +pitched
 -- +estuary
+d1 $ slow 8 $ s "bass1" <| n (run 28) -- softer synth bass, 0 = C1, mostly C1 varying harshness, some F1
 d1 $ slow 2 $ s "bass3" <| n (run 10) -- softer synth bass, 0 = A2, 1-4 = C#2, 5 = G#2, 6-7 = D3, 8 = C2 9-10 = B2(woah)
 d1 $ slow 4 $ s "flbass" <| n (run 17) -- fretless bass, tuned to C, various attacks and releases 14/15=harmonics 
 d1 $ slow 2 $ s "gtr" <| n (run 3) -- progressively more distorted guitar *=C3
