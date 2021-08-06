@@ -1,5 +1,8 @@
 // Evaluate the block below to start the mapping MIDI -> OSC.
 // this is specific to my Midi Fighter Twister setup
+// Note: you can also load this in your supercollider startup.scd by adding
+// somewhere near the end of the file (I add it after s.latency):
+// load("/path/to/source/livecode/global/midi_input.scd");
 (
 var mutes, solos, muteAll, unmuteAll, unsoloAll, hush;
 var playbackControl;
@@ -105,4 +108,4 @@ if (~stopMidiMuteControl != nil, {
 )
 
 // Evaluate the line below to stop it.
-~stopMidiMuteControl.value;
+//~stopMidiMuteControl.value;
