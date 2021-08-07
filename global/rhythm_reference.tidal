@@ -13,10 +13,10 @@ d1 $ stack [
     ]
 
 -- son clave 3/2
-d1 $ n " [0 [~ 0]] [~ 0] [~ 0] [0 ~] " # s "808:2"
+d1 $ struct " [t [~ t]] [~ t] [~ t] [t ~]" $ s "808:2"
 
 -- son clave 2/3
-d1 $ n " [0 [~ 0]] [~ 0] [~ 0] [0 ~] " # s "808:2"
+d1 $ struct "[t [~ t]] [~ t] [~ t] [t ~]" $ s "808:2"
 
 -- Cuban - basic Tumbao
 d1 $ s "[ lo:4, ~ lo:3 ~ lo:3*2, lo:2*2 . [~ lo2]. lo:2*2 . [~ lo:2] ]"
