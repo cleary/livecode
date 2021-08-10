@@ -1,0 +1,100 @@
+-- replay: https://youtu.be/7tTkZ2aT73M
+
+d1
+    $ every 2 (struct "t(5,3)")
+    $ struct "t*4" $ s "flbass:14" 
+    |+ up "<'maj7'o!4 ['maj7'o!3 'sus2] 'sus2!3>"
+    # verb "^1" 0.9 0.1 0.1
+    # gain "^2"
+
+
+    -- thanks for listening :)
+
+
+d2
+    $ every 2 (struct "t(5,3)")
+    $ density "^0"
+    $ while "{10000000100000000010000000000000}%20" (ply "[6|3]")
+    $ loopAt 1
+    $ every 5 (iter 2 . palindrome)
+    $ rarely (struct "t(21,32)")
+    $ slice 8 (stack [
+                    "<[0 1 2 3 0 1 2 3] >"
+                    ])
+    $ s "breaks125"
+
+d3
+    $ every 2 (ply "[2|1]")
+    $ struct "t*4"
+    $ note (scale "phrygian" "<<1 2> ~ <7 4> 5 0 ~!4>") 
+    # s "bass1:0"
+    # cut 1
+    # clouds 0.5 0.5 0.4 0.7
+    # cloudsblend 0.4 0.4 0.2 0.6
+    # legato 0.8
+    # squiz 1.7
+
+d4 
+    $ note ( arp "down" "<[d'min9'o!3] [d'min9'ii!3] [c'dim'6!3]>")
+    # s "arpy"
+    # squiz "<1.3!4 1.7!4>"
+    # hcutoff "<100!4 3000!4 >"
+    |- up "<0!4 12!4>"
+
+
+d5 silence 
+
+    $ stack [
+            s "[808bd:1, bd*4]",
+            s "[hh*16]" # hcutoff "[0 6000!15]"
+                # legato 0.15,
+            s "<[[~ ho?0.2] ~ ~ ~] [~ ~ ~ [~ ho]]>" # hcutoff 5000,
+            s "~ sn:1"
+            ]
+    # shape 0.4
+    # verb 0.7 0.7 0.1 0.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
