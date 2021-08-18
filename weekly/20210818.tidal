@@ -1,0 +1,82 @@
+-- replay: https://youtu.be/wMkTVL-1cU4
+
+let pat = "<[fttftt]!7 t>"
+    amppat = stitch (inv pat) 0.15 0.5
+in
+d2
+    -- $ every' 16 15 (# ampbus 1 "0.5 0!3") 
+    $ note ("<a5'minor9'o@7  b5'minor9'ii@1  >")
+    -- $ note ("<a5'minor9'o@4  a5'minor9'o@3 a5'minor9'o@1 >")
+    # s "jrhodes:4"
+    # cutoff 1000
+    # gain 0.78
+    -- # ampbus 1 amppat
+    # crushbus 4 (range 6 3 (saw))
+    # verb 0.4 0.4 0.1 0.1
+    # cps "<0.65!7 [0.6 0.6 0.6 0.25?]>"
+
+let pat = "tf*4"
+    crpat = slow 3 $ stitch pat 12000 15000
+in
+d4
+    $ every' 16 15 (struct "t*2 . ~ . [t t ~] ~" . (# sound "bd")) 
+    $ every' 16 15 (struct "t*2 . ~ . [t t ~] ~" . (# sound "ho?") . (# hcutoff "12000")) 
+    $ stack [
+         s "<[~ [clap, sn:1]]!7 ~>" # pan 0.8 # legato "[0.2|0.3]" # squiz 1.01,
+         degradeBy "^0" $ s "[~ [~ clap/4 ~], [~ clap?0.2/2 ~ ~]]" 
+          |< note (irand 8) # pan 0.3 # legato "[0.2|0.3]",
+        every' 8 7 (# crushbus 3 (range 6 1.1 (saw))) $ s "<[[~ cr:0]!2] >" 
+          # hcutoff crpat # verb 0.9 0.9 0.1 0.1,
+         s "[~ ~ ~ ~ ~ [bd|bd*2]/3]" # nudge "<0 [-0.04 -0.1 -0.06]>",
+        every' 8 4 (fast 2) $ every' 2 "<1 2>" (press) $ struct pat $ s "[bd, 808bd:1?]" 
+          # nudge "<0 [-0.04 -0.1 -0.06]>"
+    ]
+    # shape 0.4
+    # gain 0.95
+
+d2 silence
+
+let pat = "tf*4"
+    crpat = slow 3 $ stitch pat 12000 15000
+in
+d2
+    $ every 2 (fast 2)
+    $ every' 16 15 (struct "t*2 . ~ . [t t ~] ~" . (# sound "tabla2:6")) 
+    $ every' 16 15 (struct "t*2 . ~ . [t t ~] ~" . (# sound "ho?") . (# hcutoff "12000")) 
+    $ stack [
+        someCycles (ply 2) $ s "<[~ [tabla2, tabla2:26]]!7 ~>" # pan 0.8 # legato "[0.2|0.3]" # squiz 1.01,
+        degradeBy "^0" $ s "[~ [~ tabla2/4 ~], [~ tabla2?0.2/2 ~ ~]]" 
+          |< note (irand 8) # pan 0.3 # legato "[0.2|0.3]",
+         every' 8 7 (# crushbus 3 (range 6 1.1 (saw))) $ s "<[[~ tabla2:15]!2] >" 
+           # hcutoff crpat # verb 0.9 0.9 0.1 0.1,
+         s "[~ ~ ~ ~ ~ [tabla2:34|tabla2:34*2]/3]" # nudge "<0 [-0.04 -0.1 -0.06]>",
+        every' 8 4 (fast 2) $ every' 2 "<1 2>" (press) $ struct pat $ s "[tabla2:35, 808tabla2:36?]/2" 
+          # nudge "<0 [-0.04 -0.1 -0.06]>"
+    ]
+    # shape 0.4
+    # gain 0.95
+
+let pat = "<[t [t t]  [t t] [f t]] [f f f t] f?>"
+in
+d3 
+    $ whenmod 9 6 (fast 2 . (# speed "-1"))
+    $ whenmod 7 5 (rev . palindrome)
+    $ sometimes (|+ up (irand 5))
+    $ plyWith 2 (|* amp 0.5)
+    $ swingBy 2 4
+    $ every' 5 3 (|+ up "0 2 [2|4]? 2") 
+    $ whenmod 9 8 (ply "2 1 2 1 2" . degradeBy "^9")
+    $ struct (slow 2 $ pat)
+    $ note (scale "egyptian" (slow 3 $ run 16 |+ 2 ))
+    # s "uku:3"
+    |+ up 12
+    # amp (cF 0.1 "8")
+    # clouds 0.6 0.6 0.4 0.7
+    # cloudsblend 0.9 0.7 0.4 0.7
+    # room 0.4
+    # shape 0.4
+    # sz 0.2
+    # squiz (range 1 5 (cF 1 "10"))
+    # panbus 1 "^8" 
+
+d3 silence
