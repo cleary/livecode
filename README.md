@@ -1,6 +1,12 @@
 # livecode
 repository for my Tidalcycles, Supercollider (and potentially other languages) livecoded musical journey
 
+## hints and reminders for myself
+
+split vertical pane in `nvim`: `<ctrl+w> v`
+
+connect [read-only twitch chat](https://github.com/dongy7/twitch-chat-cli) in an `nvim` pane: `tc connect clearyss`
+
 ## repository layout
 
 ### collab/*
