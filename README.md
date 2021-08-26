@@ -7,6 +7,8 @@ split vertical pane in `nvim`: `<ctrl+w> v`
 
 connect [read-only twitch chat](https://github.com/dongy7/twitch-chat-cli) in an `nvim` pane: `tc connect clearyss`
 
+resize pane vertically in `nvim`: `<ctrl+w> N[+|-]`
+
 ## repository layout
 
 ### collab/*
