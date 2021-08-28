@@ -1,0 +1,45 @@
+-- replay: https://youtu.be/k72vnifrY4E
+
+d1
+    $ loopAt 4
+    $ every 5 (sometimes (ply "1 4 1 1 1 1 1 1"))
+    $ whenmod 32 30 (fast "<[1 2] [2 3 4]>" . iter 2)
+    $ whenmod 16 14 (iter 2 . palindrome)
+    $ slice 32 (run 32)
+    $ s "breph:0"
+    # panbus 1 (stitch (binary 170) 0.2 0.8)
+    -- # hcutoff (stitch (binary 170) 0 4000)
+    # cutoff (stitch (binary 170) 20000 2000)
+    # verb 0.9 0.6 0.1 0.1
+    # orbit 1
+
+d2 
+    $ loopAt 2
+    $ every 4 (jux rev)
+    $ slice 32 "<0 [~ ~ ~ ~ ~ ~ ~ 0]>"
+    $ s "breph:0"
+    # speed 0.5
+    # orbit 1
+    # vowel "[a|e|o|~]"
+
+d3
+    $ loopAt 4
+    $ struct (binaryN 16 5738)
+    $ iter' 4
+    $ every 4 (jux rev)
+    $ whenmod 8 4 (palindrome)
+    $ slice "<6 8 12>" ("[0 1 2!2 4 3 5 12*4 15]" + ("< 0 0 2 3 4 6>"))
+    $ s "flutejk:10"
+    # crush "4"
+    # shape 0.3
+    # gain 0.9
+    |+ up "<0!6 3 7>"
+
+
+-- it's a mess tonight folks, sorry 
+-- trying to force myself to get into using longer samples
+
+-- I clearly need to work at it ;)
+
+
+
