@@ -1,0 +1,79 @@
+-- replay: https://youtu.be/TKu56DozjXQ
+
+let lfomorph pat = ccv pat # ccn 1 
+	pitch pat = ccv pat # ccn 2
+    vpan pat = ccv pat # ccn 3
+in
+d2
+    $ superimpose (almostAlways (plyWith "[2|2|2|3|4]" (|* gain 0.9)) . (# s "tabla2") . (# legato 0.9) . (|< n(irand 18)). (|+ up 12))
+    $ while "{10001010000000001000010001000}%16" (slow 8 . (jux (|- up 24)) . (# s "tabla2:3*24"))
+    $ slow 2
+    $ whenmod 17 15 (slow 2 . (# legato 0.9) . (struct "t@3.5 t@0.5") . (# note "<[e3 c3s] [c3s e3]>"  ) )
+    $ whenmod 4 3 (struct "t t t t")
+    $ stack [
+      note (stitch (binary 222) "c3" "cs3")
+        # s "midi0" 
+        # midichan 0
+      , lfomorph (range 0 127 $ slow 2 rand) # s "midi0"
+      , pitch (range 0 127 $ slow "[3|2|1]" rand) # s "midi0"
+      , vpan (range 0 127 $ rand) # s "midi0"
+    ]
+    # gain (stitch (binary 140) "1.0" "0.7")
+    # legato (rand + rand)
+    # verb 0.4 0.4 0.1 0.1
+    # cps (0.65)
+
+let lfomorph pat = ccv pat # ccn 1 
+	pitch pat = ccv pat # ccn 2
+    vpan pat = ccv pat # ccn 3
+in
+xfade 2 
+    $ someCyclesBy 0.2 (# pan (range 0.2 0.8 (slow 2 saw)))
+    $ struct (binary 255) 
+    $ stack [
+        note "b6'maj'o" -- e6'min'o fs6'maj'o"
+        # s "moog:0"
+    ]
+    # djf (range 0.1 0.9 (slow 17 sine))
+    # gain (stitch (binary 170) "1.0" "0.7")
+    # legato (0.6 + (rand/2))
+    # cps 0.50
+
+
+xfade 1 
+    $ whenmod 17 15 (almostNever (|* speed 1.5))
+    $ superimpose ((# s "flbass") . (# pan 0.8))
+    $ struct "t"
+    $ slow 2
+    $ whenmod 16 15 (# silence) 
+    $ stack [
+        note "<b [~@0.25 e@0.75] fs [~@0.25 gs@0.75]>"
+        # s "bass1:0"
+    ]
+    # gain (stitch (binary 170) "1.0" "0.7")
+    # shape 0.4
+    # pan 0.2
+
+xfade 3 
+    $ loopAt 8
+    $ whenmod 32 30 (fast "<[1 1.5][2 3 4]>")
+    $ every 2 (struct "t f t f")
+    $ slice 32 (run 32)
+    $ s "breph:1"
+    # gain 0.8
+    # verb 0.7 0.8 0.1 0.1
+
+xfade 4 
+    $ someCyclesBy 0.15 (# pan (rand))
+    $ struct "t*6"
+    $ whenmod 17 15 (almostNever (stutWith 6 "e" (|* speed 1.5)))
+    $ note (arp "down" "<b4'maj'8 b4'maj7'ii b3'maj13'iii> ") -- e6'min'o fs6'maj'o"
+    # s "flbass:14"
+    # clouds 0.9 0.7 0.4 0.7
+    # cloudsblend 0.9 0.9 0.4 0.4
+
+-- damn crashed it again.. need new puter :(
+
+-- I'll call it a night, thanks for listening 
+
+
