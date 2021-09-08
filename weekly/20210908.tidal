@@ -1,4 +1,5 @@
 -- replay: https://youtu.be/1YE_9sD2ukg
+-- synth/preset: midi0 Vital/Fleet 
 
 let lfomorph pat = ccv pat # ccn 1 
 	pitch pat = ccv pat # ccn 2
