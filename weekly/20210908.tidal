@@ -1,0 +1,67 @@
+-- replay: https://youtu.be/1YE_9sD2ukg
+
+let lfomorph pat = ccv pat # ccn 1 
+	pitch pat = ccv pat # ccn 2
+    vpan pat = ccv pat # ccn 3
+
+d1 
+    $ whenmod 16 15 (struct "t(5,8)" . (|- up "1 2 3 5 6"))
+    $ whenmod 16 8 (|+ up 7)
+    $ slow 2 $ struct "t" $ stack [
+            s "[midi0]" # note "<c'min7'o!3 c3>"
+            , vpan (range 0 127 (slow 3 rand )) # s "midi0"
+            , pitch (range 0 127 (slow 3 rand )) # s "midi0"
+            -- , lfomorph (range 0 127 (slow 3 rand )) # s "midi0"
+        ]
+        # midichan 0
+    # cps 0.65
+
+d1 
+    $ whenmod 16 15 (struct "t(5,8)" . (|- up "1 2 3 5 6"))
+    $ whenmod 16 8 (|+ up 7)
+    $ struct "<t(3,8,<0>) t>" $ stack [
+            s "[midi0]" # note "<c'min7'o!3 c3>"
+            , vpan (range 0 127 (slow 3 rand )) # s "midi0"
+            , pitch (range 0 127 (slow 3 rand )) # s "midi0"
+            -- , lfomorph (range 0 127 (slow 3 rand )) # s "midi0"
+        ]
+        # midichan 0
+    # cps 0.65
+
+d2
+    -- $ superimpose ((# s "superchip") . (|- up 24) . ply 2 . almostNever (struct "t" . (# accelerate 3)))
+    $ whenmod 16 8 (|- up 4)
+    -- $ every' 8 7 (struct "t(7,16)" . (|+ noteTake "bass" [1, 7, 8]) )
+    -- $ struct "t(3,8,<0 2>)"
+    $ struct "t"
+    $ s "bass1"
+    # shape 0.4
+    # cut 1
+    |- up 12
+
+-- thanks for having a listen :)
+
+d3
+    $ loopAt 4 
+    $ whenmod 16 14 (slice 16 "{0 0 2 [4!3 0*2] 4*2 5 6 <3 3*4>}%16")
+    $ while "{101000001000100001000100000000110000}%20" (ply "{1 1 1 1 [2|4] 1 1 1 1}%16")
+    $ degradeBy "^9"
+    $ slice 16 (run 16)
+    $ s "breakz"
+    # verb 0.4 0.4 0.1 0.1
+    # djfbus 12 "^8"
+
+d4
+    $ ply 2
+    $ degradeBy "^13"
+    $ whenmod 16 14 ((# pan (slow 2 saw)) . sometimes (ply 2) . (# note (run 17)) . (|+ note "<0 7 14>") . struct "t(16,11)")
+    $ whenmod 16 8 (|+ up 7)
+    $ struct "t*16"
+    $ rarely (# pan "[0|0.2|0.4|0.6|0.8|1]")
+    $ every' 4 3 ((# note (rev (run 17))) . struct "t(16,11)") 
+    $ s "arpy"
+    |+ up 12
+    # clouds "^2" "^6" "^10" "^14"
+    # cloudsblend 0.9 "^3" "^7" "^11"
+    # verb 0.9 0.9 0.1 0.1
+    # hcutoff 3000
