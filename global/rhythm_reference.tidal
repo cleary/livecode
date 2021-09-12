@@ -1,3 +1,4 @@
+-- https://www.rapidtables.com/convert/number/binary-to-decimal.html
 -- useful binary patterns
 00000001 = 1
 00001000 = 8
