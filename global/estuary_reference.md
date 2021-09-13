@@ -16,6 +16,12 @@
 !setcps x.y (set cps)
 ```
 
+# Add your own samples
+
+From  CORS compliant web server:
+
+https://github.com/dktr0/estuary/wiki#adding-sound-files-to-estuarywebdirt-on-the-fly-early-august-2021
+
 # JSoLang reuse vars example
 
 ## What is it?
