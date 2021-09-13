@@ -16,6 +16,25 @@
 !setcps x.y (set cps)
 ```
 
+# Minitidal effects available
+
+ - hcutoff
+ - cutoff
+ - pan
+ - gain
+ - bandf
+ - bandq
+ - vowel
+ - delay
+ - delaytime
+ - delayfeedback
+
+After activating unsafe mode:
+ - crush
+ - coarse
+ - shape
+
+
 # Add your own samples
 
 From  CORS compliant web server:
