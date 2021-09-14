@@ -5,6 +5,7 @@
   3. enter into the terminal: 
 
 ```
+!reslist "https://samples.grbt.com.au/resources.json"
 !listviews (see what views are available)
 !presetview n (choose one from above output)
 !publishview def (set current view as default for all users?)
