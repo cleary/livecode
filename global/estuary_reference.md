@@ -5,8 +5,6 @@
   3. enter into the terminal: 
 
 ```
-!reslist "https://samples.grbt.com.au/resources.json"
-!showresources
 !listviews (see what views are available)
 !presetview n (choose one from above output)
 !publishview def (set current view as default for all users?)
@@ -14,8 +12,14 @@
 !dumpview (see what current view code looks like)
 !localview audiomap (list all samples)
 !localview [] (show visuals only)
+```
+
+# estuary in-jam functions
+```
 !showtempo (query tempo)
 !setcps x.y (set cps)
+!reslist "https://samples.grbt.com.au/resources.json"
+!showresources
 ```
 
 # Minitidal effects available
