@@ -17,7 +17,7 @@
 # estuary in-jam functions
 ```
 !showtempo (query tempo)
-!setcps x.y (set cps)
+!setcps x.y (set cps, an fp number between 0 and 1 is a safe bet)
 !reslist "https://samples.grbt.com.au/resources.json"
 !showresources
 ```
