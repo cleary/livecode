@@ -47,7 +47,8 @@ d1 $ slow 1 $ s "wobble" <| n (run 1) -- deep bass freq
 d1 $ slow 2 $ s "h" <| n (run 7) -- short toddler words (mostly 'dad')
 d1 $ slow 6 $ s "vox" <| n (run 3) -- male voice long samples (la, ma ta), then pitch adjusted
 d1 $ slow 5 $ s "ver" <| n (run 20) -- male voice, spanish samples **not on the beat
-d1 $ slow 5 $ s "write" <| n (run 28) -- female voice, talking about writing, eggplants
+d1 $ slow 5 $ s "watch" <| n (run 38) -- female voice, short statements
+d1 $ slow 5 $ s "write" <| n (run 28) -- female voice, short statements about writing, eggplants
 d1 $ slow 1 $ s "xmas" <| n (run 1) -- male radio voice "merry xmas"
 
 -- jamie-lidell-iso
