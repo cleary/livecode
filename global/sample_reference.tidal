@@ -11,6 +11,7 @@ d1 $ slow 2 $ s "pluck" <| n (run 16) -- double bass, pitch in filename, 5=C3, v
 d1 $ slow 2 $ s "sawg" <| n (run 1) -- c4 beating synth sound
 d1 $ slow 2 $ s "sax" <| n (run 21) -- sax long notes, pitch in filename, 5 = C2
 d1 $ slow 2 $ s "sid" <| n (run 12) -- various synth sounds,1=~G1 3=C4 >7=perc
+d1 $ slow 6 $ s "volver" <| n(run 6) -- airtube sounds, 0=B3 1=? 2=F2 3=G2 4=? 5=B3 warble
 
 -- Dirt-Samples
 -- +percussion
