@@ -46,6 +46,7 @@ d1 $ slow 1 $ s "wobble" <| n (run 1) -- deep bass freq
 d1 $ slow 2 $ s "h" <| n (run 7) -- short toddler words (mostly 'dad')
 d1 $ slow 6 $ s "vox" <| n (run 3) -- male voice long samples (la, ma ta), then pitch adjusted
 d1 $ slow 5 $ s "ver" <| n (run 20) -- male voice, spanish samples **not on the beat
+d1 $ slow 5 $ s "write" <| n (run 28) -- female voice, talking about writing, eggplants
 
 -- jamie-lidell-iso
 d1 $ slow 2 $ s "lidvox" <| n (run 23) -- CMaj scale 3+ octaves from C4, # legato
