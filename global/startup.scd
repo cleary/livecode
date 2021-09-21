@@ -5,12 +5,12 @@ but a backup copy will exist in the same dir as this file
 */
 
 // The following section is required for mapping MIDI -> OSC.
-// BEGIN MIDI INPUT SECTION 1 OF 2
+// BEGIN MIDI INPUT SECTION 1 OF 3
 
 var on, off, cc;
 var osc;
 
-// END MIDI INPUT SECTION 1 OF 2
+// END MIDI INPUT SECTION 1 OF 3
 
 (
 s.reboot { // server options are only updated on reboot
@@ -34,6 +34,7 @@ s.reboot { // server options are only updated on reboot
     		~dirt.loadSoundFiles("/home/bernie/Music/Samples/samples-extra/*");
     		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/dirt-jv1080/*");
     		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/dirt-impulse/*");
+    		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/supercontinent/*");
     		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_individual_dir/*");
 
 		// s.sync; // optionally: wait for samples to be read
@@ -56,8 +57,9 @@ s.reboot { // server options are only updated on reboot
 
           );
 
+
         // The following section starts mapping MIDI -> OSC.
-        // BEGIN MIDI INPUT SECTION 2 OF 2
+        // BEGIN MIDI INPUT SECTION 2 OF 3
         osc = NetAddr.new("127.0.0.1", 6010);
 
         MIDIClient.init;
@@ -84,7 +86,7 @@ s.reboot { // server options are only updated on reboot
             off.free;
             cc.free;
         };
-        // END MIDI INPUT SECTION 2 OF 2
+        // END MIDI INPUT SECTION 2 OF 3
 
         // optional, needed for convenient access from sclang:
         (
@@ -107,7 +109,11 @@ s.reboot { // server options are only updated on reboot
 	};
 
 	s.latency = 0.3; // increase this if you get "late" messages
+
+	// BEGIN MIDI INPUT SECTION 3 OF 3
 	load("/home/bernie/source/livecode/global/midi_input.scd");
+    // END MIDI INPUT SECTION 3 OF 3
+
 };
 );
 
