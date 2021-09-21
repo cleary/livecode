@@ -1,0 +1,69 @@
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    mel1 = "0 3 [4 5] [8 7]"
+
+let pat = "100010001011"
+
+d1
+    $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+    $ struct "t*12"
+    $ stack [  
+        s "midi0"
+        # note (scale "minor" 
+            (bass + (floor <$> range 0 14 (slow 4 sine))
+              - (floor <$> range 0 6(fast 3 cosine))
+              - (floor <$> range 0 6(fast 2 tri)))
+            )
+    ]
+    # midichan 0    |- up 12 
+
+
+-- thanks for listening :)
+
+do
+    d3 $ silence
+    d4 $ silence
+    d5 $ silence
+
+    d1
+        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        $ struct "t*12"
+        $ stack [  
+            s "midi0"
+            # note (scale "minor"
+                (bass + (floor <$> range 0 14 (slow 5 sine))
+                  - (floor <$> range 0 6(fast 3 cosine)))
+                  -- - (floor <$> range 0 6(fast 2 tri)))
+                )
+        ]
+        # midichan 0    |- up 12 
+
+
+d2
+    $ almostNever (ply 2)
+    $ stack [
+        s "<[[[bd, 808bd ]~ ~] ~ ~ ~] ~ >",
+        struct pat $ s "bd" # gain 0.9,
+        s "~ sd/2"
+    ]
+    # shape 0.5
+    # speed (cF 1 "0")
+
+d3 silence
+
+    $ stack [
+        s "<[[~ ~ [bd, 808bd]] ~ ~ ~] ~ >"
+    ]
+    # verb 0.0 0.0 0.1 0.1
+    # orbit 1
+    # shape 0.5
+
+d4 
+    $ sometimes (ply 2)
+    $ s "[hc*12, [~!10 ho/4 ~ ]]" |< n (irand 4)
+    # gain (stitch pat "1" "0.85")
+    # hcutoff 6000
+    # legato 0.9
+
+
+-- mutes aren't working on my midi fighter :(
+-- this will be a rough attempt at some soloing
