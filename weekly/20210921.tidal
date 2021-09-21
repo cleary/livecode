@@ -1,4 +1,5 @@
 -- replay: https://youtu.be/t2VVTiAuAkE
+-- midi0: Vital/Growl Bass Sidechain
 
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     mel1 = "0 3 [4 5] [8 7]"
@@ -48,10 +49,8 @@ d2
         s "~ sd/2"
     ]
     # shape 0.5
-    # speed (cF 1 "0")
 
-d3 silence
-
+d3
     $ stack [
         s "<[[~ ~ [bd, 808bd]] ~ ~ ~] ~ >"
     ]
