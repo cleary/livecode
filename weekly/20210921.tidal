@@ -22,25 +22,6 @@ d1
 
 -- thanks for listening :)
 
-do
-    d3 $ silence
-    d4 $ silence
-    d5 $ silence
-
-    d1
-        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-        $ struct "t*12"
-        $ stack [  
-            s "midi0"
-            # note (scale "minor"
-                (bass + (floor <$> range 0 14 (slow 5 sine))
-                  - (floor <$> range 0 6(fast 3 cosine)))
-                  -- - (floor <$> range 0 6(fast 2 tri)))
-                )
-        ]
-        # midichan 0    |- up 12 
-
-
 d2
     $ almostNever (ply 2)
     $ stack [
