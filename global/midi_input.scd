@@ -1,3 +1,6 @@
+// Modified from: https://tidalcycles.org/docs/configuration/MIDIOSC/osc/#control-all-patterns
+// to remove state tracking, which is handled onboard my midi controller
+
 // Evaluate the block below to start the mapping MIDI -> OSC.
 // this is specific to my Midi Fighter Twister setup
 // Note: you can also load this in your supercollider startup.scd by adding
