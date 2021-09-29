@@ -9,7 +9,7 @@ start terminal in our split `nvim` pane: `:terminal`
 
 connect [read-only twitch chat](https://github.com/dongy7/twitch-chat-cli) in an `nvim` pane: `tc connect clearyss`
 
-leave insert mode when in terminal: `<C-\><C-n>`
+leave insert mode when in terminal: `<ctrl+\><ctrl+n>`
 
 resize pane vertically in `nvim`: `<ctrl+w> N[+|-]`
 
