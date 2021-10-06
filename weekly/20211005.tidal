@@ -1,3 +1,5 @@
+-- replay: https://youtu.be/p82e2TlA7EU
+
 d1
     $ whenmod 8 6 (chunk 4 (brak))
     $ every 4 (|* gain "1 1 [1 0 0 0] 0" )
