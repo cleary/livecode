@@ -1,3 +1,7 @@
+# estuary development server (unreliable, but in case of emergency)
+
+https://intramuros.mcmaster.ca/
+
 # estuary view functions 
 
   1. open a new browser tab at https://estuary.mcmaster.ca
