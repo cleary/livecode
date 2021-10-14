@@ -1,0 +1,63 @@
+-- replay: https://youtu.be/h6BtQGrt0BU
+-- synth: vital
+
+
+let eqlo pat = ccv pat # ccn 1 
+    eqhi pat = ccv pat # ccn 4 
+	pitch pat = ccv pat # ccn 2
+    vpan pat = ccv pat # ccn 3
+
+d1 silence
+
+    $ whenmod 5 3 (struct "[t*12]@3" . (# note (arp "down" "<<c3'dim7'12@3 c4'dim7'12@3> ~@5>") ))
+    $ whenmod 16 8 (|+ up 7)
+    $ slow 2 $ struct "t" $ stack [
+            s "[midi0]" # note "<c'min7'o!3 c3>"
+            , vpan (range 0 127 (slow 3 rand )) # s "midi0"
+            -- , eqhi (segment 128 $ range 0 127 (slow 3 rand )) # s "midi0"
+            -- , eqlo (segment 128 $ range 0 127 (slow 3 rand )) # s "midi0"
+            -- , pitch (range 0 127 (slow 3 rand )) # s "midi0"
+            -- , lfomorph (range 0 127 (slow 3 rand )) # s "midi0"
+        ]
+        # midichan 0
+    # cps 0.65
+
+d2 
+    $ every 16 (|- up 5)
+    $ s "lober:35/4"
+    # legato 1.05
+    # ampbus 1 (stitch (binary 170) "^0" "^1")
+    # verb 0.7 0.8 0.1 0.1
+
+d3
+    $ rarely (chunk 4 (hurry 2))
+    -- $ struct (binary 170)
+    -- $ s "[bd, 808bd:1/4, hit:0?0.9]"
+    $ s "<jungbass:7 sd>"
+    -- |- up 12
+    # gain (1.2 * "^8")
+    # verb 0.7 0.8 0.1 0.1
+    # pan "<0.1 0.9>"
+    -- # clouds 0.5 0.6 0.4 0.4
+    -- # cloudsblend 0.9 0.8 0.4 0.6
+
+quieten
+
+-- thanks for listening
+
+
+d4 
+    $ sometimes (# orbit 3) 
+    $ whenmod 8 6 (fast 2 . (|+ n (scan 4)))
+    $ someCycles (pan "0.1 0.8 0.1 0.8 0.1"
+    $ sometimes (chunk 4 (hurry 2))
+    $ struct "<t(<5 7>,8,<0 1 2>) [~ t ~ t*2] [t [~ t]!3]>"
+    $ s "[glitch]" |< n (irand 8)
+    # gain "^12"
+
+d5 
+    $ sometimes (ply 2)
+    $ struct "[~ t]!2"
+    $ s "ho"
+    # crush 3
+    # hcutoff "{1000 3000}%3"
