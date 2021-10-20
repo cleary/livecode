@@ -14,15 +14,9 @@ d1
 -- segment
 
 -- ur
-let pats = 
-        [
-            ("a", 
-                (struct "t*4" $ s "auto") 
-                # nTake "auto" [4..11]
-            )
-            , ("b",
-                (struct "t(<9 11>, 16, <0 3>)" $ s "amencutup")
-            )
+let pats = [
+              ("a", s "auto*4" |< nTake "auto" [4..11])
+            , ("b", s "amencutup(<9 11>, 16, <0 3>)")
         ]
     fx = [
             ("hp", (# hcutoff 6000))
