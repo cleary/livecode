@@ -24,6 +24,8 @@ https://intramuros.mcmaster.ca/
 !setcps x.y (set cps, an fp number between 0 and 1 is a safe bet)
 !reslist "https://samples.grbt.com.au/resources.json"
 !showresources
+!defaultresources (return to initial state of server provided resources)
+!clearresources (blank slate resource-wise)
 ```
 
 # Minitidal effects available
