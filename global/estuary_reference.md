@@ -41,6 +41,8 @@ https://intramuros.mcmaster.ca/
  - delay
  - delaytime
  - delayfeedback
+ - begin
+ - end
 
 After activating unsafe mode:
  - crush
