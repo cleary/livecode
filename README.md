@@ -37,10 +37,6 @@ code archive from my (approx) weekly [twitch livestream](https://twitch.tv/clear
 
 video highlights/archives on [youtube](https://www.youtube.com/channel/UC2p7hQGQ7BG1UUQjEqHHvVA?view_as=subscriber)
 
-### workshop/*
-
-tutorial worksheets for use in an educational context
-
 ### xmin-challenge/*
 
 patterns that I've forced myself to develop within a time limit
