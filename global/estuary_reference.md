@@ -16,6 +16,7 @@ https://intramuros.mcmaster.ca/
 !dumpview (see what current view code looks like)
 !localview audiomap (list all samples)
 !localview [] (show visuals only)
+!localview $ grid 2 2 [iFrame "https://en.wikipedia.org/wiki/4hero",code 0 0,code 1 0,iFrame "https://en.wikipedia.org/wiki/4hero"] (display `iframes` in cells, checkout vdo.ninja)
 ```
 
 # estuary in-jam functions
@@ -40,6 +41,8 @@ https://intramuros.mcmaster.ca/
  - delay
  - delaytime
  - delayfeedback
+ - begin
+ - end
 
 After activating unsafe mode:
  - crush
