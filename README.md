@@ -1,5 +1,5 @@
 # livecode
-repository for my Tidalcycles, Supercollider (and potentially other languages) livecoded musical journey
+repository for my Tidalcycles, Estuary, Supercollider (and potentially other languages/environments) livecoded musical journey
 
 ## hints and reminders for myself
 
