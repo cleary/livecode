@@ -1,0 +1,52 @@
+-- planning for longest night set
+-- https://night.tidalcycles.org
+
+-- include
+-- - https://github.com/cleary/livecode/blob/main/weekly/20210921.tidal
+-- midi0: Vital/Growl Bass Sidechain
+
+-- longestnight todo:
+  -- fix rhythm  - breaks and/or beats?
+  -- legato on d1?
+
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    mel1 = "0 3 [4 5] [8 7]"
+    pat = "100010001011"
+    midihcut ccpat = ccv ccpat # ccn 28
+
+d1
+    -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+    $ struct "t*12"
+    $ stack [
+        s "midi0"
+        # note (scale "minor" (bass
+              + (floor <$> range 0 14 (slow 4 sine))
+              - (floor <$> range 0 6(fast 3 cosine))
+              - (floor <$> range 0 6(fast 2 tri))
+              )
+            )
+        , midihcut "100" # s "midi0"
+    ]
+    # midichan 0 |- up 12 
+    -- # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
+
+d2
+    -- $ almostNever (ply 2)
+    $ stack [
+        s "<[[[808bd:1, clubkick ]~ ~] ~ ~ ~] ~ >",
+        struct pat $ s "clubkick" # gain 0.9,
+        sometimes (stut 2 0.9 (0.125/2)) $
+        s "~ sd/2"
+          -- # delay 1 # delaytime 0.1 # delayfb 0.8
+    ] # shape 0.5
+
+d3
+    $ stack [
+        s "<[[~ ~ [bd, 808bd]] ~ ~ ~] ~ >"
+    ] # verb 0.0 0.0 0.1 0.1 # shape 0.5
+    # orbit 1
+
+d4 
+    $ sometimes (ply 2)
+    $ s "[hc*12, [~!10 ho/4 ~ ]]" |< n (irand 4)
+    # gain (stitch pat "1" "0.85") # hcutoff 6000 # legato 0.9
