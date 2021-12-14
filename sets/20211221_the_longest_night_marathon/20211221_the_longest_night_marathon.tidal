@@ -14,6 +14,8 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     pat = "100010001011"
     midihcut ccpat = ccv ccpat # ccn 28
 
+-- all $ swingBy 0.1 4 . (someCyclesBy 0.3 (linger "[ t | q]"))
+
 d1
     -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
     $ struct "t*12"
@@ -21,25 +23,25 @@ d1
          almostNever (# legato 1.1)
          $ s "midi0"
          # note (scale "minor" (bass
-               -- + (floor <$> range 0 14 (slow 4 sine))
-               -- - (floor <$> range 0 6(fast 3 cosine))
+               + (floor <$> range 0 14 (slow 4 sine))
+               - (floor <$> range 0 6(fast 3 cosine))
                )
              )
          --, midihcut "100" # s "midi0"
          # legato "<[0.2 1.1 0.2] 0.2 1 <1.1 1>>"
          # pan 0.2
-         -- , 
-         -- someCyclesBy 0.3 (linger "[ t | q]") $ 
-         -- s "[flbass | flbass:14]"
-         -- # note (scale "minor" (bass
-         --       + (floor <$> range 0 14 (slow 4 sine))
-         --       - (floor <$> range 0 6(fast 3 cosine))
-         --       )
-         --     ) # cut 1 # crush 2
-         -- # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
-         -- # verb 0.6 0.5 0.1 0.2
-         -- # gain 1.1
-         -- # pan 0.8
+         , 
+         someCyclesBy 0.3 (linger "[ t | q]") $ 
+         s "[flbass | flbass:14]"
+         # note (scale "minor" (bass
+               + (floor <$> range 0 14 (slow 4 sine))
+               - (floor <$> range 0 6(fast 3 cosine))
+               )
+             ) # cut 1 # crush 2
+         # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
+         # verb 0.6 0.5 0.1 0.2
+         # gain 1.1
+         # pan 0.8
     ]
     # midichan 0 |- up 12 
     # cps 0.4
@@ -59,10 +61,20 @@ d2
 let kickpat = "[111011]"
 in
 d2
-    $ someCyclesBy 0.3 (linger "[ t | q]")
+    -- $ someCyclesBy 0.3 (linger "[ t | q]")
     $ stack [
-        sometimes (ply 2) $ struct kickpat $ "[bd:4, clubkick]"
-        , every 4 (ghost) $ rarely (fast 2) $ struct (inv kickpat) $ s "sd"
-        , sometimesBy 0.2 (plyWith "[2|3|6]" ((# delay 1) . (# delayfb 0.9) . (# delaytime (1/6)))) $ fast 2 $ struct "011011" $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" # hcutoff (stitch "{100100101}%12" "0" "8000") 
+        -- someCycles (struct ((binary "[4 0 0 0 3 0 0 0 4 0 4 5]"))) $
+        someCyclesBy 0.3 (mask "100001") $ sometimes (ply 2) $ struct kickpat $ "[bd:4, clubkick]"
+        , s "realclaps?"
+        , almostNever (slow 1.5 . rev . plyWith "[8|12|4]" (# gain 0.85)) $ rarely (fast 2) $ struct (inv kickpat) $ s "[sd, realclaps?]" # gain 1.1
+        , sometimesBy 0.2 (plyWith "[2|3|6]" ((# gain 0.7) )) $ fast 2 $ struct "1[[11]0]10[11]0" $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" # hcutoff (stitch "{100100101}%10" "0" "8000") 
     ] # shape 0.5
-    # verb 0.9 0.7 0.1 0.2
+    # verb 0.7 0.7 0.1 0.2
+
+
+-- include:
+-- - palau
+
+d1
+    $ slow 2 $ note "<f'maj c'min bf'maj f'maj>"
+    # s "braids"
