@@ -5,34 +5,34 @@
 -- - https://github.com/cleary/livecode/blob/main/weekly/20210921.tidal
 -- midi0: Vital/Growl Bass Sidechain
 
--- longestnight todo:
-  -- fix rhythm  - breaks and/or beats?
-  -- legato on d1?
-
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     mel1 = "0 3 [4 5] [8 7]"
     pat = "100010001011"
     midihcut ccpat = ccv ccpat # ccn 28
 
--- all $ swingBy 0.1 4 . (someCyclesBy 0.3 (linger "[ t | q]"))
+all $ swingBy 0.0 6 -- . (# cps 0.3) -- . (someCyclesBy 0.3 (linger "[ t | q]"))
+
 
 d1
     -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+    -- $ fast (2/3)
     $ struct "t*12"
     $ stack [
-         almostNever (# legato 1.1)
-         $ s "midi0"
+         almostNever (# legato 1.1) $
+         -- whenmod 16 12 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
+         s "midi0"
          # note (scale "minor" (bass
                + (floor <$> range 0 14 (slow 4 sine))
                - (floor <$> range 0 6(fast 3 cosine))
                )
              )
+         # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
          --, midihcut "100" # s "midi0"
-         # legato "<[0.2 1.1 0.2] 0.2 1 <1.1 1>>"
          # pan 0.2
          , 
          someCyclesBy 0.3 (linger "[ t | q]") $ 
-         s "[flbass | flbass:14]"
+         s "[flbass | flbass:14?]"
+         -- s "[ flbass:14]"
          # note (scale "minor" (bass
                + (floor <$> range 0 14 (slow 4 sine))
                - (floor <$> range 0 6(fast 3 cosine))
@@ -48,28 +48,37 @@ d1
 
 -- off beats
 let kickpat = "<[[11]00000] [1000100]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 d2
+    $ someCyclesBy 0.4 (mask kpat2 . (# verb 0 0 0 0) . (sometimes ((ply "[3 | 2 | 1]") . (# pan (rand)) . (# legato 0.5)) ) . (rarely (# speed "-0.5")) )
     $ someCyclesBy 0.1 (plyWith 2 ("t" <~))
     $ stack [
         struct kickpat $ s "[realclaps?, bd:4, clubkick, 808bd:1?]"
-        -- , degradeBy 0.89 $ struct (inv kickpat) $ s "[sd]" |< n (irand 5)
+        , degradeBy 0.89 $ struct (inv kickpat) $ s "[sd]" |< n (irand 5) # speed 0.3
     ] # shape 0.5
-    # verb 0.9 0.7 0.1 0.2
+    # verb 0.9 0.9 0.1 0.2
+    # cutoff 2000
+    # crush 3
+
+
 
 -- drive beat
 let kickpat = "[111011]"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 d2
     -- $ someCyclesBy 0.3 (linger "[ t | q]")
     $ stack [
-        -- someCycles (struct ((binary "[4 0 0 0 3 0 0 0 4 0 4 5]"))) $
-        someCyclesBy 0.3 (mask "100001") $ sometimes (ply 2) $ struct kickpat $ "[bd:4, clubkick]"
+        someCyclesBy 0.7 (mask kpat2)
+        $ sometimes (ply 2) $ struct kickpat $ "[bd:4, clubkick]"
         , s "realclaps?"
         , almostNever (slow 1.5 . rev . plyWith "[8|12|4]" (# gain 0.85)) $ rarely (fast 2) $ struct (inv kickpat) $ s "[sd, realclaps?]" # gain 1.1
-        , sometimesBy 0.2 (plyWith "[2|3|6]" ((# gain 0.7) )) $ fast 2 $ struct "1[[11]0]10[11]0" $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" # hcutoff (stitch "{100100101}%10" "0" "8000") 
+        , sometimesBy 0.2 (plyWith "[2|3|6]" ((# gain 0.7) )) $ fast 2 $ struct "1[[11]0]10[11]0" $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" # hcutoff (stitch "{100100101}%10" "10000" "8000") 
     ] # shape 0.5
-    # verb 0.7 0.7 0.1 0.2
+    # verb "^0" "^1" 0.1 0.2
+    # speed (range 0.5 2 "^4")
+    # cps (range 0.2 1.2 "^5")
 
 
 -- include:
@@ -78,3 +87,70 @@ d2
 d1
     $ slow 2 $ note "<f'maj c'min bf'maj f'maj>"
     # s "braids"
+
+-- include
+-- - https://raw.githubusercontent.com/cleary/livecode/main/weekly/20210526.tidal
+
+d1
+    $ whenmod 32 30 (iter' 4 . jux rev . density "[1.5]")
+    $ whenmod 41 39 (iter' 2 . jux rev . density "[0.7]")
+    $ (struct "t*2 t*3 t*4 t*3"
+    $ note (arp "down" "<c'min11'20 ~ ~ df'min13'19 ~ ~ ~ ~ ~ ~>")
+    -- $ note (arp "down" "<<c'min11'20 df'min13'19> ~ ~ ~ ~>")
+    # s "superpiano")
+    # nudge (range "-0.025" 0.075 ((slow 3 sine) + cosine))
+    # sustain 5
+    # lpf 2000
+    # octave 4
+    # cps "<0.32!4 0.45>"
+    # pan 0.8
+    # verb 0.8 0.6 0.1 0.1
+    # orbit 0
+
+let gate = "<t(<11 9>,16,<0 3>)>"
+    abgate = (smooth $ stitch (inv gate) 0.5 0)
+in
+d3 
+    -- $ whenmod 8 0 (struct "<[t [~ t] t ] [~ t [~ t] t]>")
+    $ someCyclesBy 0.3 (# lpfbus 3 (rangex 200 2000 (saw)))
+    $ whenmod 32 30 (iter' 4 . jux rev . density "<0.2 [0.2@3 1@1]>" . (# cut 1) . (arp "up") )
+    $ somecyclesBy 0.3 (degradeBy 0.8)
+    $ every 7 (iter' 4 . jux rev . density "2" . (# cut 1) . (arp "down up"))
+    $ every "<9 17>" ((# ampbus 1 abgate) )
+    $ struct "<[t ~ [~ t] t ] < [~ t [~ t] t]!3 ~>  >"
+    $ note (arp "<converge down disconverge down up >" "<c4'min'8!3 df4'min'8!2>")
+    # s "{flbass flbass:6 flbass flbass flbass:6 flbass}%5"
+    # lpf 200
+    # verb 0.6 0.7 0.1 0.1
+    # pan 0.3
+    # cut 1
+
+d4 
+    -- $ sometimesBy 0.2 (off 0.5 ((|+ up 12) . (|+ n 5) . (# accBy 4)) )
+    $ sometimesBy 0.95 ( (|+ up 14) . (# ampbus 6 (stitch (binaryN 16 43690) "0" "0.5")))
+    $ n (scale "minor" "< ~ ~ ~ ~ ~ <11?0.4 ~> ~ <12 ~> ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~>")
+    -- $ n (scale "minor" "< <11?0.4 ~> ~ <12 ~> >")
+    # s "lidvox"
+    # verb 0.9 0.9 0.1 0.1
+    # clouds 0.4 0.6 0.2 0.7
+    # cloudsblend 0.9 0.9 0.4 0.3
+    # ampbus 1 (smooth $ "0 0.5 0.3!3")
+    # gain 0.8
+    # hcutoff 1000
+    # cut 1
+    # panbus 5 (range "-1" 1 (slow 3 sine))
+
+d5 
+    $ whenmod 32 30 (# silence)
+    $ stack [
+        stutWith 8 0.25 ((* gain 0.8) . (# begin 0.1))
+        $ almostNever (# accelerate "-0.5")
+        $ struct "<~ ~ t ~ ~>"
+        $ s "cr:5"
+        # hcutoff 4000
+        # speed 0.3
+        # rings 0.8 0.8 0.4 0.8 0.3
+        , almostNever (ply 2) $ struct "<[t ~ [~ t] t ] [~ t [~ t] t]>" $ s "[dr_few?, bd, 808bd:1/5]" 
+        , someCyclesBy 0.12 (plyWith 2 (0.25 <~)) $ someCyclesBy 0.1 (ghost . (# pan (rand) )) $ (struct "~ t" $ s "sd") |< n (irand 3) # end "0.1" # hcutoff 2000
+    ]
+    # verb 0.6 0.7 0.1 0.1
