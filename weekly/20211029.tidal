@@ -1,0 +1,190 @@
+d1
+    -- $ almostNever (zoom (0.25, 0.9))
+    $ every 11 ( ply "2 3 4" . (# legato 0.7))
+    $ every 4 (scramble 7 . (|* gain "1 0 1 <0 1>") . rev)
+    -- $ every 7 (slice 7 (rev (run 7)))
+    $ someCycles (scramble 4) 
+    $ every 8 (# speed "-1 1 -1")
+    $ foldEvery [9,10] (|+ up "<2 -1>")
+    -- $ chunk 4 (hurry 2)
+    -- $ slice 7 (run 7)
+    $ stack [
+            s "<cpdlee ~ [~ ~ ~ cpdlee@4] cpdlee >"
+            # cps 0.33
+            |+ up "<[0 2 7 1] 0!5 >"
+            # clouds "^2" "^6" "^10" "^14"
+            # cloudsblend 0.9 "^1" "^5" "^9"
+            , s "amencutup" # n (run 4)
+            , s "[bd(3,8), hc*16?]" # gain "{1 0.8 0.7}%4" 
+    ]
+    # cps 0.666 # verb 0.7 0.5 0.1 0.1
+
+d2
+    $ struct "<[1001010] [1100110] [0100010]>"
+    $ s "[bd, 808bd:1]"
+    # verb 0.6 0.6 0.1 0.1
+
+d3
+    $ ply 2
+    $ every 8 (rev . plyWith 3 (|* gain 0.8))
+    $ mask (binaryN 16 47389) $ struct (inv "<[100100<10>] [1100110] [0100010]>")
+    $ s "[bd:5]"
+
+d4
+    $ whenmod 16 8 (slice 64 (run "[8|16]") . (someCycles (jux (palindrome))))
+    $ rarely (# legato 0.5 )
+    $ loopAt 8
+    $ s "breph:4"
+
+
+    $ fast 2
+    $ every' 16 15 (fast 2 . (# n (run 12)) . brak)
+    $ slow 1
+    -- $ struct ("<[110[11][011]11]>")
+    $ struct (inv "<[1001010>] [1100110] [0100010]>")
+    $ s "glitch:2"
+    # gain (stitch (binary 149) "1.0" "0.8")
+    # legato 0.5
+
+d4
+    $ (0.125 <~) $ s "[~ snap ]"
+    # n (irand 4)
+    # verb 0.6 0.6 0.1 0.1
+
+d4
+    $ whenmod 16 14 (rev . (plyWith 8 (|* gain 0.8)))
+    $ every 7 (ply "[2|3]")
+    $ every 5 (fast 2)
+    $ struct "0000<10>0<00>"
+    $ s "[sd]"
+    # gain 0.9
+    # verb 0.6 0.6 0.1 0.1
+
+d5 silence
+
+    $ rarely (# hcutoff "[0|1000|0]")
+    $ foldEvery [9,10] (|+ up "<2 -1>")
+    $ stack [
+            struct "<1 [0101010]>"
+            $ almostNever (# detune 0.8)
+            $ someCyclesBy 0.1 (# note "cf'dim")
+            $ every 3 (# voice (irand 7))
+            $ note "{c'min'o c'min9 c'min7'ii}%2.5" 
+            # s "[superzow, superhammond]"
+            # voice 6
+            # octave 5
+            # legato "<0.25 1.5 1>"
+            , 
+            struct "<1 [0101010]>"
+            $ note "c"
+            # s "supercomparator"
+            # octave 3
+            # voice 0.2
+            # resonance (range 0 1 (slow 5 sine))
+            # pitch1 0.7
+            # lfo 0.6
+    ] 
+    # cutoff "[300|20000|500]"
+    # ampbus 0 (stitch "<[100100<10>] [1100110] [0100010]>" "0.3" "0.5")
+
+let eqlo pat = ccv pat # ccn 1 
+    eqhi pat = ccv pat # ccn 4 
+	pitch pat = ccv pat # ccn 2
+    vpan pat = ccv pat # ccn 3
+
+let pats = [
+            ("a", note "{0 3 7}%16" |+ note "<8 <7 [7 6] 7> 5 7>" # s "omi"),
+            ("b", note "{0 4 7}%16" |+ note "<0 5 8 <7 [1 -1]>>" # s "braids")
+        ]
+in
+xfade 1 
+    $ mask (binaryN 16 "<24080 16480 178 65535?0.2>") 
+    $ ur 32 "a b" pats []
+    # harm "^0"
+    # slope "^1"
+    # engine (floor <$> range 0 15 ("^15"))
+    -- # eqhi (segment 128 $ range 0 127 (slow 3 rand )) # s "midi0"
+    -- # eqlo (segment 128 $ range 0 127 (slow 3 rand )) # s "midi0"
+    -- # vpan (range 0 127 (slow 3 rand )) # s "midi0"
+
+let pats = [
+            ("a", note "{0 3 <7 9>}%16" |+ note "<8 <7 [7 6] 7> 5 7>" # s "tides"),
+            ("b", note "{0 4 7}%16" |+ note "<0 5 8 <7 [1 -1]>>" |+ note "7" # s "tides")
+        ]
+in
+d1 
+    -- $ mask (binaryN 16 "<24080 16480 178 65535?0.2>") 
+    $ rarely (|+ octave "[1|2]")
+    $ stut 4 0.8 (1/8)
+    $ ur 32 "a b" pats []
+    # verb 0.5 0.5 0.1 0.1
+    # harm "^0"
+    # slope "^1"
+    # tidesshape "^4"
+    # tidessmooth "^2"
+    # shift "^3"
+    # octave "2@0.125 5@1.875 <[2@0.125 5@1.875] [5@0.125 2@0.25 4@0.525]>"
+    # color "^5"
+    # legato 3
+    # timbre "^6"
+    # mode (slow 7 (run 8))
+
+
+
+
+
+
+
+
+
+-- off
+let pats = [
+            ("a", note "[0 ~ 3 ~ [7|10]]" |+ note "<8 <7 [7 6] 7> 5 7>" # s "tides"),
+            ("b", note "[0 ~ 4 ~ [9|11]]" |+ note "<0 5 8 <7 [1 -1]>>" |+ note "7" # s "tides")
+            -- ("a", note "[0 ~ 4 ~ [7|10]]" |+ note "<8 <7 [7 6] 7> 5 7>" # s "tides"),
+            -- ("b", note "[0 ~ 4 ~ [7|10]]" |+ note "<0 5 8 <7 [1 -1]>>" # s "tides")
+        ]
+in
+d3  
+    -- $ stut 9 0.6 0.09
+    $ whenmod 4 2 (rev)
+    $ struct "<t [t@3  [ t t]@1]>"
+    $ ur 32 "a b" pats []
+    # verb 0.5 0.5 0.1 0.1
+    # harm "^0"
+    # slope "^1"
+    # tidesshape "^4"
+    # tidessmooth "^2"
+    # shift "^3"
+    # octave (choose [2, 3])
+    # color "^5"
+    # legato 3
+    # release 5
+    # sustain 5
+    # timbre "^6"
+
+d2 
+    $ someCyclesBy 0.2 (struct "11111111" . slice 8 (irand 6))
+    $ every' 32 30 (brak)
+    $ whenmod 8 7 (slice 8 "0 0*2 1 4 4 0 0*2 ~")
+    $ loopAt 2
+    $ s "breakz:2"
+    # verb 0.5 0.5 0.1 0.1
+
+d1 $ s "auto*4" 
+                |< nTake "auto" [4..11]
+
+
+
+let pats = [
+              ("a", s "auto*4" |< nTake "auto" [4..11])
+            , ("b", slow 4 $ s "amencutup(<9 11>, 16, <0 3>)")
+        ]
+    fx = [
+            ("hp", (# hcutoff 6000))
+            , ("lp", (# hcutoff 200))
+            , ("cl", ((# clouds 0.4 0.4 0.05 0.6) . (# cloudsblend 0.5 0.7 0.3 0.7)))
+            , ("vb", (# verb 0.6 0.7 0.1 0.1))
+        ]
+in
+d1 $ ur 12 "a a:lp b:vb b:lp" pats fx

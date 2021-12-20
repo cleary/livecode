@@ -1,0 +1,165 @@
+-- replay: https://youtu.be/fsQbGKbyzYs
+
+do
+  d1 silence
+  d2 silence
+  d3 silence
+
+do
+    d4 silence
+    d5 silence
+    d6 silence
+    d7 silence
+    d8 silence
+
+  -- This jam has been heavily inspired by this set from c_robo_
+  -- https://www.youtube.com/watch?v=C1VllAWKadw
+  -- please check it out at some point :)
+
+d1 
+    $ stack [
+            struct "<t t t [t*2 t*4]>"
+            $ s "clubkick"
+            , every' 4 3 (ghost) $ s "sd"
+            , ply "<2 4 2 4 6>" $ s "hc*4" # hcutoff 7000 # gain "{0.8 0.9 0.7 0.5}%12"
+        ]
+    # verb 0.6 0.6 0.1 0.1
+
+    $ while "{0100010100001010010111010001011}%20" (# gain 0.3)
+    $ chop 16
+    $ loopAt 4 $ s "br155"
+    # rings 0.9 0.8 0.6 0.5 0.9
+    # gain 0.9
+
+
+d2 silence
+
+    $ rarely (ply "2")
+    $ whenmod 16 14 (struct "t*4 t(11,16)")  
+    $ chop 16
+    $ loopAt 4 $ s "br155"
+    # cutoff (rangex 50 20000 "^1")
+    # verb 0.6 0.6 0.1 0.1
+    # coarse 5
+
+d3 silence
+
+    $ whenmod 16 15 (struct "t*4 t(3,8)")  
+    $ almostNever (0.25 ~>)
+    $ someCyclesBy 0.1 (rev . plyWith "<[0 [6|8|4] 0 0] [0 0 0 [6|8|4] 0 0]>" (* gain 0.9))
+    $ chop 32
+    $ loopAt 4 $ s "br155"
+    # hcutoff 1000
+    # verb 0.6 0.6 0.1 0.1
+
+all $ linger ("<5 3 3 [8 <1 0.5>] 8>"/8) . chop 4
+
+all $ plyWith 2 (0.25 <~)
+
+all $ chunk 4 (hurry 2)
+
+all $ linger "1"
+
+d4 
+    $ someCyclesBy 0.2 (rev)
+    $ someCyclesBy 0.1 (slice 8 "~ [<3 [1 2]> 5!5 6 7]")
+    $ sometimesBy 0.1 (rev)
+    $ slice 4 "~ [<3 [1 2]> ~ <~ [3 1 1  ~ 1 ]>]"
+    $ ((0.18 + 0.25) <~)
+    $ plyWith 2 ((0.25 <~) . (# speed 0.75) . (# pan 0.3))
+    $ loopAt 1
+    $ s "< ~ cpdlee ~ ~ [~ |~|flutejk:4] >"
+    # clouds 0.6 0.6 0.7 0.8
+    # cloudsblend 0.9 0.6 0.8 0.8
+    # pan 0.7
+    # speed "1 -1 1"
+    # gain 1.2
+
+d5 silence
+
+    -- $ someCyclesBy 0.5 (linger "<5 3 0.5 8>/8" . chop 16) 
+    $ (0.88 <~)
+    $ someCyclesBy 0.1 (slice 8 "~ [<3 [1 2]> 5!5 6 7]")
+    $ loopAt 2
+    $ slice 4 "~ [<3 [1 2]> ~ ~]"
+    $ s "< ~ cpdlee ~ ~>"
+    # clouds 0.6 0.6 0.7 0.8
+    # cloudsblend 0.9 0.6 0.6 0.5
+    # speed "-1"
+    # pan 0.3
+
+d6 
+    -- $ someCyclesBy 0.5 (linger "<5 3 0.5 8>/8" . chop 16) 
+    $ chop 4
+    $ someCyclesBy 0.3 (rev)
+    $ every 5 (# speed "-1")
+    $ (0.25 <~)
+    $ loopAt 0.5
+    $ s "<<cpluck:14 cpluck:13 > ~ ~ ~ >"
+    # verb 0.6 0.6 0.1 0.1
+
+d7
+    -- $ chunk 4 (hurry 2)
+    $ struct "<[t(3,8) t*4]>"
+    $ every' 4 3 (# crush (segment 128 (range 2 1.1 (isaw))))
+    $ noteTake "arp" [0, 0, 0, 0, 5, 10, 12] |+ note (scramble 4 "<0 0 2 0 0 5 0 6>") 
+    # s "bass1:1"
+    |+ note "<0 0 0 1>"
+    # cut 1
+    # octave "<6 5>"
+    # gain "^2"
+    # crush 3
+
+
+ -- thanks for listening :)
+
+d8
+    -- $ chop 64
+    -- $ every' 4 3 (mask (inv (binary 170)))
+    $ every 4 ( plyWith 2 ((0.25 <~) . (|+ up 7)))
+    $ s "lober:35/4"
+    # ampbus "0" (segment 128 (range 0 0.5 (slow 8 saw)))
+    # speed 0.8
+
+
+panic
+
+import Sound.Tidal.Chords
+
+chordList
+
+
+do
+  let pat p = someCyclesBy 0.33 (stutWith 7 (1/16)(|* amp 0.33)) $ someCyclesBy 0.44 (iter 4) $ struct (binary "<160 170 180>") $ p
+  d1 $ stack [
+      cat [pat $ s "clubkick", pat $ s "clubkick"]
+    , randcat [pat $ s "linnhats", pat $ s "linnhats"] $ s "linnhats"] # room 0.25 # gain 0.77 # orbit 2
+    , someCyclesBy 0.22 (plyWith 2 (0.25 <~)) $ s "~ cp" # gain 1.25 # room 0.5 # orbit 2
+      ]
+
+do
+  let pat p = someCyclesBy 0.33 (stutWith 7 (1/16)(|* amp 0.33)) $ someCyclesBy 0.44 (iter 4) $ struct (binary "<160 170 180>") $ p
+  d1 $ stack [
+      pat $ s "clubkick"
+    , pat $ s "linnhats" # room 0.25 # gain 0.77 # orbit 2
+    , someCyclesBy 0.22 (plyWith 2 (0.25 <~)) $ s "~ cp" # gain 1.25 # room 0.5 # orbit 2
+      ]
+
+
+do
+  let pat p = someCyclesBy 0.33 (stutWith 7 (1/16)(|* amp 0.33)) $ someCyclesBy 0.44 (iter 4) $ struct (binary "<160 170 180>") $ p
+  d1 $ stack [
+      cat [pat $ s "clubkick", pat $ s "clubkick"]
+    , fast 2 $ randcat [ pat $ s "linnhats", pat $ s "linnhats"] # room 0.25 # gain 0.77 # orbit 2
+    , someCyclesBy 0.22 (plyWith 2 (0.25 <~)) $ s "~ cp" # gain 1.25 # room 0.5 # orbit 2
+    
+
+
+
+do
+  let screw p = (plyWith 2 (0.25 <~)) $ p
+  d1 $ someCycles (screw) $ stack [
+      struct "t(3,8)" $ s "clubkick"
+    , struct "t*4" $ s "linnhats" # room 0.25 # gain 0.77 # orbit 2
+    , s "~ cp" # gain 1.25 # room 0.5 # orbit 2
+      ]

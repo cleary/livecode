@@ -1,5 +1,5 @@
 # livecode
-repository for my Tidalcycles, Supercollider (and potentially other languages) livecoded musical journey
+repository for my Tidalcycles, Estuary, Supercollider (and potentially other languages/environments) livecoded musical journey
 
 ## hints and reminders for myself
 
@@ -36,10 +36,6 @@ a set of "rudiments" - common tidal patterns that I want to have as second natur
 code archive from my (approx) weekly [twitch livestream](https://twitch.tv/clearyss)
 
 video highlights/archives on [youtube](https://www.youtube.com/channel/UC2p7hQGQ7BG1UUQjEqHHvVA?view_as=subscriber)
-
-### workshop/*
-
-tutorial worksheets for use in an educational context
 
 ### xmin-challenge/*
 

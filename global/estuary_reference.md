@@ -8,22 +8,63 @@ https://intramuros.mcmaster.ca/
   2. go to solo mode
   3. enter into the terminal: 
 
+*See what views are available*
 ```
-!listviews (see what views are available)
-!presetview n (choose one from above output)
-!publishview def (set current view as default for all users?)
-!presetview def (return to the default view)
-!dumpview (see what current view code looks like)
-!localview audiomap (list all samples)
-!localview [] (show visuals only)
+!listviews
+```
+*choose a view to display locally (your pc only) from above output*
+```
+!presetview n
+```
+*set the current view for all users in the ensemble*
+```
+!publishview def
+```
+ *return to the default view on your local display*
+```
+!presetview def
+```
+*see what code generated the current view*
+```
+!dumpview
+```
+*list all samples*
+```
+!localview audiomap
+```
+*show visuals only, on the local display*
+```
+!localview []
+```
+*display `iframes` in cells, checkout vdo.ninja*
+```
+!localview $ grid 2 2 [iFrame "https://en.wikipedia.org/wiki/4hero",code 0 0,code 1 0,iFrame "https://en.wikipedia.org/wiki/4hero"]
 ```
 
 # estuary in-jam functions
+*get tempo*
 ```
-!showtempo (query tempo)
-!setcps x.y (set cps, an fp number between 0 and 1 is a safe bet)
+!showtempo
+```
+*set tempo in cycles per second, between 0-1 is a safe range*
+```
+!setcps x.y
+```
+*add some samples from a CORS compliant web server*
+```
 !reslist "https://samples.grbt.com.au/resources.json"
+```
+*show what external resources have been loaded*
+```
 !showresources
+```
+ *return to initial state of estuary server provided resources*
+```
+!defaultresources
+```
+ *remove all resources, incl estuary defaults*
+```
+!clearresources
 ```
 
 # Minitidal effects available
@@ -38,6 +79,8 @@ https://intramuros.mcmaster.ca/
  - delay
  - delaytime
  - delayfeedback
+ - begin
+ - end
 
 After activating unsafe mode:
  - crush
