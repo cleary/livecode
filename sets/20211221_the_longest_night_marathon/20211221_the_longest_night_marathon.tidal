@@ -1,5 +1,6 @@
 -- longest night set
 -- https://night.tidalcycles.org
+-- https://github.com/cleary/livecode/sets/
 
 -- include
 -- - https://raw.githubusercontent.com/cleary/livecode/main/weekly/20210526.tidal
@@ -101,6 +102,8 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
 
 all $ swingBy 0.0 6 -- . (# cps 0.3) -- . (someCyclesBy 0.3 (linger "[ t | q]"))
 
+all $ linger (range 0 1 "^8")
+
 -- xfadeIn 1 16
 d1
     -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
@@ -120,7 +123,7 @@ d1
     ]
     # midichan 0 |- up 12 
     # cps 0.4
-    -- # cps (range 0.2 1.2 "^5")
+    -- # cps (range 0.2 1.2 "^9")
 
 d2
     -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
@@ -141,8 +144,6 @@ d2
          # pan 0.8
     ]
     # midichan 0 |- up 12 
-
-all $ linger (range 0 1 "^6")
 
 -- off beats
 let kickpat = "<[[11]00000] [1000100]>"
