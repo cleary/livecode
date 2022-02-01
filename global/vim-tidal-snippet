@@ -1,0 +1,15 @@
+" arrange splits, add twitch chat terminal client automatically
+" -> vim-tidal/plugin/tidal.vim:68
+   " Make small & on the bottom.
+   :exe "normal \<c-w>x"  
+
+   " hack to fix wrong ordering of splits
+   :exe "normal \<c-w>K"
+   
+   :exe "normal \<c-w>_"
+   :exe "normal \<c-w>10-"  
+   :exe "normal \<c-w>j"
+   
+   vsplit term://bash
+   :terminal tc connect clearyss
+   :exe "normal \<c-w>k"
