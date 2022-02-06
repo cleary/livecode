@@ -68,6 +68,15 @@ d1 $ slow 16 $ s "pulse" <| n (run 60) -- C2 short release synth, increasing chr
 d1 $ slow 16 $ s "rash" <| n (run 72) -- C1 med release synth, increasing chromatically
 d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromatically
 
+-- samples from mars (custom, personal set of 120+ note synths) - c0 is the index #
+d1 $ s "sh5dontanswerfx:12" -- fast oscillating synth, alarm-esque
+d1 $ s "sh5doubleoscsaws:12" -- softer attack/minimal highs
+d1 $ s "sh5fatintervallead:12" -- synth hard attack bass, minimal decay
+d1 $ s "sh5funkwhiz:12" -- synth hard attack, fast decay bass
+d1 $ s "sh5hendrixfuzz:12" -- bass heavy fuzz lead
+d1 $ s "sh5hissmachine:12" -- superchip-esque
+
+
 -- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
 -- +estuary
 d1 $ slow 2 $ s "demung" <| n (run 8) -- 7=C5 bell w/overtones (ascending) 0=~D4 1=<E 2=F 3=>G 4=A 5=<B 6=D4 7=C5
