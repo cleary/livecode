@@ -69,13 +69,21 @@ d1 $ slow 16 $ s "rash" <| n (run 72) -- C1 med release synth, increasing chroma
 d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromatically
 
 -- samples from mars (custom, personal set of 120+ note synths) - c0 is the index #
+d1 $ s "mm14" -- deep bass minimoog, hard attack 
 d1 $ s "sh5dontanswerfx:12" -- fast oscillating synth, alarm-esque
 d1 $ s "sh5doubleoscsaws:12" -- softer attack/minimal highs
 d1 $ s "sh5fatintervallead:12" -- synth hard attack bass, minimal decay
 d1 $ s "sh5funkwhiz:12" -- synth hard attack, fast decay bass
 d1 $ s "sh5hendrixfuzz:12" -- bass heavy fuzz lead
 d1 $ s "sh5hissmachine:12" -- superchip-esque
-
+d1 $ s "vp330prisspad" -- c1 male choral choir-esque
+d1 $ s "vp330splitandfuzzy"  -- coarse voice ahh-esque
+d1 $ s "vp330stringsandvoice" -- c1 male choral choir doubled with synth
+d1 $ s "vp330stringsandvoiceglide" -- same with accelerated up 
+d1 $ s "vp330stringslow" -- c1 synth strings esque
+d1 $ s "vp330stringslowglide" -- c1 accelerated synth up to held note
+d1 $ s "vp330sulaco" -- c1 bowed synth cello -esque
+d1 $ s "vp330upallnight" -- c1 robot voice sounds like"we're rolling all night"
 
 -- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
 -- +estuary
