@@ -4,6 +4,7 @@
 stack [
 sound "[clubkick, bd, hh, ho, hc, linnhats, sd, cp, realclaps, amencutup]" # gain 0,
 sound "[vp330upallnight, flbass:14, lober:70, sh5hendrixfuzz:36]" # gain 0
+]
 
 -- # process
 -- make a beat
