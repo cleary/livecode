@@ -46,3 +46,5 @@ zoom (1 * mid) $ spin hi $ move [saw 0.1, 0] $ tile 1 $ tile 4 $ a >> video;
 spin 1 $ a >> video;
 b << zoom (fft fy) $ img "https://img.grbt.com.au/vinyl.jpg";
 a * b >> video
+
+-- $ setfxy ( fxy +:  (sin fxy * 0.05))
