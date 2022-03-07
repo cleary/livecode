@@ -69,21 +69,33 @@ d1 $ slow 16 $ s "rash" <| n (run 72) -- C1 med release synth, increasing chroma
 d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromatically
 
 -- samples from mars (custom, personal set of 120+ note synths) - c0 is the index #
+d1 $ s "sh5hendrixfuzz:12" -- bass heavy fuzz lead
+d1 $ s "vp330stringslow" -- c1 classic poly synth sound
+d1 $ s "vp330prisspad" -- c1 male choral choir-esque
+d1 $ s "wasplamordidita" -- c0 short release, vintage video game boss lead
+d1 $ s "wasphivebomb" -- decelerated smooth synth with wah sweep opening
+--
 d1 $ s "mm14" -- deep bass minimoog, hard attack 
 d1 $ s "sh5dontanswerfx:12" -- fast oscillating synth, alarm-esque
 d1 $ s "sh5doubleoscsaws:12" -- softer attack/minimal highs
 d1 $ s "sh5fatintervallead:12" -- synth hard attack bass, minimal decay
 d1 $ s "sh5funkwhiz:12" -- synth hard attack, fast decay bass
-d1 $ s "sh5hendrixfuzz:12" -- bass heavy fuzz lead
 d1 $ s "sh5hissmachine:12" -- superchip-esque
-d1 $ s "vp330prisspad" -- c1 male choral choir-esque
 d1 $ s "vp330splitandfuzzy"  -- coarse voice ahh-esque
 d1 $ s "vp330stringsandvoice" -- c1 male choral choir doubled with synth
 d1 $ s "vp330stringsandvoiceglide" -- same with accelerated up 
-d1 $ s "vp330stringslow" -- c1 synth strings esque
 d1 $ s "vp330stringslowglide" -- c1 accelerated synth up to held note
 d1 $ s "vp330sulaco" -- c1 bowed synth cello -esque
 d1 $ s "vp330upallnight" -- c1 robot voice sounds like"we're rolling all night"
+d1 $ s "waspkilledaccordion" -- c1 laser attack synth
+d1 $ s "waspinsectbling" -- c0 short arpy-like attack/release with delay
+d1 $ s "wasphueylewis" -- c0 heavily fuzzed and detuned, higher notes in a tube
+d1 $ s "waspgrimsweeper" -- c0 smooth video game lead
+d1 $ s "waspfunksquare" -- c0 short release, sweep open with a hit - higher notes better
+d1 $ s "waspfunksaw" -- c0 short release, smoother than square, sweep open with a hit - higher notes better
+d1 $ s "waspfranky4fingers" -- c0 harsh detuned long release, bizarre bass hi pitched bits
+d1 $ s "waspexistenz" -- c0 hi pitched is better, video game boss
+
 
 -- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
 -- +estuary
