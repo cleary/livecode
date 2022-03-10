@@ -69,12 +69,15 @@ d1 $ slow 16 $ s "rash" <| n (run 72) -- C1 med release synth, increasing chroma
 d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromatically
 
 -- samples from mars (custom, personal set of 120+ note synths) - c0 is the index #
+-- preferred
 d1 $ s "sh5hendrixfuzz:12" -- bass heavy fuzz lead
 d1 $ s "vp330stringslow" -- c1 classic poly synth sound
 d1 $ s "vp330prisspad" -- c1 male choral choir-esque
+d1 $ s "wasp2saws" -- c0 trebley synth, smooths out nicely @ cutoff 400
+d1 $ s "wasp80sthreats" -- c0 hollow almost strings like, harsh without cutoff
 d1 $ s "wasplamordidita" -- c0 short release, vintage video game boss lead
 d1 $ s "wasphivebomb" -- decelerated smooth synth with wah sweep opening
---
+-- less preferred
 d1 $ s "mm14" -- deep bass minimoog, hard attack 
 d1 $ s "sh5dontanswerfx:12" -- fast oscillating synth, alarm-esque
 d1 $ s "sh5doubleoscsaws:12" -- softer attack/minimal highs
@@ -95,6 +98,7 @@ d1 $ s "waspfunksquare" -- c0 short release, sweep open with a hit - higher note
 d1 $ s "waspfunksaw" -- c0 short release, smoother than square, sweep open with a hit - higher notes better
 d1 $ s "waspfranky4fingers" -- c0 harsh detuned long release, bizarre bass hi pitched bits
 d1 $ s "waspexistenz" -- c0 hi pitched is better, video game boss
+d1 $ s "wasp2squares" -- c0 harsh trebley synth
 
 
 -- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
