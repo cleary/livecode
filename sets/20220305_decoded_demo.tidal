@@ -29,8 +29,9 @@ sound "[vp330upallnight, flbass:14, lober:70, sh5hendrixfuzz:36]" # gain 0
 -- minitidal
 every' 8 7 (# s "[rave|vp330upallnight]") $ 
 someCyclesBy 0.15 (linger "[s | 0.25 | 0.5] ") $
+-- chunk 4 (hurry 0.5) $
 stack [
-mask "{1 1}%16" $ whenmod 16 14 (slow 2 . (# speed "-1")) $ struct "t*16" $ note ("[0 1 0 0 3 0 3 0 5 7 0 0 0 8 7 1 -2]") # s "[sh5hendrixfuzz:36]" # cut 1 # gain 1.3 # end "{ 1 0.3 1}%8" # cutoff "{400 1000}%8"
+mask "{1 1}%16" $ whenmod 16 14 (slow 2 . (# speed "-1")) $ struct "t*16" $ note ("[0 1 0 0 3 0 3 0 5 7 0 0 0 8 7 1 -2]") # s "wasp2saws:12" # cut 1 # gain 1.3 # end "{ 1 0.3 1}%8" # cutoff "{400 1000}%8"
 , sometimesBy 0.27 (rev . plyWith "[8 | 2]" (|* gain 0.93)) $ struct "t(4,8)" $ s "[clubkick, bd]" # cutoff 1000
 , struct "t(4,8,1)" $ s "ho" # end "{0.3 0.8}%4"
 , sometimes (ply "[6 4] 8") $ s "linnhats*4" # hcutoff "{3000 5000%8}"
