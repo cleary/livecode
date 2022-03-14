@@ -1,0 +1,20 @@
+-- estuary
+-- minitidal reference
+every' 8 7 ((# s "[rave | ~ | vp330upallnight]") . (# speed "-1"))$
+-- chunk 8 (hurry 0.5) $
+someCyclesBy 0.2 (plyWith 2 (0.25 <~)) $
+someCyclesBy 0.25 ((# hcutoff (rangex 0 15000 (saw))) . (fast "1 2 4")) $
+-- someCyclesBy 0.09 (linger "[s| 0.125| 0.25 0.5]" ) $
+-- whenmod 16 9 (# cutoff (rangex 15000 0 (saw))) $
+stack [
+s "clubkick*4"
+, every 2 (ghost) $ s "~ [sd,cp]"
+,  someCyclesBy 0.21 (rev . struct "~ t ~ ~" . (plyWith 12 (|* gain 0.9))) $ chunk 4 (hurry 2) $ sometimes (ply 2) $ s "amencutup " <| n (run 8) # cut 3
+, n "0 0 1 0 0 3 5 0 0 0 7 0 7 0 7 8" # s "wasp2saws" # cut 1 # cutoff 1000
+, s "lober:70" # cut 2 # end "<1 0.08>"
+, mask "<0!16 1!16 1!16>" $ n (arp "<up ~ ~ ~ ~ down ~ ~ ~ ~ ~ updown ~ ~ ~>" "<c'min'13'ii d'min'6 c'min9'o>" + 60) # s "sh5hendrixfuzz" # cut 4 # gain 0.9 # end "0.5"
+]
+
+-- punctual
+move [0,saw 0.1] $ tile 1 $ hline [-1,-0.5..1] (1/6) >> video;
+move [saw (cps) * hi, 0]$ tile 1 $ vline [-1,-0.5..1] (1/6) * [sin (cps/4),1,1] >> hsv;
