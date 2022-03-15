@@ -16,5 +16,13 @@ s "clubkick*4"
 ]
 
 -- punctual
-move [0,saw 0.1] $ tile 1 $ hline [-1,-0.5..1] (1/6) >> video;
-move [saw (cps) * hi, 0]$ tile 1 $ vline [-1,-0.5..1] (1/6) * [sin (cps/4),1,1] >> hsv;
+i1 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/vinyl.jpg";
+i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/scream.jpg";
+i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain.jpg";
+i4 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain1.jpg";
+a << rect [[-0.75,-0.25..0.75], [-0.75,-0.25..1.25]] 0.5;
+b << step [-0.75,-0.25,0.25,0.75] $ lfsaw cps;
+c << step [-0.75,-0.25,0.25,0.75] $ lfsaw 0.1;
+d << rect [b,c] 0.5;
+hsvrgb (a -: d * [fft fxy, 1,1]) >> video;
+c - (step [i4,i3,i1,i2] $ lfsaw cps) >> video;
