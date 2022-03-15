@@ -19,10 +19,12 @@ s "clubkick*4"
 i1 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/vinyl.jpg";
 i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/scream.jpg";
 i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain.jpg";
-i4 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain1.jpg";
+i4<<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain1.jpg";
 a << rect [[-0.75,-0.25..0.75], [-0.75,-0.25..1.25]] 0.5;
-b << step [-0.75,-0.25,0.25,0.75] $ lfsaw cps;
-c << step [-0.75,-0.25,0.25,0.75] $ lfsaw 0.1;
-d << rect [b,c] 0.5;
-hsvrgb (a -: d * [fft fxy, 1,1]) >> video;
-c - (step [i4,i3,i1,i2] $ lfsaw cps) >> video;
+b << step [0.5,-0.5] $ lfsaw cps;
+c << step [-0.5,0.5] $ lfsaw (cps);
+d << rect [b,c] 1;
+hsvrgb (a -: d * [fft fxy, 1,1]) * 0.5 >> video;
+c - (step [i3,i2] $ lfsaw cps) >> video;
+b - (step [i1,i2,i4] $ lfsaw cps) >> video;
+0.5 >> fdbk;
