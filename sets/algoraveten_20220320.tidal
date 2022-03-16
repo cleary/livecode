@@ -2,14 +2,15 @@
 -- minitidal reference
 every' 12 11 ((# s "[vp330upallnight| ~ | breath]") . (sometimes (# speed "-1"))) $
 chunk 12 (hurry 0.5) $
+-- someCyclesBy 0.12 (linger "[s | 0.125 | 0.25  0.5]") $
 whenmod 32 28 (fast 2 . swingBy 0 4) $
-swingBy 0.02 4 $ 
+-- swingBy 0.02 4 $ 
 stack [
  s "[808bd:1(3,8)]" # gain 1.2
 ,slow 4 $ s "clubkick(7,12,<0 2>)" # cutoff 1000
 , every 2 (ghost) $ s "~ [sd,cp]" -- # hcutoff 2000 # end 0.05
 , someCyclesBy 0.2 (ply "[2 | 3 4]") $ struct "t*8" $ s "linnhats" # hcutoff "{4000 1000}%8" # end 0.04
--- , slow 2 $ mask (binaryN 16 "<65535 43383>") $ whenmod 12 8 (# silence) $ n ("1 0 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.08}%16"
+, slow 2 $ mask (binaryN 16 "<25400 43383>") $ whenmod 12 8 (# silence) $ n ("1 0 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.008}%16"
 , slow 2 $ s "lober:70"
 , sometimes (plyWith 2 (0.25 <~)) $ randslice 8 $ s "<[~ vp330upallnight ~ ~] ~ ~ ~>" |< n ((irand 4) + 4) # crush 3 |+ up 0 # gain 0.8
 ]
