@@ -1,58 +1,31 @@
 -- estuary
 -- minitidal reference
-every' 8 7 ((# s "[rave | ~ | vp330upallnight]") . (# speed "-1"))$
--- chunk 8 (hurry 0.5) $
-someCyclesBy 0.2 (plyWith 2 (0.25 <~)) $
-someCyclesBy 0.25 ((# hcutoff (rangex 0 15000 (saw))) . (fast "1 2 4")) $
--- someCyclesBy 0.09 (linger "[s| 0.125| 0.25 0.5]" ) $
--- whenmod 16 9 (# cutoff (rangex 15000 0 (saw))) $
+every' 12 11 ((# s "[vp330upallnight| ~ | breath]") . (sometimes (# speed "-1"))) $
+swingBy 0.02 4 $ 
 stack [
-s "clubkick*4"
-, every 2 (ghost) $ s "~ [sd,cp]"
-,  someCyclesBy 0.21 (rev . struct "~ t ~ ~" . (plyWith 12 (|* gain 0.9))) $ chunk 4 (hurry 2) $ sometimes (ply 2) $ s "amencutup " <| n (run 8) # cut 3
-, n "0 0 1 0 0 3 5 0 0 0 7 0 7 0 7 8" # s "wasp2saws" # cut 1 # cutoff 1000
-, s "lober:70" # cut 2 # end "<1 0.08>"
-, mask "<0!16 1!16 1!16>" $ n (arp "<up ~ ~ ~ ~ down ~ ~ ~ ~ ~ updown ~ ~ ~>" "<c'min'13'ii d'min'6 c'min9'o>" + 60) # s "sh5hendrixfuzz" # cut 4 # gain 0.9 # end "0.5"
+ s "[808bd:1(3,8)]"
+,slow 4 $ s "clubkick(7,12,<0 2>)" # cutoff 1000
+, every 2 (ghost) $ s "~ [sd,cp]" -- # hcutoff 2000 # end 0.05
+, someCyclesBy 0.2 (ply "[2 | 3 4]") $ struct "t*8" $ s "linnhats" # hcutoff "{4000 1000}%8" # end 0.04
+, slow 2 $ mask (binaryN 16 "<65535 43383>") $ whenmod 12 8 (# silence) $ note ("1 0 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "bass1:0" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.08}%16"
+, slow 2 $ s "lober:70"
+, off 0.125 (|+ note "[7|12]") $ note (arp "<down ~ ~ ~ ~ ~ thumbup ~ ~ ~ ~ ~ updown>" "<c3'min9'iii c4'min13'ii c'min9'o>" + 0) # s "jrhodes:4" # cutoff 000 # cut 4 # gain 1
 ]
 
 -- punctual
-i1 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/vinyl.jpg";
-i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/scream.jpg";
-i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain.jpg";
-i4<<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/brain1.jpg";
-a << rect [[-0.75,-0.25..0.75], [-0.75,-0.25..1.25]] 0.5;
-b << step [0.5,-0.5] $ lfsaw cps;
-c << step [-0.5,0.5] $ lfsaw (cps);
-d << rect [b,c] 1;
-hsvrgb (a -: d * [fft fxy, 1,1]) * 0.5 >> video;
-c - (step [i3,i2] $ lfsaw cps) >> video;
-b - (step [i1,i2,i4] $ lfsaw cps) >> video;
-0.5 >> fdbk;
-
-
--- WIP
 i1 << move 0.5 $ zoom 0.5 $ fit (4/3) $ img "https://img.grbt.com.au/algorave.jpg";
-i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten1.jpg";
-i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten2.jpg";
-i4 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten3.jpg";
-i5 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/ten4.jpg";
-i6 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten5.jpg";
-i7 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten6.jpg";
-i8 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten7.jpg";
-i9 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/ten8.jpg";
-i10 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten9.jpg";
-i11 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten10.jpg";
-i12 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten11.jpg";
-i13 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/ten12.jpg";
-i14 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten13.jpg";
-i15 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten14.jpg";
-i16 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten15.jpg";
-i17 <<  move [0.5,-0.5] $ zoom 0.5 $ fit(4/3) $ img "https://img.grbt.com.au/tidal.jpg";
+i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten15.jpg";
+i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten14.jpg";
+i4 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten13.jpg";
+i5 << move [0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten9.jpg";
+i6 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten10.jpg";
+i7 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten11.jpg";
+i8 <<  move [0.5,-0.5] $ zoom 0.5 $ fit (1/1) $ img "https://img.grbt.com.au/tidal.jpg";
 a << rect [[-0.75,-0.25..0.75], [-0.75,-0.25..1.25]] 0.5;
-b << step [0.5,-0.5] $ lfsaw cps;
-c << step [-0.5,0.5] $ lfsaw (cps);
+b << step [0.5,-0.5] $ lfsaw 0.125;
+c << step [-0.5,0.5] $ lfsaw 0.125;
 d << rect [b,c] 1;
 hsvrgb (a -: d * [fft fxy, 1,1]) * 0.5 >> video;
-c - (step [i1,i3,i5,i7,i9,i11,i13,i15,i17] $ lfsaw cps) >> video;
-b - (step [i2,i4,i6,i8,i10,i12,i14,i16] $ lfsaw cps) >> video;
+c - (step [i1,i2,i3,i4,i5,i6,i7,i8] $ lfsaw (cps/8)) >> video;
+b - (step [i1,i2,i3,i4,i5,i6,i7,i8] $ lfsaw (cps/8)) >> video;
 0.5 >> fdbk;
