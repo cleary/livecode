@@ -28,3 +28,31 @@ hsvrgb (a -: d * [fft fxy, 1,1]) * 0.5 >> video;
 c - (step [i3,i2] $ lfsaw cps) >> video;
 b - (step [i1,i2,i4] $ lfsaw cps) >> video;
 0.5 >> fdbk;
+
+
+-- WIP
+i1 << move 0.5 $ zoom 0.5 $ fit (4/3) $ img "https://img.grbt.com.au/algorave.jpg";
+i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten1.jpg";
+i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten2.jpg";
+i4 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten3.jpg";
+i5 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/ten4.jpg";
+i6 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten5.jpg";
+i7 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten6.jpg";
+i8 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten7.jpg";
+i9 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/ten8.jpg";
+i10 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten9.jpg";
+i11 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten10.jpg";
+i12 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten11.jpg";
+i13 << move 0.5 $ zoom 0.5 $ img "https://img.grbt.com.au/ten12.jpg";
+i14 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten13.jpg";
+i15 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten14.jpg";
+i16 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten15.jpg";
+i17 <<  move [0.5,-0.5] $ zoom 0.5 $ fit(4/3) $ img "https://img.grbt.com.au/tidal.jpg";
+a << rect [[-0.75,-0.25..0.75], [-0.75,-0.25..1.25]] 0.5;
+b << step [0.5,-0.5] $ lfsaw cps;
+c << step [-0.5,0.5] $ lfsaw (cps);
+d << rect [b,c] 1;
+hsvrgb (a -: d * [fft fxy, 1,1]) * 0.5 >> video;
+c - (step [i1,i3,i5,i7,i9,i11,i13,i15,i17] $ lfsaw cps) >> video;
+b - (step [i2,i4,i6,i8,i10,i12,i14,i16] $ lfsaw cps) >> video;
+0.5 >> fdbk;
