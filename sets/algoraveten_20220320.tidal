@@ -3,8 +3,6 @@
 every' 12 11 ((# s "[vp330upallnight| ~ | breath]") . (sometimes (# speed "-1"))) $
 chunk 12 (hurry 0.5) $
 -- someCyclesBy 0.12 (linger "[s | 0.125 | 0.25  0.5]") $
-whenmod 32 28 (fast 2 . swingBy 0 4) $
--- swingBy 0.02 4 $ 
 stack [
  s "[808bd:1(3,8)]" # gain 1.2
 ,slow 4 $ s "clubkick(7,12,<0 2>)" # cutoff 1000
