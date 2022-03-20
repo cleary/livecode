@@ -1,17 +1,17 @@
 -- estuary
 -- minitidal reference
-every' 12 11 ((# s "[vp330upallnight| ~ | breath]") . (sometimes (# speed "-1"))) $
-chunk 12 (hurry 0.5) $
--- someCyclesBy 0.12 (linger "[s | 0.125 | 0.25  0.5]") $
+every' 8 7 ((# s "[vp330upallnight | rave]") . (# speed "-1")) $
+chunk 4 (hurry 0.5) $
+-- hurry 0.5 $
+someCyclesBy 0.08 (linger "[s | 0.125 | 0.25 0.5]") $
 stack [
- s "[808bd:1(3,8)]" # gain 1.2
-,slow 4 $ s "clubkick(7,12,<0 2>)" # cutoff 1000
-, every 2 (ghost) $ s "~ [sd,cp]" -- # hcutoff 2000 # end 0.05
-, someCyclesBy 0.2 (ply "[2 | 3 4]") $ struct "t*8" $ s "linnhats" # hcutoff "{4000 1000}%8" # end 0.04
-, slow 2 $ mask (binaryN 16 "<25400 43383>") $ whenmod 12 8 (# silence) $ n ("1 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.008}%16"
+s "clubkick(4,8)"
+--, slow 2 $ s "bd:1(4,9)"
+, someCyclesBy 0.12 (ply "[2 | 3 4 ]") $ s "hc*8" # hcutoff 2000 # end "{0.08 0.12}%8" # gain 1
+, every 2 (ghost) $ s "~ [sd,cp]" # gain 1
+, n ("1 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.008}%16"
 , slow 2 $ s "lober:70"
-, sometimes (plyWith 2 (0.25 <~)) $ randslice 8 $ s "<[~ vp330upallnight ~ ~] ~ ~ ~>" |< n ((irand 4) + 4) # crush 3 |+ up 0 # gain 0.8
-]
+] -- # cutoff 1600
 
 -- punctual
 i1 << move 0.5 $ zoom 0.5 $ fit (4/3) $ img "https://img.grbt.com.au/algorave.jpg";
