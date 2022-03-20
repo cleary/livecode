@@ -8,7 +8,7 @@ stack [
 ,slow 4 $ s "clubkick(7,12,<0 2>)" # cutoff 1000
 , every 2 (ghost) $ s "~ [sd,cp]" -- # hcutoff 2000 # end 0.05
 , someCyclesBy 0.2 (ply "[2 | 3 4]") $ struct "t*8" $ s "linnhats" # hcutoff "{4000 1000}%8" # end 0.04
-, slow 2 $ mask (binaryN 16 "<25400 43383>") $ whenmod 12 8 (# silence) $ n ("1 0 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.008}%16"
+, slow 2 $ mask (binaryN 16 "<25400 43383>") $ whenmod 12 8 (# silence) $ n ("1 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.008}%16"
 , slow 2 $ s "lober:70"
 , sometimes (plyWith 2 (0.25 <~)) $ randslice 8 $ s "<[~ vp330upallnight ~ ~] ~ ~ ~>" |< n ((irand 4) + 4) # crush 3 |+ up 0 # gain 0.8
 ]
