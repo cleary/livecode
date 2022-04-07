@@ -35,8 +35,8 @@ let
     --                            dur = (e - s) / (4*fromIntegral d)
     move34 p = foldEvery [3,4] (0.25 <~) $ p -- every 3rd and 4th cycles shift beat by 1/4 cycle 
     move78 p = foldEvery [7,8] (0.25 <~) $ p -- every 7th and 8th cycles shift beat by 1/4 cycle
-    quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
-    quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
+    -- quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
+    -- quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
     accBy x = accelerate (2 **| (x |/ 12) - 1) -- accelerate by x semitones
     -- kindohm, ref: https://blog.tidalcycles.org/kindohm-interview/
     rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p

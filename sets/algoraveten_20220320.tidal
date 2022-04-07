@@ -1,0 +1,32 @@
+-- estuary
+-- minitidal reference
+every' 8 7 ((# s "[vp330upallnight | rave]") . (# speed "-1")) $
+chunk 4 (hurry 0.5) $
+-- hurry 0.5 $
+someCyclesBy 0.08 (linger "[s | 0.125 | 0.25 0.5]") $
+stack [
+s "clubkick(4,8)"
+--, slow 2 $ s "bd:1(4,9)"
+, someCyclesBy 0.12 (ply "[2 | 3 4 ]") $ s "hc*8" # hcutoff 2000 # end "{0.08 0.12}%8" # gain 1
+, every 2 (ghost) $ s "~ [sd,cp]" # gain 1
+, n ("1 0 0 3 0 0 1 0 0 5 0 0 5 0 7 8" + 12) # s "wasp2saws" # cut 1 # cutoff "{400 1000}%16" # end "{1 0.008}%16"
+, slow 2 $ s "lober:70"
+] -- # cutoff 1600
+
+-- punctual
+i1 << move 0.5 $ zoom 0.5 $ fit (4/3) $ img "https://img.grbt.com.au/algorave.jpg";
+i2 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten15.jpg";
+i3 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten14.jpg";
+i4 <<  move [0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten13.jpg";
+i5 << move [0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten9.jpg";
+i6 << move [-0.5,0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten10.jpg";
+i7 << move [-0.5,-0.5] $ zoom 0.5 $ img "https://img.grbt.com.au/ten11.jpg";
+i8 <<  move [0.5,-0.5] $ zoom 0.5 $ fit (1/1) $ img "https://img.grbt.com.au/tidal.jpg";
+a << rect [[-0.75,-0.25..0.75], [-0.75,-0.25..1.25]] 0.5;
+b << step [0.5,-0.5] $ lfsaw 0.125;
+c << step [-0.5,0.5] $ lfsaw 0.125;
+d << rect [b,c] 1;
+hsvrgb (a -: d * [fft fxy, 1,1]) * 0.5 >> video;
+c - (step [i1,i2,i3,i4,i5,i6,i7,i8] $ lfsaw (cps/8)) >> video;
+b - (step [i1,i2,i3,i4,i5,i6,i7,i8] $ lfsaw (cps/8)) >> video;
+0.5 >> fdbk;

@@ -1,0 +1,51 @@
+-- https://estuary.mcmaster.ca
+
+-- # load samples
+stack [
+sound "[clubkick, bd, hh, ho, hc, linnhats, sd, cp, realclaps, amencutup]" # gain 0,
+sound "[vp330upallnight, flbass:14, lober:70, sh5hendrixfuzz:36]" # gain 0
+]
+
+-- # process
+-- make a beat
+-- make a circle
+-- make the circle audio-reactive
+-- make a bassline #cut !
+-- assign circle to a var, reuse it and tile/move
+-- add pad
+-- add arps (sh5hendrix fuzz lead?)
+-- add vp330upallnight voice every 2.5 cycles
+-- linger variations on whole stack
+-- import img, zoom fft fy, assign to var
+-- change circle to hline?
+-- multiple hline by img
+-- vary the perc with plys
+-- vary the bassline with mask, end, cutoff
+-- vary the arps and pad with +3|1 modulation
+-- add rave every' 8 7 (scream.jpg?)
+
+
+-- # example snippets
+-- minitidal
+every' 8 7 (# s "[rave|vp330upallnight]") $ 
+someCyclesBy 0.15 (linger "[s | 0.25 | 0.5] ") $
+-- chunk 4 (hurry 0.5) $
+stack [
+mask "{1 1}%16" $ whenmod 16 14 (slow 2 . (# speed "-1")) $ struct "t*16" $ note ("[0 1 0 0 3 0 3 0 5 7 0 0 0 8 7 1 -2]") # s "wasp2saws:12" # cut 1 # gain 1.3 # end "{ 1 0.3 1}%8" # cutoff "{400 1000}%8"
+, sometimesBy 0.27 (rev . plyWith "[8 | 2]" (|* gain 0.93)) $ struct "t(4,8)" $ s "[clubkick, bd]" # cutoff 1000
+, struct "t(4,8,1)" $ s "ho" # end "{0.3 0.8}%4"
+, sometimes (ply "[6 4] 8") $ s "linnhats*4" # hcutoff "{3000 5000%8}"
+, every 2 (ghost) $ (0.5 ~> ) $ someCyclesBy 0.2 (fast 4 . rev . plyWith "4" (|* gain 0.93)) $ s "[sd, cp]"
+, someCyclesBy 0.1 (|+ up "[3|1]") $ fast 2 $  note (arp "<down ~ up ~ ~ converge?> " "<[c'min9'iii c4'min9'iii c3'min9'iii]>") # s "ukulele" |+ up 12 
+, s "<~ ~ [~ vp330upallnight] ~>"
+, someCyclesBy 0.1 (|+ up "[3 | 1]") $ note "<c >" # s "lober:70" # cut 2 # gain 1.2
+]
+
+-- punctual
+a << move [saw (-0.12), 0] $hsvrgb (hline 0 (fft fx) * [prox (fx + sin 0.2), 1, 0.6]) >> video;
+zoom (1 * mid) $ spin hi $ move [saw 0.1, 0] $ tile 1 $ tile 4 $ a >> video;
+spin 1 $ a >> video;
+b << zoom (fft fy) $ img "https://img.grbt.com.au/vinyl.jpg";
+a * b >> video
+
+-- $ setfxy ( fxy +:  (sin fxy * 0.05))
