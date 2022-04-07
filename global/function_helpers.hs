@@ -2,6 +2,7 @@
 -- tidal_function_helpers.tidal
 
 -- load modules required for rolled
+-- this should be in next release after 1.7.10
 
 :m +  Data.List Data.Maybe Sound.Tidal.Utils
 
@@ -47,7 +48,7 @@ let
                 every 6 (# speed "0.5 -1 -1 0.75") $ p
     -- momentary mute via midi, use as `$ mmute "104"` where 104 is the midi button ref
     -- push the button to mute, release to unmute
-    mmute c = while ((/= 0) <$> cF 0 c) (const silence)
+    -- mmute c = while ((/= 0) <$> cF 0 c) (const silence)
 
     -- by pulu - clamp number pattern to given range, scale the output
     crop :: Pattern Double -> Pattern Double -> Pattern Double -> Pattern Double
