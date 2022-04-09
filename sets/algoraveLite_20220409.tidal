@@ -1,0 +1,26 @@
+-- DECODED Lite demo at Griffith Library 20220409
+
+-- minitidal
+-- every' 8 7 (fast "[2 3]" . (brak) . (# speed "[-1|1]") . (# hcutoff (range 0 2000 (saw)))) $
+-- every' 8 7 (|* gain "1 0 0 1") $
+chunk 4 (jux rev) $
+-- hurry 0.5 $
+someCyclesBy 0.12 (linger "[s | 0.125 | 0.25 0.5]") $
+stack [
+slow 4 $ chop 32 $ s "breakz:4" # cut 1
+, every 16 (|+ n 5) $ struct "<t(3,8) t>" $ randslice 16 $ s "guitarneo" |< n "<0 1>"
+, someCyclesBy 0.2 (struct "t(3,8,2)") $ rarely (((0.125/2) <~) .(# s "flbass:6") . (|- note 5)) $ every 2 (0.125 ~>) $ struct "t*4" $ note "<gb!2 b!2 >" # s "flbass:6" # cut 2  |- up 12
+]
+
+-- punctual #1
+a << img "https://img.grbt.com.au/brain1.jpg";
+b << img "https://img.grbt.com.au/vinyl.jpg";
+c << img "https://img.grbt.com.au/scream.jpg";
+d << img "https://img.grbt.com.au/gears.jpg";
+z << move [saw (cps/4), 0.4 * hi] $ tile 1 $  setfxy (fxy +: (sin fxy * 0.05)) $ hsvrgb ((step [a,b,c,d] $ lfsaw (cps/16)) * [ prox (2 + sin 0.2),(0.5 ~~ 1 $ fft fy),0.2]) >> video;
+z ++ (zoom (prox (0.5 +: sin 0.05)) $ z ) >> video;
+0.7 >> fdbk;
+
+-- punctual 2
+spin (time/(5/mid)) $ zoom mid $ vline [-5, -4.9 .. 5] ((0.01 ~~ 0.05 $ sin 0.2) * lo) * fx >> alpha
+
