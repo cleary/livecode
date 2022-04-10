@@ -15,7 +15,8 @@ s "[clubkick ~ ~ [~ clubkick?]]"
 ]
 
 -- minitidal 2
-sometimes (rev) $ sometimesBy 0.3 (|+ up "<[7 | 12 | 14]!6 [7 | 12 | 4]!2>") $ struct "t*3 t*4" $ s "wasphivebomb" |+ n ("<0!6 -2!2>" + "[17 | 19]" + 12)  # gain 0.9 # cut 8 # end "{0.05 1}%8"
+slow "<2 1.86 1.79 1.86 1 1.67 1.86>" $
+sometimes (jux rev) $ sometimesBy 0.3 (|+ up "<[7 | 12 | 14]!6 [7 | 12 | 4]!2>") $ struct "t*3 t*4" $ s "wasphivebomb" |+ n ("<0!6 -2!2>" + "[17 | 19]" + 12)  # gain 0.9 # cut 8 # end "{0.05 1}%8"
 
 -- punctual 1
 [prox (fft fx) * sin 0.02, 1, 0.2] >> hsv;
