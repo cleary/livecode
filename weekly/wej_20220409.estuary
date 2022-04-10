@@ -2,14 +2,15 @@
 -- https://youtu.be/NyqJya7JBlE
 
 -- minitidal 1
+-- modified/improved slightly :grimace:
 slow 2 $
 -- sometimesBy 0.1 (hurry "[2 | 0.5]") $
-stack [ 
+stack [
 s "[clubkick ~ ~ [~ clubkick?]]"
 , rarely (ply 2) $ s "hc hc ho . hc hc hc hc" # cutoff 5000 # gain 0.9 # end 0.09
-, every 4 (sometimes ghost) $ s "~ [sd,cp]"
-, s "shk*6 shk*8" |< n (irand 3) # hcutoff 4000 # gain 0.8 # cut 7 # speed 0.5
-, rarely (off 0.45 (|+ up "[7 | 12]")) $ someCyclesBy 0.2 (mask "1" . struct "t"  . (# speed "-1")) $ mask (binaryN 16 45556) $ s "[{flbass:0 flbass:6}%2]*8" # cut 2  |+ up "<0!6 -2!2>" 
+, rarely (("[0.3 | 0.25]" ~>) . ply "2?") $ every 4 (sometimes ghost) $ s "[~ [sd,cp] ]"
+, someCyclesBy 0.15 (hurry 1.15) $ s "shk*6 shk*8" |< n (irand 3) # hcutoff 4000 # gain 0.8 # cut 7 # speed 0.5
+, rarely (off 0.45 (|+ up "[7 | 12]")) $ someCyclesBy 0.2 (mask "1" . struct "t"  . (# speed "-1")) $ mask (binaryN 16 45556) $ s "[{flbass:0 flbass:6}%2]*8" # cut 2  |+ up "<0!6 -2!2>"
 , sometimesBy 0.3 (|+ up "[7 | 12]") $ struct "t*3 t*4" $ randslice 8 $ s "[jrhodes:4, jrhodes:7?]" |+ up "<0!6 -2!2>"  # gain 0.9 # cut 4 # end "{0.05 1}%8"
 ]
 
