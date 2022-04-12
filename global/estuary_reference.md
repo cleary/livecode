@@ -50,6 +50,10 @@ https://intramuros.mcmaster.ca/
 ```
 !setcps x.y
 ```
+*sometimes the beat counter can get too large, and strange artifacts start happening, reset the beat counter:*
+```
+!resettempo
+```
 *add some samples from a CORS compliant web server*
 ```
 !reslist "https://samples.grbt.com.au/resources.json"
