@@ -1,6 +1,9 @@
 
-all $ (# verb 0.9 0.7 0.1 0.4)
+all $ (# verb 0.9 0.7 0.1 0.4) 
+    -- . (whenmod 16 12 (chunk 4 (hurry 2)))
+    -- . (someCyclesBy 0.12 (linger "[s | 0.125 | 0.25 0.5]") . (|+ note (scale "hexatonic" (run 14))))
 
+-- shaker
 d1
     $ whenmod 32 16 (# rings 0.8 (slow 17 sine) (slow 4 sine) 0.9 (range 0.4 0.7 (slow 5 sine)))
     $ fast 2
@@ -28,16 +31,21 @@ d2
     # speed "-0.2"
     # pan "[0.2|0.8]"
 
+unsolo 3
 
-once $ s "[avhi|avmid|avlo]" |< n (irand 5)
+once 
+    $ off 0 (|- 24)
+    $ struct "[t*16 | t(11, 16)]"
+    $ randslice 16
+    $ s "[avhi|avmid|avlo]" |< n (irand 5)
     # gain 1.2
 
 -- clock
 -- massive linger on $ silence
 d3
     -- $ chunk 4 (hurry 0.5)
-    -- $ sometimes (# rings 0.4 0.5 0.3 0.7 0.9)
-    -- $ whenmod 32 16 (off 0.125 ((# rings 0.8 (slow 17 sine) (slow 4 sine) 0.9 (range 0.4 0.7 (slow 5 sine)) ) . (# ampbus 5 (range 0.1 0.4 (slow 4 sine)))))
+    $ sometimes (# rings 0.4 0.5 0.3 0.7 0.9)
+    $ whenmod 32 16 (off 0.125 ((# rings 0.8 (slow 17 sine) (slow 4 sine) 0.9 (range 0.4 0.7 (slow 5 sine)) ) . (# ampbus 5 (range 0.1 0.4 (slow 4 sine)))))
     $ sometimesBy 0.3 (plyWith "[2 | 3 4]" ((# crush 1.3) . (* gain 1.1)) )
     $ sometimesBy 0.12 (
       (# clouds 0.4 0.9 0.9 0.4) . 
@@ -45,7 +53,7 @@ d3
     )
     $ sometimesBy 0.8 (# accelerate 1.3)
     -- $ rarely (jux (|+ up "< 7 12>") . (# clouds 0.8 0.7 0.4 0.9) . (# cloudsblend 0.9 0.4 0.5 0.3))
-    $ struct ("t(3,8)GG")
+    $ struct ("t(3,8)")
     $ s "<avhi:3!7 avhi:4>" # cut 3
     # speed "0.2"
     # cut 3
@@ -66,6 +74,8 @@ d4
     -- # pan (rand)
     # cut 4
 
+unsolo 5
+
 -- heartbeat
 d5
     $ slice 128 "<2!7 119>"
@@ -79,36 +89,58 @@ d5
 
 -- drone
 d6
-    $ sometimes (off 1.75 ((# s "[bassclarinet:14@3 | bassclarinet:20@0.5]") . (# cut 7)))
+    -- $ sometimes (off 1.75 ((# s "[bassclarinet:14@3 | bassclarinet:20@0.5]") . (# cut 7)))
     -- $ (8 ~>) $ slow 8 $ note ("<c ~!1>" ) 
-    $ slow 8 $ note ("<c f gs a ~!2 c f g ~ ~!2>" )
+    $ slow 8 $ note ("<c f gs a ~!2 c f g [~@0.25 c@0.75] ~!2>" )
     # s "bassclarinet:0" |- note "12"
     # clouds 0.4 0.9 0.9 0.4
     # cloudsblend 0.9 0.6 0.4 0.9
     # cut 6
-    # crushbus 2 (segment 128 $ range 3 5 (slow 2 saw))
     # gain 0.9
     # legato 1.1
-
-panic
 
 d7
     $ off "0.125" (arp "down" . (|+ note 24) . (# s "superhammond?"))
     $ slow 8 
-    $ note ("<c'maj f'maj gs'm7f5'3 a'min ~!2 c6'maj'o [f'maj f4'maj'ii] g'maj'o ~ ~!2>" )
+    $ note ("<c'maj f'maj gs'm7f5'3 a'min ~!2 c6'maj'o [f'maj f4'maj'ii] g'maj'o [~ c ~ ~] ~!2>" )
     # s "[supersaw]"
     |- note 12
     # crush 1.3
     # legato 1.1
-    # gain 0.6
     # panbus 1 (segment 128 $ range "-1" 1 $ slow 7 sine)
     # clouds 0.4 0.9 0.9 0.4
     # cloudsblend 0.9 0.6 0.4 0.9
     # coarse 5
+    # gain 0.6
 
+-- cymbal 
 d8 
-    $ every' 48 44 (# gain 0.8)
+    $ (0.25 ~>) 
+    $ every' 48 42 (# gain 0.9)
     $ s "<[cc:1*3]!3 [~]>"
     # gain 0
     # speed "-0.1"
-    -- # crush 5
+    # djfbus 8 (segment 64 $ range 0 0.7 (slow 8 saw))
+    # crushbus "d10" (segment 64 $ range 5 2 (slow 8 saw))
+    # panbus "d11" (segment 128 $ range "-1" 1 (slow 3 saw) )
+
+-- vocals
+d9 
+    $ someCyclesBy 0.2 (# (segment 64 $ ampbus 9 "{0.5 0.1}%[30 8 16| 24 12 36]"))
+    $ slow 8 $ n ("<c f [gs6 [f6 e6]] ~ ~!2 c f g [c6 | e6] ~!2>" )
+    # s "lidvox"
+    # crush 6
+    # clouds 0.4 0.9 0.9 0.4
+    # cloudsblend 0.9 0.6 0.4 0.9
+    # legato 1.1
+
+-- gong
+d10 
+    $ rarely (plyWith 2 (0.25 <~) . (# speed "-1") . (|+ n 12))
+    $ slow 8 $ struct ("<t t t t f!2 t t t [f t f f] f!2>" )
+    -- $ slow 8 $ struct ("<t f f t f!2 t f f [f t f f] f!2>" )
+    $ s "kdrperc:5"
+    |- note 12
+    # clouds 0.4 0.9 0.9 0.4
+    # cloudsblend 0.9 0.6 0.4 0.9
+    # cut 10
