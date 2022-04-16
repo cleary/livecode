@@ -1,3 +1,5 @@
+-- replay: https://www.youtube.com/watch?v=gaflseszrMo
+
 -- estuary
 -- minitidal reference
 every' 8 7 ((# s "[vp330upallnight | rave]") . (# speed "-1")) $
