@@ -40,6 +40,10 @@ https://intramuros.mcmaster.ca/
 ```
 !localview $ grid 2 2 [iFrame "https://en.wikipedia.org/wiki/4hero",code 0 0,code 1 0,iFrame "https://en.wikipedia.org/wiki/4hero"]
 ```
+*horizontal split*
+```
+!localview $ grid 1 2 [code 0 0, code 0 1]
+```
 
 # estuary in-jam functions
 *get tempo*
