@@ -88,3 +88,38 @@ d9
 
 
 unmute 1
+
+
+====================================
+====================================
+====================================
+
+
+d1
+    $ whenmod 8 4 ( sometimesBy 0.45 ( rev) ) $
+    someCyclesBy 0.12 (plyWith 4 (|+ up (range 7 48 $ saw))) $
+    stack [
+        slow 4 $ chop 32 $ n "<8 9>" # s "kdrloops",
+        slow 2 $ plyWith 4 (rev . (|* gain 0.8)) $ sometimesBy 0.12 (off 0 (|+ note "[-12| -5]")) 
+        $ sometimes (# note (scale "pelog" (irand 10))) $ slow 4 $ chop 32 $ s "flutejk:2"
+        # crush 3.5
+        # verb 0.7 0.7 0.4 0.5
+        # pan rand
+        # legato "{0.1 1}%9"
+    ]
+
+d2
+    $ swingBy 0.04 4
+    $ struct "t*4"
+    $ note ("< 0 0 0 0 -3 0 <-3 -5> <2 -10>> ")
+    # s "flbass:6/2"
+    # cut 2
+
+d3
+    $ whenmod 8 4 (# crushbus 32 (range 6 3 $ slow 4 saw))
+    $ note ("< 0 0 0 0 -3 0 <-3 f'maj'o> <2 -10>> ")
+    # s "lober:66"
+    # legato 1
+    # gain 1.1
+    # ampbus 31 (stitch (binary 170) "0.2" "0.5")
+    
