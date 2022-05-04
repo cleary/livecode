@@ -40,6 +40,7 @@ d2
 unsolo 3
 
 once 
+    -- $ sometimesBy 0.5 ((# rings 0.8 (slow 17 sine) (slow 4 sine) 0.9 (range 0.4 0.7 (slow 5 sine))) . (|* gain 0.8))
     $ rarely (# accelerate "-0.2")
     -- $ off 0 (|- 24)
     $ struct "[t*16 | t(11, 16)]"

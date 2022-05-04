@@ -1,0 +1,90 @@
+d1 $ note (arp "up" "c'maj7'<4 8 16>") # s "flbass:14"
+
+d2 $ s "kounthomstr" |< n "<0 1 2 3 4 5 6 7 8>" # cut 1
+
+
+n "e7@0.25 f6@0.75" # s "superchip" # octave 2 # gain 1.25
+
+d2 $ s "sd"
+
+all $ (# hcutoff 0)
+
+all $ whenmod 17 15 ((# hcutoff (rangex 0 2000 $ slow 2 sine) ) . (|* speed "<1.25 1.5>"))
+
+d1 
+    $ every' 16 15 ((# cutoff 500) . (scramble 8) . sometimes (ply 2)) 
+    $ chop 32
+    $ loopAt 8 
+    $ s "<kdrloops:18 kdrloops:19>"
+    # cps 0.666
+    # gain 1.2
+
+d2 
+    $ rarely (# speed "-1")
+    $ whenmod 7 5 ((# hcutoff (rangex 0 5000 $slow 2 sine) ) . (|* speed "<1.25 1.5>") . (ply 3))
+    $ sometimesBy 0.12 (# accelerate "2")
+    $ someCyclesBy 0.1 (# legato 2)
+    $ rarely (# speed "-1")
+    $ struct "<[t t(3,8)] [~ ~ t] >" $ randslice "<16 8>" $ s "<kounthomstr:10!2 guitarneo:4!2>" # gain 1 # legato "{0.5 1.1}%3"
+    # clouds 0.6 0.6 0.4 0.7
+    # cloudsblend 0.9 0.5 0.4 0.6
+    |+ up "<0!16 0!16>"
+    # pan rand
+
+unmute 2
+
+d3 $ struct "<t [t(<4 4 3 5>,8)]>" $ n "<c!2 ~!2>" # s "<bass1 >" # cut 3 # legato "{0.5 7}%8"
+    # verb 0.6 0.7 0.4 0.4
+    |+ up "<4!7 0>"
+
+d1 $ s "bd(<4 4 5 3>,8)"
+
+d4
+    $  every 4 (ply "1 2". ((0.25) <~)) $ s "~ [kdrcp, kdrsd]"
+
+d4 
+    $ slow 2 $ struct "<[t*2 ~ ~ <[~ t t t] ~>] >"
+    $ s "kdrhh" |< n (irand 3)
+
+d4 silence
+
+d5 $ s "~ [~ kdrhh:6] ~ kdrhh" # gain 1.2
+
+d6 $ struct "t t t? t t t?" $ s "kdrperc:2" 
+    # rings 0.7 "{0.7 0.9}%8" 0.5 "{0.9 0.6 0.4}%4" 0.9
+    # gain 0.6
+
+d2
+    $ every 4 (off 0 (# s "<kounthomstr:13 kounthomstr:12>") . (# panbus 23 (range (1) (-1) $ slow 7 sine)) )
+    $ whenmod 8 6 (randslice 16 . struct "<[t t(5,8)] ~ ~ ~ t>")
+    $ whenmod 16 12 (chop 32 . chunk 4 (hurry 2)) 
+    $ sometimes (off 0.125 (chop 32 . (# hcutoff 2000)). (# crush 5) )
+    $ loopAt 2
+    $ s "<<noambenson112:3 noambenson112:2>!3 >"
+    -- # cutoff 500
+    # ampbus 6 (stitch ("t(<4>,8)") "0.25" "0.5")
+    # panbus 23 (range (-1) 1 $ slow 7 sine)
+
+d7
+    $ loopAt 4
+    $ someCyclesBy 0.4 (striate 16)
+    $ s "kounthomstr:7"
+
+d8 
+    $ slow 2 $ struct "<[t*2 ~ ~ <[~ t t t] ~>] >"
+    $ note (scale "pelog" (run 8))
+    # s "bass1"
+    # legato "<1 0.5>"
+    |- up "<0!2 3!2>"
+
+d9 
+    $ struct "<~ [~ [~ t]] t ~>"
+    $ slice "[32 | 16]" "<12 24 18>"
+    $ s "<trumpsy!8 flutejk!8>"
+    # legato 0.8
+    # clouds 0.8 0.7 0.8 0.6
+    # cloudsblend 0.9 0.9 0.4 0.7
+    # pan "<0!4 1!4>"
+
+
+unmute 1
