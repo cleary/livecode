@@ -1,7 +1,11 @@
-d1 $ note (arp "up" "c'maj7'<4 8 16>") # s "flbass:14"
+d1 $ sometimes rev $ note (arp "up" "c'maj7'<4 8 16>") # s "flbass:14" # hcutoff (range 0 3000 $ slow 4 sine)
 
-d2 $ s "kounthomstr" |< n "<0 1 2 3 4 5 6 7 8>" # cut 1
+d2 $ slow 4 $ chop 32 $ s "kdrloops" |< n "<0 1 >" # cut 1
 
+d2 silence
+
+
+all $ (# verb 0.6 0.6 0.4 0.4)
 
 n "e7@0.25 f6@0.75" # s "superchip" # octave 2 # gain 1.25
 
@@ -9,7 +13,11 @@ d2 $ s "sd"
 
 all $ (# hcutoff 0)
 
-all $ whenmod 17 15 ((# hcutoff (rangex 0 2000 $ slow 2 sine) ) . (|* speed "<1.25 1.5>"))
+all $ linger "[s | 0.125 | 0.25 0.5]"
+
+all $ chunk 4 (hurry 2)
+
+all id
 
 d1 
     $ every' 16 15 ((# cutoff 500) . (scramble 8) . sometimes (ply 2)) 
@@ -36,6 +44,8 @@ unmute 2
 d3 $ struct "<t [t(<4 4 3 5>,8)]>" $ n "<c!2 ~!2>" # s "<bass1 >" # cut 3 # legato "{0.5 7}%8"
     # verb 0.6 0.7 0.4 0.4
     |+ up "<4!7 0>"
+
+d1 silence
 
 d1 $ s "bd(<4 4 5 3>,8)"
 
@@ -65,10 +75,14 @@ d2
     # ampbus 6 (stitch ("t(<4>,8)") "0.25" "0.5")
     # panbus 23 (range (-1) 1 $ slow 7 sine)
 
-d7
-    $ loopAt 4
-    $ someCyclesBy 0.4 (striate 16)
-    $ s "kounthomstr:7"
+do 
+
+    d7
+        $ loopAt 4
+        $ someCyclesBy 0.4 (striate 16)
+        $ s "kounthomstr:7"
+
+    unsolo 7
 
 d8 
     $ slow 2 $ struct "<[t*2 ~ ~ <[~ t t t] ~>] >"
@@ -87,6 +101,8 @@ d9
     # pan "<0!4 1!4>"
 
 
+unsolo 8
+
 unmute 1
 
 
@@ -95,7 +111,11 @@ unmute 1
 ====================================
 
 
-d1
+do
+    d1 silence
+    all $ hurry 0.5
+
+
     $ whenmod 8 4 ( sometimesBy 0.45 ( rev) ) $
     someCyclesBy 0.12 (plyWith 4 (|+ up (range 7 48 $ saw))) $
     stack [
@@ -142,3 +162,46 @@ d3
 
 d4 $ iter 4 $ fast 4 $ off "s" (|- 7) $ arp "down" $ note "c'dim7'iii" # s "arpy" 
     # octave "<5 4 3>"
+
+
+
+d1 $ slow 4 $ chop 32 $ sound "kdrloops:1"
+    # cps 0.45
+    -- # cps "<[0.5 0.55] 0.4 0.6>"
+
+all id
+
+d2 $ s "kdrhh*4"
+
+d3$ struct "t*4" $ slow 2$ note "[<e'dom7'3@0.4 a'min7'3@0.4 e'dom7'3@0.4 b'dom7'3@0.4 a'dom7'3@0.4 e'dom7'3@0.4>]" # s "gtr:1" # gain 0.6 # legato 1
+    # octave 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
