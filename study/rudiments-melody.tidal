@@ -1,0 +1,19 @@
+-- RUDIMENTS: MELODY
+-- a standard set of practice challenges
+-- to try and improve memory and speed
+-- of execution in Tidalcycles
+
+-- using floor with curves to modify melody
+d1 
+    $ note (scale "minor" (
+        "4 0 0 0 3 0 0 0 4 0 4 5"
+        -- + (floor <$> range 0 14 (slow 4 sine))   
+        -- - (floor <$> range 0 6(fast 3 cosine))   
+    ))
+    # sound "superchip" 
+
+-- mapping melodies to variables
+let melody =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+in
+d1 
+    $ note (scale "minor" melody) # sound "superchip"
