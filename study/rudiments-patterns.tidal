@@ -4,7 +4,7 @@
 -- of execution in Tidalcycles
 
 -- orchestral stacking of samples
-d1 
+d1
     $ stack [
         slow 32 $ note (scale "minor" "0 2 -3 1 8 0 0 4"),
         slow 16 $ note (scale "minor" "0 2 7 1 4 0 0 4"),
@@ -13,3 +13,28 @@ d1
         slow 2 $ note (scale "minor" "0 2 -3 1 -1 0 2 -4")
     ] # sound "[cbow:0, cbow:4, cbow:10]"
     # legato 1.1
+
+-- dynamic variables, auto update on change
+do
+    setB "dynb" (binary "<170 148 191 168>")
+    setI "dyni" (run 4)
+    setF "dynf" (rand)
+
+-- dynamic variable usage across orbits
+do
+    d1
+        $ struct "^dynb"
+        $ s "bd"
+        # n "^dyni"
+        # djf "^dynf"
+    d2
+        $ someCycles (fast 2)
+        $ struct (inv "^dynb")
+        $ s "linnhats"
+        # n ("^dyni")
+        # pan "^dynf"
+    d3
+        $ degradeBy 0.8
+        $ sometimesBy "^dynf" (rev . plyWith "^dyni" (*gain 0.92))
+        $ struct (inv "^dynb")
+        $ s "sd"
