@@ -73,7 +73,8 @@ d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromat
 d1 $ s "s100m808sinspace" -- c2, almost rhodes-like in lower registers, ~3s duration
 d1 $ s "s100mgoodsigns" -- c1, industrial heavy metal sheet sound
 d1 $ s "s100msisters" -- c0, beating filter opening bass
-d1 $ s "sh5hendrixfuzz:12" -- bass heavy fuzz lead, start at n:48
+d1 $ s "sh5hendrixfuzz" -- bass heavy fuzz lead, start at n:48
+d1 $ slow 8 $ s "trumpfmars" <| n (run 27) -- awesome trumpet lines
 d1 $ s "vp330stringslow" -- c1 classic poly synth sound
 d1 $ s "vp330prisspad" -- c1 male choral choir-esque
 d1 $ s "wasp2saws" -- c0 trebley synth, smooths out nicely @ cutoff 400
