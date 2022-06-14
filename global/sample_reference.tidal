@@ -68,13 +68,17 @@ d1 $ slow 16 $ s "pulse" <| n (run 60) -- C2 short release synth, increasing chr
 d1 $ slow 16 $ s "rash" <| n (run 72) -- C1 med release synth, increasing chromatically
 d1 $ slow 16 $ s "xx" <| n (run 88) -- C1 long release synth, increasing chromatically
 
--- samples from mars (custom, personal set of 120+ note synths) - cX indicates n:0
+-- synth samples from mars (custom, personal set of 120+ note synths) - cX indicates n:0
 -- preferred
+d2 $ s "subclean" -- E0, C1:8 lovely deep clean sub bass, 25 samples
+d2 $ s "subdirt" -- C0, slightly muffled dirt sub bass, 24 samples
+d2 $ s "subres" -- E0, C1:8 filter opening sub bass short, 41 samples
+d2 $ s "subresl" -- E0, C1:8 filter opening sub bass long, 53 samples
+d2 $ s "cleansub" -- E0, C1:8 lovely deep clean sub bass, 25 samples
 d1 $ s "s100m808sinspace" -- c2, almost rhodes-like in lower registers, ~3s duration
 d1 $ s "s100mgoodsigns" -- c1, industrial heavy metal sheet sound
 d1 $ s "s100msisters" -- c0, beating filter opening bass
 d1 $ s "sh5hendrixfuzz" -- bass heavy fuzz lead, start at n:48
-d1 $ slow 8 $ s "trumpfmars" <| n (run 27) -- awesome trumpet lines
 d1 $ s "vp330stringslow" -- c1 classic poly synth sound
 d1 $ s "vp330prisspad" -- c1 male choral choir-esque
 d1 $ s "wasp2saws" -- c0 trebley synth, smooths out nicely @ cutoff 400
@@ -111,6 +115,10 @@ d1 $ s "waspfunksaw" -- c0 short release, smoother than square, sweep open with 
 d1 $ s "waspfranky4fingers" -- c0 harsh detuned long release, bizarre bass hi pitched bits
 d1 $ s "waspexistenz" -- c0 hi pitched is better, video game boss
 d1 $ s "wasp2squares" -- c0 harsh trebley synth
+
+-- non-synth samples from mars
+d1 $ slow 8 $ s "trumpfmars" <| n (run 27) -- awesome trumpet lines, pitch in name (D4,G2,C3,Gs2,C4,D4...)
+d1 $ slow 16 $ s "tapefmars" <| n (run 33) -- tape sample fragments, mostly short, pitch in name (?,G4,G4,C4,G3,G2...)
 
 
 -- nmsamples: https://github.com/tedthetrumpet/tidal/tree/master/nmsamples
