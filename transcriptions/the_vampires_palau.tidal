@@ -1,0 +1,16 @@
+
+
+let 
+    tempo = (72/240)
+    anacrusis = "<  [~ [b,a] [[b,a][af,d]] [[c,f][d,g]]] >"
+    melody_a = (scale "major" "<[3,5]@1.5 [3,5]@0.5 [[3,5]@0.5 [2,5f]@0.5 [4,2f]@3] ~ ~ ~ ~ ~>")
+    chord_a = "<f'major'o!2 c'minor'o!2 bf4'major'o!2 f4'major'o!2>"
+in
+d1 $ stack [
+        note chord_a
+        # s "superpiano"
+        # cutoff 2000
+        , note melody_a # s "supermandolin"
+        # sustain 10
+    ]
+    # verb "^21" "^22" "^23" "^24"
