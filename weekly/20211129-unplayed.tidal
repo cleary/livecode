@@ -1,0 +1,44 @@
+d1
+    $ someCyclesBy 0.2 (linger ("<5 3 3 [8 <1 0.5> 8]>"/8) . chop 2)
+    $ someCyclesBy 0.7 (off "{0 0 0 -0.0777}%9" ((# legato 0.5) . (# hcutoff 1000)) . (# clouds 0.6 0.5 0.7 0.6) 
+            . (# cloudsblend 0.9 0.5 0.7 0.6))
+    $ swingBy 0.2 4
+    $ whenmod 8 4 ((0.125/8) ~>)
+    $ struct "<[[10001]@2[010]@2] [[10[01]]@2[00100]@2] [[10000]@2[001]@2] [10100010]>"
+    $ note "<c6 [c6@1 b5@3] d6 [d6@1 g@3]>" + note "{0 0 0 0 2 0 -2 0 0 0}%1" + note "{0 0 0 1 0 0 0}%2"
+    # s "[lober:34, lober:35?0.2, jungbass:1?0.9]"
+    # cut 1
+    # accelerate "<0 0 [0 1.5 0] 0 0>"
+    # legato "<[1.1 0.9] [1.1 1.7 1.1 1.1] >" 
+    -- # nudge "<[0 -0.07] 0>"
+
+d2
+    $ swingBy 0.2 4
+    $ whenmod 16 14 ((rarely (ply 2))
+                    . struct "t*8"
+                    . (# s "<[sd | cpu2?] [clubkick, cpu2?]>") 
+                    . (# n (irand 12)) 
+                    . (# legato 1.1))
+    $ stack [
+          s "<bd bd bd [bd!3 ~]>"
+        , every' 4 2 (mask "01" . someCyclesBy 0.1 (fast 2) . ghost) $ s "<~ [~ ho:4]> [cp, sd]" # cut 1 # speed "[0.9 1]" # crush "[1.9 5]"
+        , sometimes (ply 2 ) $ s "hc*4" # end 0.18
+        ]
+    # cps 0.777
+
+
+d3  silence
+
+    $ rarely (# hcutoff 0)
+    $ whenmod 16 14 (# hcutoff 200)
+    $ linger ("<5 3 3 [8 <1 0.5>] 8>"/8) . chop 4
+    $ loopAt "[8|4]"
+    $ s "breakz" |< n (irand 4)
+    # hcutoff 3000
+
+all $ linger ("<5 3 3 [8 <1 0.5>]>"/8) . chop 4
+
+all $ linger ("<5 3 3 [8 <1 0.5>] 8>"/8) . chop 4
+
+all $ (|* gain 1)
+

@@ -1,0 +1,56 @@
+let sw = swingBy 4 0.1
+
+d1 
+    $ sw
+    $ while "{11010000010001011000000}%20" (sometimes (fast 2 . palindrome))
+    $ stack [
+        swingBy 4 1 $ every' 4 1 (# gain (stitch (binary 170) "0.8" "1.0")) $ slow 2 
+          $ ply "<[6 2 4 2] 1>" $ struct (binary 170) $ s "sd" # gain 0
+        , struct (binary "<8!3 9>") $ s "bd"
+        , struct (binaryN 16 24744) $ s "rs" # gain (stitch (binary 170) "1" "0.5")
+        , struct "t*16?" $ s "hc" # gain (stitch (binary 170) "0.5" "1")
+        , struct (binary 2) $ s "ho?" # gain (stitch (binary 170) "1" "0.5")
+        , every' 4 2 (# gain 1) $ s "cc" # gain 0 # hcutoff 8000
+        ] 
+        # cps 0.4
+        # verb "^0" "^1" "^2" "^3"
+
+d1 silence
+
+d1 
+    $ sometimes (ply 1)
+    $ whenmod 9 8 (jux rev . palindrome)
+    $ whenmod 13 11 (brak . slow 2)
+    $ whenmod 19 18 (stutWith 3 "s" (|* room "1.1 0 0 0"))
+    $ stack [
+        every' 4 2 (brak . fast 2)
+        $ chop 32
+        $ (0.5 ~>)
+        $ loopAt 4 
+        $ s "breph:3",
+        struct (binary "<8!3 9>") $ s "[808bd:1, bd]"
+    ] 
+    # gain (stitch (binary 170) "1" "0.8")
+    # verb "^0" "^1" "^2" "^3"
+
+d2 
+    $ swingBy 4 0.1
+    $ note (scale "major" "<[0  ~ ~ [2 3]] [4 ~ ~ [3 4]] [6  5 ] [2 ~ ~ -2] >")
+    # s "flbass:0" # cut 1 
+    # legato (stitch (binary 170) "0.5" "1.5")
+    # verb "^0" "^1" "^2" "^3"
+    # cutoff 500
+    |- up 12
+
+d3 
+    $ swingBy 2 0.4
+    $ struct (binaryN 16 12336)
+    $ note "<c6'sus2'ii g6'maj'ii c6'maj'ii a5'min'ii >"
+    # s "uku:1"
+    # legato 0.3
+    # gain 0.8
+    # hcutoff 1000
+    # verb "^0" "^1" "^2" "^3"
+    # delay 1
+    # delayfeedback 0.5
+    # delaytime "q"
