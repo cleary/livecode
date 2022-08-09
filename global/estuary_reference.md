@@ -102,6 +102,30 @@ From  CORS compliant web server:
 
 https://github.com/dktr0/estuary/wiki#adding-sound-files-to-estuarywebdirt-on-the-fly-early-august-2021
 
+Some examples:
+
+```
+!reslist "https://samples.grbt.com.au/resources.json"
+```
+```
+!reslist "https://carltesta.github.io/resources.json"
+```
+```
+!reslist "https://carltesta.github.io/vcsl_for_estuary/resources.json"
+```
+```
+!reslist "https://dktr0.github.io/cybernetic-samples/sounds/sounds.json"
+```
+```
+!reslist "https://tedthetrumpet.github.io/testpage/nmsamples/resources.json"
+```
+```
+!reslist "https://etsabary.github.io/supercontinent/resources.json"
+```
+```
+!reslist "https://dandrewstewart.github.io/samples/resources.json"
+```
+
 # JSoLang reuse vars example
 
 ## What is it?
