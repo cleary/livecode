@@ -1,0 +1,82 @@
+all $ linger 0.125
+
+all $ (|+ note 2)
+
+all $ id
+
+d1
+    -- $ every' 2 1 (arp "up")
+    $ slow 2
+    $ stack [
+        note "<g6'maj7'o [[fs, b'm7@0.23] ~@3.77]>"
+    ]
+    # s "supermandolin:0"
+    # gain 1.3
+    # sustain 20
+    # octave 4
+    # clouds 0.6 0.6 0.3 0.4
+    # cloudsblend 0.9 0.8 0.6 0.9
+    # cps 0.3
+    -- cps "<0.5 0.5 025 1/3>"
+
+d2
+    $ slow "<4 3 2 [ 1| 0.5 | 0.33]>"
+    $ mono
+    $ whenmod 5 2 (# cut 1)
+    $ apt "{up down converge ~ down}%7"
+    $ whenmod 9 7 (# note "<e6'm7;'oo [g'maj7@0.33 ~@3.67]>")
+    $ note "<[g6'maj7'o@0.125 ~@3.875 [[fs, b'm7@0.23] ~@3.77]>"
+    # stack [
+        s "[supertron | ~ | supertron ]"
+        , s "[~ | supergrind | ~ ]" # voice (segment 8 $ rand) # legato 0.25
+    ]
+    # gain 0.7
+    # sustain 10
+    # octave "[5 | 4 |  6]"
+    # clouds 0.6 0.6 0.3 0.4
+    # cloudsblend 0.9 0.8 0.6 0.9
+    # legato "{0.8 1 0.3 1 0.1}"
+
+d3
+    $ slow 2
+    $ rarely (off 0.125 (# s "808bd:1"))
+    # cut 1
+    # clouds 0.6 0.6 0.3 0.4
+    # cloudsblend 0.9 0.8 0.1 0.9
+    # gain 1.1
+
+d3
+    -- struct "<[t(1,8,[-1,-3,-5,-6,-7,-9]) t*8 t(3,8) t(5,16) ]>"
+    -- percussion from above
+
+
+d4
+    $ sometimes (off 0.125 (-- jux
+        (mask (binaryN 16 "<64783 48933 37429>") . (+| note (arp "converge" "<[g6'maj7'12@0.125 ~@3,875] [[fs, b'm7'9@0.23] ~@3.77]>")) . (# octave (segment 16 $ "[3 | 7 | 6 | 5]")) . (# legato 0.9) . (# s "superfm") . (# delay 1) . (# delaytime 0.333) . (# dfb 0.75) . (# panbus "4" (segment 8 $ rand )))))
+    $ slow 2
+    $ struct "<[t*8] [t*8] [t*2] [t*3] >"
+    $ note "<g fs>"
+    # s "superfm"
+    # octave 4
+    # amp1 1
+    # amp2 1
+    # amp3 0
+    # amp4 0
+    # amp5 0
+    # amp6 1
+    # ratio2 2
+    # ratio3 3
+    # ratio4 4
+    # ratio5 0.5
+    # ratio6 0.25
+    # feedback 1
+    # mod11 1
+    # mod16 1
+    # mod66 1
+    # mod23 1
+    # mod34 1
+    # mod45 1
+    # eglevel62 0.1
+    # eglevel63 1.5
+    # egrate63 0.5 
+    # verb 1 0.9 0.1 0.1
