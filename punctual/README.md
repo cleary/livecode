@@ -2,12 +2,10 @@
 
 ## Videos
 
-Birds
- - source: https://commons.wikimedia.org/wiki/File:Bird_feeder_in_the_mountains_of_Slovakia.webm
- - License: CC-3.0-SA
-```
-vid "https://upload.wikimedia.org/wikipedia/commons/3/30/Bird_feeder_in_the_mountains_of_Slovakia.webm" >> rgb;
-```
+| Media Link | Source | License |
+|------------|--------|---------|
+| [Birds](https://upload.wikimedia.org/wikipedia/commons/3/30/Bird_feeder_in_the_mountains_of_Slovakia.webm) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Bird_feeder_in_the_mountains_of_Slovakia.webm) | [Creative Commons Attribution 3.0 Unported](https://creativecommons.org/licenses/by/3.0/deed.en) |
+
 
 Leaves
 ```
