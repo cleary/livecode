@@ -34,3 +34,9 @@ someContent << img "https://img.grbt.com.au/tower2.jpg";
 shiftRight << saw 0.1;
 move [shiftRight,0] $ tile 1 $ someContent >> video;
 ```
+
+Rorschach test
+```
+mono $ hsvrgb (setfxy [fx * 0.2, [fft fy]*4] $ circle [0,0] [fft fy] )  >> video;
+step [1, 1, 1, 1, 0] (lfsaw (cps/4)) >> fdbk;
+```
