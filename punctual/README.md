@@ -17,6 +17,7 @@
 | Media Link | Source | License |
 |------------|--------|---------|
 | [Castle](https://upload.wikimedia.org/wikipedia/commons/8/87/Schloss_Marienburg_im_herbstlichen_Abendlicht.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Schloss_Marienburg_im_herbstlichen_Abendlicht.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) | 
+| [Frank Miller](https://upload.wikimedia.org/wikipedia/commons/7/71/Frank_Miller_-_Lucca_Comics_%26_Games_2016.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Frank_Miller_-_Lucca_Comics_%26_Games_2016.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) |
 | [Silence (street)](https://upload.wikimedia.org/wikipedia/commons/a/a9/Tilley_Hats_and_Silence.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Tilley_Hats_and_Silence.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) |
 | [Skylight Concentric Circles](https://upload.wikimedia.org/wikipedia/commons/5/5a/Solomon_R._Guggenheim_Museum_skylight.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Solomon_R._Guggenheim_Museum_skylight.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) |
 
