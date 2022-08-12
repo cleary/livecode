@@ -1,0 +1,15 @@
+-- == VIDEOS == --
+-- volcano
+vid "https://upload.wikimedia.org/wikipedia/commons/9/9f/Hunga_Tonga%E2%80%93Hunga_Ha%27apai_volcanic_eruption_January_14%2C_2022.webm" >> rgb;
+
+-- leaves
+vid "https://upload.wikimedia.org/wikipedia/commons/4/43/Leaves-in-quebec.webm" >> rgb;
+
+-- birds
+vid "https://upload.wikimedia.org/wikipedia/commons/3/30/Bird_feeder_in_the_mountains_of_Slovakia.webm" >> rgb;
+
+-- tilt shift miniture
+https://upload.wikimedia.org/wikipedia/commons/8/88/Miniaturized_Port.webm
+
+-- mikropolis
+https://upload.wikimedia.org/wikipedia/commons/c/ce/Mikropolis_Donostia_-_Tilt_Shift.webm~
