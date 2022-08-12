@@ -19,3 +19,18 @@
 | [Castle](https://upload.wikimedia.org/wikipedia/commons/8/87/Schloss_Marienburg_im_herbstlichen_Abendlicht.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Schloss_Marienburg_im_herbstlichen_Abendlicht.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) | 
 | [Silence (street)](https://upload.wikimedia.org/wikipedia/commons/a/a9/Tilley_Hats_and_Silence.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Tilley_Hats_and_Silence.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) |
 | [Skylight Concentric Circles](https://upload.wikimedia.org/wikipedia/commons/5/5a/Solomon_R._Guggenheim_Museum_skylight.jpg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Solomon_R._Guggenheim_Museum_skylight.jpg) | [Creative Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) |
+
+## Code Snippets
+
+Generating squares from audio
+```
+move (saw (step [0.4,0.9,-0.4,-0.9] $ lfsaw lo)) $ zoom (lo) $ hsvrgb(rect [0,0] [1.8] * [fft fx * sin lo,1,1]) >> video;
+0.98 >> fdbk;
+```
+
+Parallax movement
+```
+someContent << img "https://img.grbt.com.au/tower2.jpg";
+shiftRight << saw 0.1;
+move [shiftRight,0] $ tile 1 $ someContent >> video;
+```
