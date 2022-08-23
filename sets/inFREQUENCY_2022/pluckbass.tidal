@@ -9,7 +9,8 @@ all $ spreadf [ply 2, jux rev, (# hcutoffbus 14 (rangex 6000 50 $ fast 2 saw)), 
 
 
 d1
-    $ sometimesBy 0.23 (jux (# crushbus 21 (range 5 6 $ fast 2 saw) ))
+    -- $ sometimesBy 0.23 (jux (# crushbus 21 (range 5 6 $ fast 2 saw) ))
+    $ (0.125 ~>) 
     $ whenmod  32 28 (mask "10101011" . (# n (scale "major" "<3!2 4!1 [5 6]>")) . (rarely (plyWith 2 ((0.125 <~ ) . (|- up 5)))) )
     $ while "{010100101001110}%20" (|+ n "{0 4 0 7 0}")
     $ every' 4 3 (mask "10000001")
@@ -21,6 +22,7 @@ d1
     # cut 1
     # gain 1.2
     # cps 0.55
+    -- # crush 3
 
 d2
     $ rarely (jux rev)
@@ -73,6 +75,29 @@ d2
     # pan (slow 8 sine)
 
 
+d6 silence
+
+    $ whenmod 24 22 (chop 1 . (# n "<0 1>"))
+    $ whenmod 9 8 (superimpose (|+ up "[7,12]"))
+    $ almostNever (jux (hurry 0.5))
+    $ someCyclesBy 0.3 (mask "t(5,8,<2>)")
+    $ sometimes ( mask (binary "<170 248 192 252 >"))
+    $ every 4 (jux (scramble 8))
+    $ slow 1 $ chop "<8 16 8 4>"
+    $ stack [
+        nTake "t" [2,3,7],
+        slow 2 $ nTake "t2" [2,3,8],
+        slow 4 $ nTake "t3" [0,3,8] # pan 0.7,
+        slow 8 $ nTake "t3" [6,5] # pan 0.3
+    ]
+    # s "torta"
+    -- # speed "0.5"
+    |+ up (perlin*(slow 3 sine))
+    # room "<[0.1 0.4] 0.4 0.4 0.4 [0.9 0.4] >" # sz (0.13 * sine)
+    -- |- up 12
+    -- # gain 0
+
+
 d6
     $ sometimes (ply 4 . (# legato 0.125))
     $ degradeBy 0.6
@@ -86,3 +111,19 @@ d6
     # crushbus 69 (stitch "{0010101101011101011}%12" "3" "7")
     # pan 0.3
     # leslie 10 # lsize (10*sine) # lrate (0.3*sine)
+
+d2
+    $ someCyclesBy 0.3 (rarely (rev . plyWith "6 6 2" (|* gain 0.9)))
+    $ spreadf [(#hcutoff 2000), ((# leslie 2) . (# lrate (0.6*sine)). (# lsize (0.3*saw))), (# accelerate (-2*saw)), jux rev, ((# clouds 0.6 0.8 0.4 0.6) . (# cloudsblend 0.9 0.9 0.5 0.7)), (mask "100001001")]
+    $ sometimes (jux press)
+    $ someCyclesBy 0.25 (chunk 4 (hurry 2))
+    $ every' 8 7 (linger "{[0.125 0.25] 0.666 0.25 0.5}%9")
+    $ s "bbox*2 . bbox:2(4,8) . bbox:1 . bbox:2(3,8)"
+    # room "<[2 0.4] 0.4 0.4 [0.4 2 0.4] 0.1>" # sz (0.13 * sine)
+    |+ n "[4 | 0 7 | 0 2]"
+    # cut 2
+    # shape 0.5
+    # gain 0.9
+
+d2
+    $ s "bbox bbox:1"
