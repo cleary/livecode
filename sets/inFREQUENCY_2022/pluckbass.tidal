@@ -24,6 +24,27 @@ d1
     # cps 0.55
     -- # crush 3
 
+-- dub bass line - Vital: FREE - BouySynthBass/Jupiter Bass
+d1
+    -- $ sometimesBy 0.23 (jux (# crushbus 21 (range 5 6 $ fast 2 saw) ))
+    $ superimpose ((# s "clubkick:4") . (# speed 0.5) . (# crush 3)) 
+    $ degradeBy 0.5
+    -- $ (0.125 ~>) 
+    -- $ whenmod  32 28 (mask "10101011" . (# n (scale "major" "<3!2 4!1 [5 6]>")) . (rarely (plyWith 2 ((0.125 <~ ) . (|- up 5)))) )
+    $ while "{010100101001110}%20" (|+ n "{0 4 0 7 0}")
+    $ every' 4 3 (mask "10000001")
+    $ sometimes (plyWith 2 (0.25 <~))
+    $ struct "<[10011001] [11001100]>"
+    -- $ struct "t*8"
+    $ n (scale "major"  "{0 2 4 9 6 8 3 5}%6")
+    # s "midi0"
+    -- # cut 1
+    # gain 1.2
+    # cps 0.55
+    # octave "[3,4]"
+    # legato "[2 |1 |2 ]"
+    -- # crush 3
+
 d2
     $ rarely (jux rev)
     $ struct "[t(9,16), t(2,10)]"
@@ -75,8 +96,9 @@ d2
     # pan (slow 8 sine)
 
 
-d6 silence
-
+d6
+    $ whenmod 4 2 ((0.25 ~>) . palindrome)
+    -- $ slow 2
     $ whenmod 24 22 (chop 1 . (# n "<0 1>"))
     $ whenmod 9 8 (superimpose (|+ up "[7,12]"))
     $ almostNever (jux (hurry 0.5))
@@ -126,4 +148,10 @@ d2
     # gain 0.9
 
 d2
-    $ s "bbox bbox:1"
+    $ every' 8 7 (struct (binaryN 16 "64334") . (# s "[bbox:4, sd?, mt?0.3]") . (# hcutoff "{0 2000 2000 0 2000 2000 2000}%17") . (# clouds 0.5 0.5 0.8 0.7) . (# cloudsblend 0.9 0.4 "[0.4 0.7 0.3 0.3]" "{0.9 0.7 0.3 0.3 0.9}%9"))
+    $ rarely (ply 2)
+    $ s (stitch "10010000" "bbox:0" "bbox:2")
+    # room "<[2 0.4] 0.4 0.4 [0.4 2 0.4] 0.1>" # sz (0.13 * sine)
+    # shape 0.5
+    # gain 0.9
+    # cps 0.55
