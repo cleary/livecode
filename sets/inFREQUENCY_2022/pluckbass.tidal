@@ -4,12 +4,20 @@ all $ linger "0.125 0.25 0.666"
 
 all $ chunk 4 (iter 2)
 
-all $ spreadf [ply 2, jux rev, (# hcutoffbus 14 (rangex 6000 50 $ fast 2 saw)), (# coarse 64), ((# clouds 0.6 0.7 0.4 0.6). (# cloudsblend 0.9 0.9 0.6 0.7)), linger "<[0.25 0.125] [6 9]/8 >", hurry "[2 | -2]", (# accelerate (-3*sine)), ((# s "[tapefmars:2]") . (randslice 16) . (# crush 5) . (|+ up "[24 | 12]"))]
+all $ hurry 0.5 . spreadf [ply 2, jux rev, (# hcutoffbus 14 (rangex 6000 50 $ fast 2 saw)), (# coarse 64), ((# clouds 0.6 0.7 0.4 0.6). (# cloudsblend 0.9 0.9 0.6 0.7)), linger "<[0.25 0.125] [6 9]/8 >", hurry "[2 | -2]", (# accelerate (-3*sine)), ((# s "[tapefmars:2]") . (randslice 16) . (# crush 5) . (|+ up "[24 | 12]"))]
     
+all $ id
 
+solo 1
+
+unsolo 1
+
+do 
+    unsolo 6
 
 d1
     -- $ sometimesBy 0.23 (jux (# crushbus 21 (range 5 6 $ fast 2 saw) ))
+    -- $ superimpose ((# s "clubkick:4") . (# speed 0.5) . (# crush 3)) 
     $ (0.125 ~>) 
     $ whenmod  32 28 (mask "10101011" . (# n (scale "major" "<3!2 4!1 [5 6]>")) . (rarely (plyWith 2 ((0.125 <~ ) . (|- up 5)))) )
     $ while "{010100101001110}%20" (|+ n "{0 4 0 7 0}")
@@ -22,14 +30,16 @@ d1
     # cut 1
     # gain 1.2
     # cps 0.55
-    -- # crush 3
+    # crush 3
 
--- dub bass line - Vital: FREE - BouySynthBass/Jupiter Bass
+unsolo 6
+
+-- dub bass line - Vital: BouySynthBass/Jupiter Bass
 d1
     -- $ sometimesBy 0.23 (jux (# crushbus 21 (range 5 6 $ fast 2 saw) ))
     $ superimpose ((# s "clubkick:4") . (# speed 0.5) . (# crush 3)) 
     $ degradeBy 0.5
-    -- $ (0.125 ~>) 
+    $ (0.125 ~>) 
     -- $ whenmod  32 28 (mask "10101011" . (# n (scale "major" "<3!2 4!1 [5 6]>")) . (rarely (plyWith 2 ((0.125 <~ ) . (|- up 5)))) )
     $ while "{010100101001110}%20" (|+ n "{0 4 0 7 0}")
     $ every' 4 3 (mask "10000001")
@@ -42,38 +52,33 @@ d1
     # gain 1.2
     # cps 0.55
     # octave "[3,4]"
-    # legato "[2 |1 |2 ]"
+    # legato "2"
     -- # crush 3
 
-d2
-    $ rarely (jux rev)
-    $ struct "[t(9,16), t(2,10)]"
-    $ n (slow 3 $ run 48)
-    # s "earthkit"
-    |+ n "<16 8 24>"
-
-d3
-    $ whenmod  32 28 (mask "1 0" . (# s "kdrbd"))
-    $ struct "<[10011001] [11001100]>"
-    $ s (stitch "1111111101111011" "[kdrbd:3]" "kdrsd")
-    # gain 1.3
-    # verb "[0.1 0.1 [0.1 2] 0.1]" (0.5 * (slow 3 sine)) 0.1 0.3
-    # delay "<0.1 0.1 0.2 0.1 [0 0.3] 0.1>"
-    # delayfb (0.4 * (slow 8 sine))
-    # delaytime 0.1
-    # shape 0.5
+panic
 
 d4
     $ whenmod  32 28 (ply "<1 2 4 [4 6]>" . struct "10101011" . (# hcutoff (rangex 2000 6000 $ slow 2 sine)))
     $ (0.25 ~>)
     $ struct "<[10011001] [11001100]>"
     $ s (stitch "1111111101111011" "[linnhats:0]" "linnhats:3")
+    # room "<[1 0.4] 0.4 0.4 [0.4 1 0.4] 0.1>" # sz (0.13 * sine)
+    # shape 0.5
+    # gain 0.9
+    # pan 0.7
+    # hcutoff 2000
+    # legato 0.1
 
-d5 
+d5 silence
+
     $ rarely (ply 2)
     $ someCyclesBy 0.25 (ply "[2 2 3 | 2 1 4 6]" . (# n "0")) 
     $ struct "t*8" 
     $ s "{linnhats:5 linnhats:3}%16" # hcutoff "{5000 2000 5000 5000 5000}%16"
+    # room "<[1 0.4] 0.4 0.4 [0.4 1 0.4] 0.1>" # sz (0.13 * sine)
+    # shape 0.5
+    # gain 0.9
+    # pan 0.3
 
 
 d2
@@ -96,8 +101,17 @@ d2
     # pan (slow 8 sine)
 
 
+d1 solo
+
+do
+    d2 silence
+    d6 silence
+
+do
+    
 d6
-    $ whenmod 4 2 ((0.25 ~>) . palindrome)
+    $ hurry 0.5
+    $ whenmod 4 2 ((0.25 ~>) . palindrome . sometimes (jux rev))
     -- $ slow 2
     $ whenmod 24 22 (chop 1 . (# n "<0 1>"))
     $ whenmod 9 8 (superimpose (|+ up "[7,12]"))
@@ -107,32 +121,20 @@ d6
     $ every 4 (jux (scramble 8))
     $ slow 1 $ chop "<8 16 8 4>"
     $ stack [
-        nTake "t" [2,3,7],
-        slow 2 $ nTake "t2" [2,3,8],
-        slow 4 $ nTake "t3" [0,3,8] # pan 0.7,
-        slow 8 $ nTake "t3" [6,5] # pan 0.3
+        nTake "t" [2,3,7]
+        ,slow 2 $ nTake "t2" [2,3,8]
+        ,slow 4 $ nTake "t3" [0,3,8] # pan 0.7
+        ,slow 8 $ nTake "t3" [6,5] # pan 0.3
     ]
     # s "torta"
-    -- # speed "0.5"
     |+ up (perlin*(slow 3 sine))
     # room "<[0.1 0.4] 0.4 0.4 0.4 [0.9 0.4] >" # sz (0.13 * sine)
+    # crushbus "62" (range 1.1 5 $ slow 4 sine)
     -- |- up 12
     -- # gain 0
+    # gain 0.5
 
-
-d6
-    $ sometimes (ply 4 . (# legato 0.125))
-    $ degradeBy 0.6
-    $ slow 4
-    $ n (scale "major"  "{0 2 4 9 6 8 3 5}%6" + 36)
-    # s "[wasphivebomb | s100mfirestopper | s100mbowies | waspinsectbling]"
-    # cut 6
-    # gain 0.8
-    # roombus 66 (range 0.1 2 $ saw) # sizebus 67 (0.3*sine)
-    # squizbus 68 (range 9 1.1 $ slow 7 sine)
-    # crushbus 69 (stitch "{0010101101011101011}%12" "3" "7")
-    # pan 0.3
-    # leslie 10 # lsize (10*sine) # lrate (0.3*sine)
+d2 silence
 
 d2
     $ someCyclesBy 0.3 (rarely (rev . plyWith "6 6 2" (|* gain 0.9)))
@@ -141,17 +143,35 @@ d2
     $ someCyclesBy 0.25 (chunk 4 (hurry 2))
     $ every' 8 7 (linger "{[0.125 0.25] 0.666 0.25 0.5}%9")
     $ s "bbox*2 . bbox:2(4,8) . bbox:1 . bbox:2(3,8)"
-    # room "<[2 0.4] 0.4 0.4 [0.4 2 0.4] 0.1>" # sz (0.13 * sine)
+    # room "<[1.2 0.4] 0.4 0.4 [0.4 1.2 0.4] 0.1>" # sz (0.13 * sine)
     |+ n "[4 | 0 7 | 0 2]"
     # cut 2
     # shape 0.5
-    # gain 0.9
+    # gain 0.5
+
+
+d7
+    $ sometimes (ply 4 . (# legato 0.125))
+    $ degradeBy 0.6
+    $ slow 4
+    $ n (scale "major"  "{0 2 4 9 6 8 3 5}%6" + 36)
+    # s "[wasphivebomb | s100mfirestopper | s100mbowies | waspinsectbling]"
+    # cut 6
+    # gain 0.8
+    # roombus 66 (range 0.1 1.2 $ saw) # sizebus 67 (0.3*sine)
+    # squizbus 68 (range 9 1.1 $ slow 7 sine)
+    # crushbus 69 (stitch "{0010101101011101011}%12" "3" "7")
+    # pan 0.3
+    # leslie 10 # lsize (10*sine) # lrate (0.3*sine)
+
 
 d2
-    $ every' 8 7 (struct (binaryN 16 "64334") . (# s "[bbox:4, sd?, mt?0.3]") . (# hcutoff "{0 2000 2000 0 2000 2000 2000}%17") . (# clouds 0.5 0.5 0.8 0.7) . (# cloudsblend 0.9 0.4 "[0.4 0.7 0.3 0.3]" "{0.9 0.7 0.3 0.3 0.9}%9"))
+    silence
+
+    -- $ every' 8 7 (struct (binaryN 16 "64334") . (# s "[bbox:4, sd?, mt?0.3]") . (# hcutoff "{0 2000 2000 0 2000 2000 2000}%17") . (# clouds 0.5 0.5 0.8 0.7) . (# cloudsblend 0.9 0.4 "[0.4 0.7 0.3 0.3]" "{0.9 0.7 0.3 0.3 0.9}%9"))
     $ rarely (ply 2)
     $ s (stitch "10010000" "bbox:0" "bbox:2")
-    # room "<[2 0.4] 0.4 0.4 [0.4 2 0.4] 0.1>" # sz (0.13 * sine)
+    # room "<[1 0.4] 0.4 0.4 [0.4 1 0.4] 0.1>" # sz (0.13 * sine)
     # shape 0.5
     # gain 0.9
     # cps 0.55
