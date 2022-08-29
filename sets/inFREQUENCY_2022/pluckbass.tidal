@@ -97,20 +97,22 @@ d2
 
 
 d6
+    $ every' 8 7 (mask "10000001")
     $ whenmod 4 2 ((0.25 ~>) . palindrome)
     -- $ slow 2
     $ whenmod 24 22 (chop 1 . (# n "<0 1>"))
     $ whenmod 9 8 (superimpose (|+ up "[7,12]"))
     $ almostNever (jux (hurry 0.5))
     $ someCyclesBy 0.3 (mask "t(5,8,<2>)")
+    $ every 2 (# pan rand)
     $ sometimes ( mask (binary "<170 248 192 252 >"))
-    $ every 4 (jux (scramble 8))
+    -- $ every 4 (jux (scramble 8))
     $ slow 1 $ chop "<8 16 8 4>"
     $ stack [
-        nTake "t" [2,3,7],
-        slow 2 $ nTake "t2" [2,3,8],
-        slow 4 $ nTake "t3" [0,3,8] # pan 0.7,
-        slow 8 $ nTake "t3" [6,5] # pan 0.3
+        nTake "t" [2,3,7]
+        -- , slow 2 $ nTake "t2" [2,3,8]
+        -- , slow 4 $ nTake "t3" [0,3,8] # pan 0.7
+        -- , slow 8 $ nTake "t3" [6,5] # pan 0.3
     ]
     # s "torta"
     -- # speed "0.5"
@@ -148,7 +150,7 @@ d2
     # gain 0.9
 
 d2
-    $ every' 8 7 (struct (binaryN 16 "64334") . (# s "[bbox:4, sd?, mt?0.3]") . (# hcutoff "{0 2000 2000 0 2000 2000 2000}%17") . (# clouds 0.5 0.5 0.8 0.7) . (# cloudsblend 0.9 0.4 "[0.4 0.7 0.3 0.3]" "{0.9 0.7 0.3 0.3 0.9}%9"))
+    $ every' 8 7 (struct (binaryN 16 "64334") . (# s "[bbox:4, sd?, mt?0.3]") . (# hcutoff "{0 2000 2000 0 2000 2000 2000}%17") . (# clouds 0.5 0.5 0.8 0.9) . (# cloudsblend 0.9 0.4 "[0.4 0.7 0.3 0.3]" "{0.9 0.7 0.3 0.3 0.9}%9") . (# panbus 2 (range (-1) 1 $ saw )))
     $ rarely (ply 2)
     $ s (stitch "10010000" "bbox:0" "bbox:2")
     # room "<[2 0.4] 0.4 0.4 [0.4 2 0.4] 0.1>" # sz (0.13 * sine)

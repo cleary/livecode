@@ -1,0 +1,9 @@
+-- estuary/punctual
+p1 << img "https://img.grbt.com.au/pattern3.jpg";
+p2 << img "https://img.grbt.com.au/pattern4.jpg";
+p3 << img "https://img.grbt.com.au/pattern5.jpg";
+p << step [p1, p2, p3] (lfsaw 0.02);
+i2 << fit (4/3) $ img "https://img.grbt.com.au/inf2.png" +: sin [0.03, 0.01];
+uv << [rgbr p, rgbg p] +: saw [0.005, 0.03];
+1 - (mono $ setfxy i2 p)  >> video
+
