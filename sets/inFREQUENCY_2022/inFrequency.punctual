@@ -4,6 +4,7 @@ p2 << img "https://img.grbt.com.au/pattern4.jpg";
 p3 << img "https://img.grbt.com.au/pattern5.jpg";
 p << step [p1, p2, p3] (lfsaw 0.02);
 i2 << fit (4/3) $ img "https://img.grbt.com.au/inf2.png" +: sin [0.03, 0.01];
-uv << [rgbr p, rgbg p] +: saw [0.005, 0.03];
-1 - (mono $ setfxy i2 p)  >> video
+uv << [rgbr p, rgbb p] +: saw [0.005, 0.03];
+(setfxy i2 uv)  >> video
+-- setfxy [prox 0 ** fft fy, uv] $ circle [-1,-0.95..1] 0.2 * [sin cps, sin (cps/3), saw (cps/4)]
 
