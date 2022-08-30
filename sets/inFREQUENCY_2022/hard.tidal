@@ -6,7 +6,9 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     mel1 = "0 3 [4 5] [8 7]"
     pat = "100010001011"
 
-all $ swingBy 0.0 6 -- . (# cps 0.3) -- . (someCyclesBy 0.3 (linger "[ t | q]"))
+all $ swingBy 0.04 8 -- . (# cps 0.3) -- . (someCyclesBy 0.3 (linger "[ t | q]"))
+
+all $ id
 
 all $ linger (range 0 1 "^8")
 
@@ -19,11 +21,12 @@ d1
     $ stack [
          almostNever (# legato 1.1) $
          -- whenmod 16 12 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
-         whenmod 32 24 (|+ note (floor <$> range 0 14 (slow 4 sine))) $
+         whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+         whenmod 50 24 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
          s "midi0"
          # note (scale "minor" (bass
                -- + (floor <$> range 0 14 (slow 4 sine))
-               - (floor <$> range 0 6(fast 3 cosine))
+               -- - (floor <$> range 0 6(fast 3 cosine))
                )
              )
          # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
@@ -38,12 +41,14 @@ d2
     -- $ fast (2/3)
     $ struct "t*12"
     $ stack [
-         someCyclesBy 0.3 (linger "[ t | q]") $ 
+         someCyclesBy 0.3 (linger "[ s | q]") $ 
+         whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+         whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
          s "[flbass | flbass:14?]"
          -- s "[ flbass:14]"
          # note (scale "minor" (bass
-               + (floor <$> range 0 14 (slow 4 sine))
-               - (floor <$> range 0 6(fast 3 cosine))
+               -- + (floor <$> range 0 14 (slow 4 sine))
+               -- - (floor <$> range 0 6(fast 3 cosine))
                )
              ) # cut 1 # crush 2
          # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
@@ -51,7 +56,7 @@ d2
          # gain 1.1
          # pan 0.8
     ]
-    # midichan 0 |- up 12 
+    -- |+ up 12 
 
 -- off beats
 let kickpat = "<[[11]00000] [1000100]>"
@@ -90,7 +95,34 @@ d4
     # verb 0.8 0.8 0.1 0.2
     # speed 1
 
+all $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 12 $ "-2"*perlin)), id]
 
+d1 $ silence
+
+let kickpat = "<[111011] [111000] [111011] [[11]0101[01]]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
+in
+d4
+    $ every 4 (someCyclesBy 0.3 (linger "[ s | t ]"))
+    $ fast "<[2 0.5 1] 2 1 0.5>"
+    $ sometimes (hurry "<[2 0.5 2] 2 1 0.5>")
+    $ sometimesBy 0.21 (# verb "[0.8 0]" "[0.8 0]" 0.1 0.2) 
+    $ stack [
+        someCyclesBy 0.7 (mask kpat2)
+        $ sometimes (ply 2) $ struct "t*3" $ "[bd:4, clubkick]"
+        , s "realclaps?"
+        , almostNever (slow 1.5 . rev . plyWith "[8|12|4]" (# gain 0.85)) $ rarely (fast 2) $ struct "000100" $ s "[sd, realclaps?]" # gain 1.1
+        , sometimesBy 0.2 (
+            plyWith "[2|3|6]" ((# gain 0.7) )) 
+            $ fast 2 $ struct "1[[11]0]10[11]0" 
+            $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" 
+            # hcutoff (stitch "{100100101}%10" "10000" "8000") 
+        , s "ho(3,12,2)" # rings (0.9*(slow 7 $ sine)) 0.8 (0.6*(slow 4 $ saw)) 0.7 0.9
+        , ply 2 $ struct (inv (kickpat)) $ s "linnhats" # end "{1}%16" |< n (segment 16 $ irand 4)
+    ]
+    # shape 0.5
+    # verb 0.8 0.8 0.1 0.2
+    # speed 1
 
 
 -- include:
@@ -132,9 +164,10 @@ d1
 
 
 d1
-    $ whenmod 32 24 (|+ note (floor <$> range 0 14 (slow 4 sine)))
+    $ whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine)))
     $ struct "t*12"
     $ stack [
-         s "superchip"
+         s "midi0"
          # note (scale "minor" ( "[4 0 0 0 3 0 0 0 4 0 4 5]"))
     ]
+    # cps 0.4
