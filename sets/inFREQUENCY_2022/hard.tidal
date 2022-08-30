@@ -6,13 +6,9 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     mel1 = "0 3 [4 5] [8 7]"
     pat = "100010001011"
 
-all $ swingBy 0.04 8 -- . (# cps 0.3) -- . (someCyclesBy 0.3 (linger "[ t | q]"))
-
-all $ id
-
-all $ linger (range 0 1 "^8")
-
 -- xfadeIn 1 16
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+in
 d1
     -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
     -- $ fast (2/3)
@@ -21,8 +17,8 @@ d1
     $ stack [
          almostNever (# legato 1.1) $
          -- whenmod 16 12 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
-         whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-         whenmod 50 24 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
+         whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+         whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
          s "midi0"
          # note (scale "minor" (bass
                -- + (floor <$> range 0 14 (slow 4 sine))
