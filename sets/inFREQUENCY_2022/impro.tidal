@@ -1,0 +1,32 @@
+d1 
+    $ whenmod 17 16 (linger "t s" . chop 16 . (# room "{0.2 1 0.2}%17") . (# size (0.13*saw)))
+    $ every 2 (spreadf [(# vowel "a o a"), id, ((# leslie 8) . (# lrate (0.13*sine)) . (#lsize (0.8*(slow 4 sine)))), id,  (# accelerate (-2*(sine))), id , (# djfbus 11 (segment 32 $ range 0.1 0.9 $ slow 3 sine)) , id , (# cutoff "{500 3000 500}%8")])
+    $ every' 4 3 (chop 16 . sometimes (jux rev) . rarely (hurry 0.5) . (# cut 1) . (# speed "1 1.1 1.2 1.3"))
+    $ loopAt 2
+    $ s "br155sk"
+    # cps "<0.4 0.6 0.4 0.4>"
+
+d2 
+    -- $ someCyclesBy 0.8 (superimpose (|+ up "[-24, -12, 12, 24]") . (# s "<torta:11 pdbreaks :5>") . (# voice (run 4)) . (# legato 2) . (# panbus 21 (range "-1" 1 $ slow 3 saw )))
+    $ note "<[~ [a, e] ~ ~] ~ > "
+    # s "jrhodes:4"
+    |+ up 12
+    # clouds 0.9 0.8 0.6 0.6
+    # cloudsblend 0.8 0.7 0.7 0.5
+
+all $ every 2 ( (spreadf [(# crushbus 31 (range 3 6 $ fast 2 $ isaw)), id , (# shape 0.5), (# rings 0.7 0.9 0.5 0.5 0.5), (# verb "[0.9 0 0.5]" 0.8 0.4 0.5) . (# legato "0.2 0.3 0.4 0.5"), rip 0.125 0.5]))
+
+d3
+    $ every' 8 6 (superimpose (off 0.125 (rip 0.4 0.8 . degradeBy 0.4 . jux (hurry 2 . rev))))
+    $ every 2 (|+ note (Note . fromIntegral . floor <$> slow 4 (range "-5" 7 $ slow 4 sine)))
+    $ every' 4 1 (|+ note (scale "hex" "{1 -4 3 -5 3 3 [7,0] 6 5}%7"))
+    $ struct "t(7,8,<0 0 1 2>)"
+    $ s "[flbass:14, subdirt:6, plaits]"
+    # nudge 0.08
+    # legato 0.9
+    |+ up "<0 0 0 [0@3.8 5@0.1] 5 5 5 [5@3.9 0@0.1]>"
+    # verb 0.6 0.7 0.3 0.4
+    # engine (irand 15)
+
+let 
+    rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p
