@@ -11,3 +11,5 @@
 11. `spreadf` on the drums
 12. alternate chords with `trumpfmars`
 13. `ravetoalgo` randsliced and cloud'd
+14. `mask` on `all`
+15. setup a melody based on the chords, multiple sounds

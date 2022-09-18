@@ -15,27 +15,28 @@ d1  $ slow 40 $ s "sh5dontanswerfx" <| n ((run 30) + 36)
 
 
 d1
--- $ sometimesBy 0.2 (# grain  0.9 0.1)
--- $ every 2 (spreadf [(# accelerate ((-2)*(slow 2 $ saw))) , chunk 4 (hurry 2), jux rev, (# speed (0.2*sine)) , (# cutoff 200), ((#leslie 5) . (#lrate (10*sine)) . (# lsize (0.13*sine)))])
-$ stack [
-    s "[vinylbd](<3 3 3 4?>,8,<0 0 0 2>)" |< nTake "bd" [0,1..12]
-    , rarely (plyWith 2 (0.66 <~) ) $ s "vinylsh*4" # cut 12 |< nTake "sh" [0,1..12] 
-    , s "~ vinylsd" |< nTake "sd" [0,1..12]
-    , mask "<1 0 0 0>" $ s "vinyltr(3,8,3)" |< nTake "tri" [0,1..12]
-    # delay 1 # delaytime (0.13*(sin 0.125)) # delayfeedback 0.5
-    -- ,
+    -- $ sometimesBy 0.2 (# grain  0.9 0.1)
+    -- $ every 2 (spreadf [(# accelerate ((-2)*(slow 2 $ saw))) , chunk 4 (hurry 2), jux rev, (# speed (0.2*sine)) , (# cutoff 200), ((#leslie 5) . (#lrate (10*sine)) . (# lsize (0.13*sine)))])
+    $ stack [
+        s "[vinylbd](<3 3 3 4?>,8,<0 0 0 2>)" |< nTake "bd" [0,1..12]
+        , rarely (plyWith 2 (0.66 <~) ) $ s "vinylsh*4" # cut 12 |< nTake "sh" [0,1..12] 
+        , s "~ vinylsd" |< nTake "sd" [0,1..12]
+        , mask "<1 0 0 0>" $ s "vinyltr(3,8,3)" |< nTake "tri" [0,1..12]
+        # delay 1 # delaytime (0.13*(sin 0.125)) # delayfeedback 0.5
+        -- ,
     ] 
-# shape 0.5
-# verb 0.7 0.7 0.4 0.3
-# cps 0.666
+    # shape 0.5
+    # verb 0.7 0.7 0.4 0.3
+    # cps 0.666
 
-d6
-$ stack [
-someCyclesBy 0.8 (struct "t(11,16)" .  (|+ note (arp "down" "c'min7'o@0.3 ~@0.7"))) $ someCyclesBy 0.09 (off 0.125 (|+ up 12)) $ someCyclesBy 0.4 (swingBy 0.02 4 . struct "{0 1}%8") $  sometimes (struct "t(<3 3 3 4?>,8,<0 0 0 2>)" . slice 16 (irand 8)) $ note "<0 0 1 0 0 4 7?>" # s "<flbass subclean subdirt subres subresl?>" # cut 14
-]
-# shape 0.5
-# verb 0.7 0.7 0.4 0.3
-# cps 0.666
+solo 1
+
+d6 $ stack [
+        someCyclesBy 0.8 (struct "t(11,16)" .  (|+ note (arp "down" "c'min7'o@0.3 ~@0.7"))) $ someCyclesBy 0.09 (off 0.125 (|+ up 12)) $ someCyclesBy 0.4 (swingBy 0.02 4 . struct "{0 1}%8") $  sometimes (struct "t(<3 3 3 4?>,8,<0 0 0 2>)" . slice 16 (irand 8)) $ note "<0 0 1 0 0 4 7?>" # s "<flbass subclean subdirt subres subresl?>" # cut 14
+    ]
+    # shape 0.5
+    # verb 0.7 0.7 0.4 0.3
+    # cps 0.666
 
 d7 $ silence
 

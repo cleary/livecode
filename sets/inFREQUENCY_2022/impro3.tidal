@@ -78,8 +78,8 @@ d1
     $ mask (binary 170)
     $ every 4 (jux rev)
     $ rarely (ply 2)
+    $ loopAt 8
     $ chop 16 
-    $ slow 8
     $ s "{pdbreaks:7}"
 # shape 0.5
 # verb 0.5 0.5 0.4 0.3
@@ -107,16 +107,19 @@ d4
     -- # cloudsblend (0.3*(slow 4 sine)) 0.9 0.3 0.4
 
 -- tidal crazy images
-uv << img "https://img.grbt.com.au/pattern2.jpg";
+-- 0.3 ~~ 0.9 $ ifft fx >> hsv;
+-- i << zoom (prox 0 ** ifft fx) $ img "https://img.grbt.com.au/scream.jpg";
+uv << img "https://img.grbt.com.au/pattern9.jpg";
 i1 << img "https://img.grbt.com.au/flash.jpg";
-i2 << img "https://img.grbt.com.au/scream.jpg";
+i2 << img "https://img.grbt.com.au/pattern11.jpg";
 i3 << img "https://img.grbt.com.au/speakertruck.jpg";
 i4 << img "https://img.grbt.com.au/inf2.jpg";
 i5 << img "https://img.grbt.com.au/inf3.jpg";
 i << step [i1,i2,i3,i4,i5] (lfsaw (cps/16));
 mod << [rgbr (ilo * i), rgbb i] +: [sin 0.02, sin 0.04];
-tile (step [4,2,1] (lfsaw (cps/4))) $ zoom (step [1, saw (cps/12)] (lfsaw cps)) $ spin (step [0, (time/4)] (lfsaw (cps/2))) $ setfxy [mod, ifft fy] $ (mod +: uv) * [1,1,0.3] >> hsv;
+(1) +: (tile (step [4,2,1] (lfsaw (cps/4))) $ zoom (step [1, saw (cps/12)] (lfsaw cps)) $ spin (step [0, (time/4)] (lfsaw (cps/2))) $ setfxy [mod, ifft fy] $ (mod +: uv)) * [1,1,0.3] >> rgba;
 
 -- infrequency bend mask
 i5 << img "https://img.grbt.com.au/inf2.jpg";
-1 - (move (-0.5) $ tile [(prox (i5))] $ zoom (0.1 ~~ 4 $ saw (cps/24)) $ i5 ) >> alpha;
+(sin 0.02) - (move (-0.5) $ tile [(prox (i5))] $ zoom (0.1 ~~ 4 $ saw (cps/24)) $ i5 ) >> alpha;
+step [0.9,0,0.9,sin 1] (lfsaw (cps/2)) >> fdbk
