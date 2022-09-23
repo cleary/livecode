@@ -6,6 +6,15 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     mel1 = "0 3 [4 5] [8 7]"
     pat = "100010001011"
 
+panic
+
+do
+    unsolo 1
+    unsolo 2
+    unsolo 3
+    unsolo 4
+    all $ id
+
 -- xfadeIn 1 16
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kickpat = "<[[11]00000] [1000100]>"
@@ -13,7 +22,6 @@ in
 do
     resetCycles
     d1
-        -- $ qtrigger 1
         -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
         -- $ fast (2/3)
         -- $ mask (inv kickpat)
@@ -22,8 +30,8 @@ do
         $ stack [
              almostNever (# legato 1.1) $
              -- whenmod 16 12 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
-             whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-             whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
+             -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+             -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
              s "midi0"
              # note (scale "minor" (bass
                    -- + (floor <$> range 0 14 (slow 4 sine))
@@ -44,15 +52,14 @@ in
 d2
     -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
     -- $ fast (2/3)
-    -- $ struct "t*12"
     -- $ mask (inv (kickpat))
-    $ every 2 (struct "t*6")
-    $ struct (kickpat)
-    -- $ struct ("t*12")
+    -- $ every 2 (struct "t*6")
+    -- $ struct (kickpat)
+    $ struct ("t*12")
     $ stack [
-         someCyclesBy 0.3 (linger "[ s | q]") $ 
-         whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-         whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
+         -- someCyclesBy 0.3 (linger "[ s | t]") $ 
+         -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+         -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
          s "[flbass | flbass:14?]"
          -- s "[ flbass:14]"
          # note (scale "minor" (bass
@@ -64,10 +71,11 @@ d2
          # verb 0.6 0.5 0.1 0.2
          # gain 1.1
          # pan 0.8
-         # cutoff (segment 8 $ rangex 100 5000 $ slow 16 saw)
+         -- # cutoff (segment 8 $ rangex 100 5000 $ slow 16 saw)
     ]
-    -- |- up 12 
-    # cps 0.4
+    |- up 12 
+
+unsolo 2
 
 -- off beats
 let kickpat = "<[[11]00000] [1000100]>"
@@ -107,7 +115,13 @@ d4
     # verb 0.8 0.8 0.1 0.2
     # speed 1
 
+d3 silence
+
+d4 silence
+
 all $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 12 $ "-2"*perlin)), id]
+
+all $ every 2 (hurry 2 . (slow 3))
 
 all $ id
 
@@ -117,9 +131,9 @@ let kickpat = "<[111011] [111000] [111011] [[11]0101[01]]>"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 d4
-    $ every 4 (someCyclesBy 0.3 (linger "[ s | t ]"))
+    -- $ every 4 (someCyclesBy 0.3 (linger "[ s | t ]"))
     $ fast "<[2 0.5 1] 2 1 0.5>"
-    $ sometimes (hurry "<[2 0.5 2] 2 1 0.5>")
+    -- $ sometimes (hurry "<[2 0.5 2] 2 1 0.5>")
     $ sometimesBy 0.21 (# verb "[0.8 0]" "[0.8 0]" 0.1 0.2) 
     $ stack [
         someCyclesBy 0.7 (mask kpat2)
@@ -127,7 +141,7 @@ d4
         , s "realclaps?"
         , almostNever (slow 1.5 . rev . plyWith "[8|12|4]" (# gain 0.85)) $ rarely (fast 2) $ struct "000100" $ s "[sd, realclaps?]" # gain 1.1
         , sometimesBy 0.2 (
-            plyWith "[2|3|6]" ((# gain 0.7) )) 
+            plyWith "[2|3|6]" (rev . (|* gain 0.7) ))
             $ fast 2 $ struct "1[[11]0]10[11]0" 
             $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" 
             # hcutoff (stitch "{100100101}%10" "10000" "8000") 
@@ -137,6 +151,7 @@ d4
     # shape 0.5
     # verb 0.8 0.8 0.1 0.2
     # speed 1
+    # gain 1.1
 
 -- punctual
 c1 << zoom (1.5 + ilo) $ (hsvrgb (fit (4/3) $ img "https://img.grbt.com.au/inf2.png" * [ifft fx*0.75, ifft fy]));
