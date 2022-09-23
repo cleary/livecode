@@ -4,7 +4,14 @@ all $ (|+ note 2)
 
 all $ id
 
-d4 silence
+panic
+
+do
+    d1 silence   
+    d2 silence
+    d3 silence
+    d4 silence
+    d5 silence
 
 xfade 1
 --d1
@@ -23,6 +30,7 @@ xfade 1
     # gain 1.2
     -- cps "<0.5 0.5 025 1/3>"
 
+-- intro only
 xfade 2
     $ (0.05 ~>)
     $ slow "<4 3 2 [ 1| 0.5 | 0.33]>"
@@ -41,7 +49,6 @@ xfade 2
     # clouds 0.6 0.6 0.3 0.4
     # cloudsblend 0.9 0.8 0.6 0.9
     # legato "{0.8 1 0.3 1 0.1}"
-    -- intro only
     # hcutoff 5000
     # ampbus 21 (segment 128 $ range 0.25 0.35 ( slow 4 sine))
 
@@ -66,18 +73,18 @@ d2
     # room "0 0 [0 2?] 0 0 2"
     # sz (1.3*(slow 6 sine)) |+ room 0.3
     # delay "0.1 0.1 <0.1 0.8 0.5 0.9> 0.3" # delayfb (slow 4 sine) # delaytime 0.1
-    # leslie 10 # lsize (10*sine) # lrate ((0.2*sine) + (0.15* sine))
-    # panbus 21 (rangex "-1" 1 $ slow 3 sine)
+    # leslie 5 # lsize (10*sine) # lrate ((0.2*sine) + (0.15* sine))
+    -- # panbus 21 (rangex "-1" 1 $ slow 3 sine)
     -- # cps "<0.3 0.6 [0.6 0.9] [0.6 0.3]>"
 
 
-all $ whenmod 32 28 (|>| up 5)
-    . whenmod 2 1 (while "f f [t|f] f" (spreadf [ply 2, shuffle 16, (# speed "2 3"), (# coarse 64), (# accelerate (-2*sine)), (# n "[7 | 2 | 12 | -5]"), off 0.065 (# up 12), jux rev]))
+all $ whenmod 2 1 (while "f f [t|f] f" (spreadf [ply 2, shuffle 16, (# speed "2 3"), (# coarse 64), (# accelerate (-2*sine)), (# n "[7 | 2 | 12 | -5]"), off 0.065 (# up 12), jux rev]))
 
 all $ id
 
 do 
     solo 3
+
     d3
         $ sometimes (off 0.125 ((# speed "-0.5") . (# room 2). (# panbus 31 (segment 32 $ range (-1) 1 $ fast 2 (sine)))))
         $ stack [
@@ -94,41 +101,48 @@ do
         # sz (1.3*(slow 6 sine)) |+ room 0.3
         # delay "0.1 0.0 <0.1 0.8 0 0.9> 0.3" # delayfb (slow 4 sine) # delaytime 0.1
 
-d4
-    $ off 0.5 (arp "up" . struct "<t t(5,8)>" . (#s "midi0"))
-    $ sometimes (off 0.125 (jux
-        (mask (binaryN 16 "<64783 48933 37429>") . (+| note (arp "converge" "<[g6'maj7'12@0.125 ~@3,875] [[fs, b'm7'9@0.23] ~@3.77]>")) . (# octave (segment 16 $ "[3 | 7 | 6 | 5]")) . (# legato 0.9) . (# s "superfm") . (# delay 1) . (# delaytime 0.333) . (# dfb 0.75) . (# panbus "4" (segment 8 $ rand )))))
-    $ slow 2
-    $ struct "<[t*8] [t*8] [t*2] [t*3] >"
-    $ note "<g fs>"
-    # s "[superfm, [clubkick:2 ~]] "
-    # octave 4
-    # amp1 1
-    # amp2 1
-    # amp3 0
-    # amp4 0
-    # amp5 0
-    # amp6 1
-    # ratio2 2
-    # ratio3 3
-    # ratio4 4
-    # ratio5 0.5
-    # ratio6 0.25
-    # feedback 1
-    # mod11 1
-    # mod16 1
-    # mod66 1
-    # mod23 1
-    # mod34 1
-    # mod45 1
-    # eglevel62 0.1
-    # eglevel63 1.5
-    # egrate63 0.5 
-    -- # verb 1 0.9 0.1 0.1
-    # gain 1.0
-    # room 0.4 # sz 0.4
+unsolo 3
 
-unsolo 4
+do 
+    solo 4
+    d4
+        $ off 0.5 (arp "up" . struct "<t t(5,8)>" . ((#s "supergrind") . (#voice 3)))
+        $ sometimes (off 0.125 (jux
+            (mask (binaryN 16 "<64783 48933 37429>") . (+| note (arp "converge" "<[g6'maj7'12@0.125 ~@3,875] [[fs, b'm7'9@0.23] ~@3.77]>")) . (# octave (segment 16 $ "[3 | 7 | 6 | 5]")) . (# legato 0.9) . (# s "superfm") . (# delay 1) . (# delaytime 0.333) . (# dfb 0.75) . (# panbus "4" (segment 8 $ rand )))))
+        $ slow 2
+        $ struct "<[t*8] [t*8] [t*2] [t*3] >"
+        $ note "<g fs>"
+        # s "[superfm, [clubkick:2*2 ~]] "
+        -- # s "[superfm] "
+        # octave 4
+        # amp1 1
+        # amp2 1
+        # amp3 0
+        # amp4 0
+        # amp5 0
+        # amp6 1
+        # ratio2 2
+        # ratio3 3
+        # ratio4 4
+        # ratio5 0.5
+        # ratio6 0.25
+        # feedback 1
+        # mod11 1
+        # mod16 1
+        # mod66 1
+        # mod23 1
+        # mod34 1
+        # mod45 1
+        # eglevel62 0.1
+        # eglevel63 1.5
+        # egrate63 0.5 
+        -- # verb 1 0.9 0.1 0.1
+        # gain 1.0
+        # room 0.4 # sz 0.4
+
+do
+    d1 silence
+    unsolo 4
 
 d5
     $ while "[t|f] f f t" (spreadf [(# crush "{1.2 4 6}%4"), (# hcutoff 1000), ((# s "drumbrute") . (<| n (run 12))) . (# squizbus 51 (segment 16 $ range 1.01 2 (fast 2 saw)))])
@@ -138,5 +152,6 @@ d5
     $ s "<br155:4 br155:6>"
     # roombus 51 "{0.4 0 0 0 2 0 0 0 0.8}%15" # sz 0.4
     # gain 1.0
-    # leslie 10 # lsizebus 52 (10*sine) # lrate ((0.2*sine) + (0.15* sine))
+    # leslie 5 # lsizebus 52 (10*sine) # lrate ((0.2*sine) + (0.15* sine))
+    # panbus 53 (range "-1" 1 (slow 2 sine))
 
