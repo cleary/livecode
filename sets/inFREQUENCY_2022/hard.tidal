@@ -73,7 +73,6 @@ d2
          # pan 0.8
          -- # cutoff (segment 8 $ rangex 100 5000 $ slow 16 saw)
     ]
-    |- up 12 
 
 unsolo 2
 

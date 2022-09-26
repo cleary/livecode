@@ -5,6 +5,86 @@ d1
     $ struct "^tBurst ~@3"
     $ sound "bd"
 
+unsolo 1
+
+d1
+    -- $ degradeBy 0.7
+    $ every 2 (spreadf [hurry 0.5, struct "10010010", (# accelerate ("-2"*sine) ), (# crushbus 3 (slow 3 sine))])
+    $ chunk 4 (scramble 8)
+    $ stack [
+        s "vinylbd(<3 5>,8)"
+        # verb 0.9 0.9 0.4 0.5
+        |< nTake "b" [0, 1, 2, 3, 4]
+        , every 2 (ghost) $ s "~ vinylsd"
+        , slow 2 $ s "vinyltr(5,8,2)" |< nTake "t" [0,2,3,4] 
+          # delay 1 # delayfb 0.8 # dt (0.125/2)
+        , s "vinylsh*4" # cut 1
+        , s "[[clubkick*4, [808bd:1]], [~ [linnhats*2|ho]]*4, <[~ [cp, sd, vinylsd ]*2] ~ > ]" |< nTake "p" [0,1,2,3]
+    ]
+    # verb 0.9 0.9 0.4 0.5
+    # gain 1.2
+    # cps 0.666
+
+d2 
+    $ slow 2
+    $ every 4 (struct "t(7,16)?")
+    $ every 4 (randslice 16)
+    $ note "[0 ~ ~ [~ 7]]"
+    # s "<subresl subdirt flbass subclean>"
+    # cut 1
+    # shape 0.5
+    # verb 0.6 0.7 0.4 0.4
+    # gain 1.0
+    # hcutoff 200
+    
+
+d3 
+    $ note "<c'sus4 ~ d5'min9'o ~>"
+    # s "<jrhodes:4!4 trumpfmars>"
+    # gain 0.7
+
+
+all $ id
+
+
+d4 
+    $ rarely (hurry 0.5)
+    $ sometimesBy 0.13 (hurry 2)
+    $ slow 2
+    $ sometimes (ply 2)
+    $ struct "t(<9 15>,16,<0 2 >)"
+    $ slice 32 "<6 7 9> "
+    $ s "ravetoalgo:2"
+    # gain 1.2
+    |+ up 14
+    # room 0.9 # sz 0.7
+
+
+d3 $ silence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 d1
     $ sometimesBy 0.2 (# grain  0.9 0.1)
     $ every 2 (spreadf [(# accelerate ((-2)*(slow 2 $ saw))) , chunk 4 (hurry 2), jux rev, (# speed (0.2*sine)) , (# cutoff 200), ((#leslie 5) . (#lrate (10*sine)) . (# lsize (0.13*sine)))])
@@ -58,7 +138,7 @@ unsolo 3
 
 d1 silence
 
-all $ someCyclesBy 0.15 (linger "s 0.25" . ((# room (isaw)) . (# size (isaw))))
+all $ slow "<1 1 2 >" . someCyclesBy 0.15 (linger "s 0.25" . ((# room (isaw)) . (# size (slow 3 $ isaw))))
 
 all $ id
 
