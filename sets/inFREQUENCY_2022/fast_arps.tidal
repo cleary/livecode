@@ -1,0 +1,59 @@
+-- calypso
+d1 
+    $ stack [
+        s "[vinylbd*4, [vinylhh:6!4]*2]",
+        struct (binaryN 16 (4626)) $ s "[vinylsd:2 <vinylsd vinylsd>]*2"
+    ]
+    |< n (slow 3 $ irand 4)
+
+d2
+    $ swingBy 0.04 4
+    $ sometimes (ply 2)
+    $ s "[[vinylcc | vinyloh]/4, vinylmt(<1 3>,8), vinylwb(<7 2 2>,8,<2 5>) ]"
+    |< n (segment 16 $ slow 3 $ run 8)
+    # gain 0.9
+
+d2 silence
+
+let accent = "[ 0.7 1 0.7 1]"
+in
+d1
+    $ swingBy 0.08 4 $
+    stack[
+        struct "t*4" $ "clubkick",
+        struct "t*[16| 8]" $ gain accent # s "linnhats" # end "{0.6 1 0.6}%9" # hcutoff "{6000 100 6000}%17"
+    ]
+    # cps 0.6
+    # verb 0.9 0.9 0.6 0.5
+    # gain 1.12
+
+d3
+    $ every 4 (# djfbus 32 (segment 32 $ range 0.5 1 $ isaw))
+    $ loopAt 4
+    $ s "<pdbreaks pdbreaks >" # nTake "pd" [7, 8]
+    # hcutoff 100
+    # panbus 31 (segment 8 $ rand * "[1 | -1]")
+    # gain 1.2
+    # verb 0.7 0.7 0.6 0.5
+
+d4
+    $ fast 2
+    $ swingBy 0.04 8
+    -- $ whenmod 16 12 (struct "t*[8 4 6]" . (# legato "{0.1 0.5 0.2 2}%7") . (superimpose ((# s "clubkick") . (# crush 3))))
+    $ whenmod 32 30 (# n (arp "{down up down}%4" "c'maj7'16"))
+    $ superimpose (rev . (# s "[wasp2saws | sh5hendrixfuzz?]") . (# cut 41) . (# gain 1.1) . (|+ n "[24|0]"))
+    $ struct "t*16"
+    $ arp "{down up down}%4"
+    $ n "<[g'min'8 g'min'ii'8]!6 [d'dom7'8 d'dom7'ii'8]!2 >"
+    # s "[superchip, supergrind]"
+    -- # ampbus 47 (stitch (binary 170) "0.05" "0.5")
+    # voice (irand 15)
+    # leslie 5
+    # lrate (0.13*sine)
+    # lsize (2*saw)
+    -- # sustain 10
+    -- # delay 1 # dt (0.25*saw) # dfb (0.79*sine)
+
+all $ every 2 (spreadf [hurry 2, (# accelerate ((-2)*isaw)), jux rev, fast 0.666, (# hcutoff (rangex 12000 0 $ saw)), (# squizbus 991 (range 5 1.1 sine)) ])
+
+all $ id
