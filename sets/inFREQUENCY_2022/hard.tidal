@@ -15,13 +15,19 @@ do
     unsolo 4
     all $ id
 
+all $ bite 16 "0 1 2!14"
+
+all $ id
+
+-- intro bitten
 -- xfadeIn 1 16
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kickpat = "<[[11]00000] [1000100]>"
 in
 do
-    resetCycles
     d1
+        $ rarely (# accelerate ((2)*sine))
+        $ bite 16 "0 1 2!14"
         -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
         -- $ fast (2/3)
         -- $ mask (inv kickpat)
@@ -29,7 +35,7 @@ do
         $ struct "t*12"
         $ stack [
              almostNever (# legato 1.1) $
-             -- whenmod 16 12 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
+             whenmod 16 8 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
              -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
              -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
              s "midi0"
@@ -40,93 +46,352 @@ do
                  )
              # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
              # pan 0.2
+             |- up 12
+            , ccv 64 # ccn 2 # s "midi0" -- filter open up
+            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv (range 127 0 $ slow 4 sine ) # ccn 74 # s "midi0" -- band res
+            , ccv (range 16 127 $ fast 4 sine) # ccn 75 # s "midi0" -- band cutoff
         ]
-        # midichan 0 |- up 12 
         # cps 0.4
         -- # cps (range 0.2 1.2 "^9")
 
-all $ id
-
-let kickpat = "<[[11]00000] [1000100]>"
+-- pre-drop
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[[11]00000] [1000100]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
-d2
-    -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-    -- $ fast (2/3)
-    -- $ mask (inv (kickpat))
-    -- $ every 2 (struct "t*6")
-    -- $ struct (kickpat)
-    $ struct ("t*12")
-    $ stack [
-         -- someCyclesBy 0.3 (linger "[ s | t]") $ 
-         -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-         -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
-         s "[flbass | flbass:14?]"
-         -- s "[ flbass:14]"
-         # note (scale "minor" (bass
-               -- + (floor <$> range 0 14 (slow 4 sine))
-               -- - (floor <$> range 0 6(fast 3 cosine))
-               )
-             ) # cut 1 # crush 2
-         -- # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
-         # verb 0.6 0.5 0.1 0.2
-         # gain 1.1
-         # pan 0.8
-         -- # cutoff (segment 8 $ rangex 100 5000 $ slow 16 saw)
-    ]
+do
+    -- resetCycles
+    -- xfade 1 
+    d1
+        -- $ bite 16 "0 1 2!14"
+        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        -- $ mask (inv kickpat)
+        -- $ struct "{ t*6 t*2 t*6}%3"
+        $ struct "t*12"
+        $ stack [
+             almostNever (# legato 1.1) $
+             -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+             -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
+             s "midi0"
+             # note (scale "minor" (bass
+                   -- + (floor <$> range 0 14 (slow 4 sine))
+                   -- - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 )
+             # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
+             # pan 0.2
+             |- up 12
+        ]
+        # cps 0.4
+        -- # cps (range 0.2 1.2 "^9")
+    -- midi ctl
+    d2 
+        $ segment 128 $ stack [
+            ccv 127 # ccn 2 # s "midi0" -- filter open up
+            , ccv 0 # ccn 1 # s "midi0" -- bass drive
+            , ccv 0 # ccn 74 # s "midi0" -- band res
+            , ccv 0 # ccn 75 # s "midi0" -- band cutoff
+            , ccv (range 0 127 $ fast 4 saw) # ccn 76 # s "midi0" -- band cutoff
+        ]
+    d3
+        $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        $ mask (inv (kickpat))
+        -- $ every 2 (struct "t*6")
+        -- $ struct (kickpat)
+        $ struct ("t*12")
+        $ stack [
+             -- someCyclesBy 0.3 (linger "[ s | t]") $ 
+             -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+             -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
+             s "[flbass | flbass:14?]"
+             -- s "[ flbass:14]"
+             # note (scale "minor" (bass
+                   -- + (floor <$> range 0 14 (slow 4 sine))
+                   -- - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 ) # cut 1 # crush 2
+             # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
+             # verb 0.6 0.5 0.1 0.2
+             # gain 1.1
+             # pan 0.8
+             # cutoff (segment 8 $ rangex 400 5000 $ slow 16 saw)
+        ]
+    -- off beats
+    d4
+        $ someCyclesBy 0.4 (mask kpat2 . (# verb 0 0 0 0) . (sometimes ((ply "[3 | 2 | 1]") . (# pan (rand)) . (# legato 0.5)) ) . (rarely (# speed "-0.5")) )
+        $ someCyclesBy 0.1 (plyWith 2 ("t" <~))
+        $ stack [
+            struct kickpat $ s "[realclaps?, bd:4, clubkick, 808bd:1?]"
+            , degradeBy 0.89 $ struct (inv kickpat) $ s "[sd]" |< n (irand 5) # speed 0.3
+        ] # shape 0.5
+        # verb 0.9 0.9 0.1 0.4
+        # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
+        -- # cutoff 2000
+        # crush 3
+        # amp 0.5
+
+solo 3
+
+unsolo 3
+
+-- drop
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[[11]00000] [1000100]>"
+    bdpat = "<[111011] [11100[01]] [111011] [[11]0101[01]]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
+
+in
+do
+    -- resetCycles
+    -- xfade 1 
+    d1
+        -- $ bite 16 "0 1 2!14"
+        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        -- $ mask (inv kickpat)
+        -- $ struct "{ t*6 t*2 t*6}%3"
+        $ struct "t*12"
+        $ stack [
+             almostNever (# legato 1.1) $
+             -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+             -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
+             s "midi0"
+             # note (scale "minor" (bass
+                   -- + (floor <$> range 0 14 (slow 4 sine))
+                   -- - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 )
+             # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
+             # pan 0.2
+             |- up 12
+        ]
+        # cps 0.4
+        -- # cps (range 0.2 1.2 "^9")
+    -- midi ctl
+    d2 
+        $ segment 128 $ stack [
+            ccv 127 # ccn 2 # s "midi0" -- filter open up
+            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv 127 # ccn 74 # s "midi0" -- band res
+            , ccv 127 # ccn 75 # s "midi0" -- band cutoff
+            , ccv (range 64 127 $ fast 4 saw) # ccn 76 # s "midi0" -- band cutoff
+        ]
+    d3
+        $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        $ mask (inv (kickpat))
+        -- $ every 2 (struct "t*6")
+        -- $ struct (kickpat)
+        $ struct ("t*12")
+        $ stack [
+             -- someCyclesBy 0.3 (linger "[ s | t]") $ 
+             -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+             -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
+             s "[flbass | flbass:14?]"
+             -- s "[ flbass:14]"
+             # note (scale "minor" (bass
+                   -- + (floor <$> range 0 14 (slow 4 sine))
+                   -- - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 ) # cut 1 # crush 2
+             # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
+             # verb 0.6 0.5 0.1 0.2
+             # gain 1.1
+             # pan 0.8
+             # cutoff (segment 8 $ rangex 400 5000 $ slow 16 saw)
+        ]
+    -- off beats
+    d4
+        $ someCyclesBy 0.4 (mask kpat2 . (# verb 0 0 0 0) . (sometimes ((ply "[3 | 2 | 1]") . (# pan (rand)) . (# legato 0.5)) ) . (rarely (# speed "-0.5")) )
+        $ someCyclesBy 0.1 (plyWith 2 ("t" <~))
+        $ stack [
+            struct kickpat $ s "[realclaps?, bd:4, clubkick, 808bd:1?]"
+            , degradeBy 0.89 $ struct (inv kickpat) $ s "[sd]" |< n (irand 5) # speed 0.3
+        ] # shape 0.5
+        # verb 0.9 0.9 0.1 0.4
+        -- # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
+        -- # cutoff 2000
+        # crush 3
+        # amp 0.5
+
+    -- drive beat
+    d5
+        -- $ someCyclesBy 0.3 (linger "[ t | q]")
+        $ sometimes (while "<[00001000] [10000011]>" (# verb 0 0 0 0))
+        $ stack [
+            someCyclesBy 0.7 (mask kpat2)
+            $ sometimes (ply 2) $ struct bdpat $ "[bd:4, clubkick]"
+            , s "realclaps?"
+            , almostNever (slow 1.5 . rev . plyWith "[8|12|4]" (# gain 0.85)) $ rarely (fast 2) $ struct (inv bdpat) $ s "[sd, realclaps?]" # gain 1.1
+            , sometimesBy 0.2 (
+                plyWith "[2|3|6]" ((# gain 0.7) )) 
+                $ fast 2 $ struct "1[[11]0]10[11]0" 
+                $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" 
+                # hcutoff (stitch "{100100101}%10" "10000" "8000") 
+            , s "ho(<3 2 4 1>,12,<2 1>)" # rings 0.9 0.8 0.6 0.7 0.9
+        ]
+        # shape 0.5
+        # verb 0.8 0.8 0.1 0.2
+        # speed 1
+        # gain 1.2
+
+-- modulate
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[[11]00000] [1000100]>"
+    bdpat = "<[111011] [11100[01]] [111011] [[11]0101[01]]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
+in
+do
+    solo 1
+    -- resetCycles
+    -- xfade 1 
+    d1
+        -- $ bite 16 "0 1 2!14"
+        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        -- $ mask (inv kickpat)
+        -- $ struct "{ t*6 t*2 t*6}%3"
+        $ struct "t*12"
+        $ stack [
+             almostNever (# legato 1.1) $
+             s "midi0"
+             # note (scale "minor" (bass
+                   + (floor <$> range 0 14 (slow 4 sine))
+                   - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 )
+             # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
+             # pan 0.2
+             |- up 12
+        ]
+        # cps 0.4
+        -- # cps (range 0.2 1.2 "^9")
+    d2 
+        $ segment 128 $ stack [
+            ccv 127 # ccn 2 # s "midi0" -- filter open up
+            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv 127 # ccn 74 # s "midi0" -- band res
+            , ccv 127 # ccn 75 # s "midi0" -- band cutoff
+            , ccv (range 64 127 $ fast 4 saw) # ccn 76 # s "midi0" -- band cutoff
+        ]
+
+
+solo 3
 
 unsolo 2
 
--- off beats
-let kickpat = "<[[11]00000] [1000100]>"
+-- modulate drop
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[[11]00000] [1000100]>"
+    bdpat = "<[111011] [11100[01]] [111011] [[11]0101[01]]>"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
-d3
-    $ someCyclesBy 0.4 (mask kpat2 . (# verb 0 0 0 0) . (sometimes ((ply "[3 | 2 | 1]") . (# pan (rand)) . (# legato 0.5)) ) . (rarely (# speed "-0.5")) )
-    $ someCyclesBy 0.1 (plyWith 2 ("t" <~))
-    $ stack [
-        struct kickpat $ s "[realclaps?, bd:4, clubkick, 808bd:1?]"
-        , degradeBy 0.89 $ struct (inv kickpat) $ s "[sd]" |< n (irand 5) # speed 0.3
-    ] # shape 0.5
-    # verb 0.9 0.9 0.1 0.4
-    # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
-    -- # cutoff 2000
-    # crush 3
+do
+    unsolo 1
+    d1
+        -- $ bite 16 "0 1 2!14"
+        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        -- $ mask (inv kickpat)
+        -- $ struct "{ t*6 t*2 t*6}%3"
+        $ struct "t*12"
+        $ stack [
+             almostNever (# legato 1.1) $
+             s "midi0"
+             # note (scale "minor" (bass
+                   + (floor <$> range 0 14 (slow 4 sine))
+                   - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 )
+             # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
+             # pan 0.2
+             |- up 12
+        ]
+        # cps 0.4
+        -- # cps (range 0.2 1.2 "^9")
+    d2 
+        $ segment 128 $ stack [
+            ccv 127 # ccn 2 # s "midi0" -- filter open up
+            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv 127 # ccn 74 # s "midi0" -- band res
+            , ccv 127 # ccn 75 # s "midi0" -- band cutoff
+            , ccv (range 64 127 $ fast 4 saw) # ccn 76 # s "midi0" -- band cutoff
+        ]
+    d3
+        $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
+        -- $ fast (2/3)
+        $ mask (inv (kickpat))
+        -- $ every 2 (struct "t*6")
+        -- $ struct (kickpat)
+        $ struct ("t*12")
+        $ stack [
+             -- someCyclesBy 0.3 (linger "[ s | t]") $ 
+             -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
+             -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
+             s "[flbass | flbass:14?]"
+             -- s "[ flbass:14]"
+             # note (scale "minor" (bass
+                   + (floor <$> range 0 14 (slow 4 sine))
+                   - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 ) # cut 1 # crush 2
+             # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
+             # verb 0.6 0.5 0.1 0.2
+             # gain 1.1
+             # pan 0.8
+             # cutoff (segment 8 $ rangex 400 5000 $ slow 16 saw)
+        ]
 
--- drive beat
-let kickpat = "<[111011] [111000] [111011] [[11]0101[01]]>"
-    kpat2 = (/= 0) <$> (bass:: Pattern Int)
-in
-d4
-    -- $ someCyclesBy 0.3 (linger "[ t | q]")
-    $ stack [
-        someCyclesBy 0.7 (mask kpat2)
-        $ sometimes (ply 2) $ struct kickpat $ "[bd:4, clubkick]"
-        , s "realclaps?"
-        , almostNever (slow 1.5 . rev . plyWith "[8|12|4]" (# gain 0.85)) $ rarely (fast 2) $ struct (inv kickpat) $ s "[sd, realclaps?]" # gain 1.1
-        , sometimesBy 0.2 (
-            plyWith "[2|3|6]" ((# gain 0.7) )) 
-            $ fast 2 $ struct "1[[11]0]10[11]0" 
-            $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" 
-            # hcutoff (stitch "{100100101}%10" "10000" "8000") 
-        -- , s "ho(3,12,2)" # rings 0.9 0.8 0.6 0.7 0.9
-    ]
-    # shape 0.5
-    # verb 0.8 0.8 0.1 0.2
-    # speed 1
+all $ every 2 (linger "<[0.333 0.666] 0.5 0.1>")
 
-d3 silence
+all $ every 2 (spreadf [sometimes (jux rev), rarely (hurry 2), ((# real (slow 3 sine)) . (# imag (slow 4 saw))) . (# hcutoff (rangex 0 15000 $ slow 3 saw)) . (# enhance "1 0 1 0 1 0")  . (linger "<[0.333 0.666] 0.5 0.1>")])
 
-d4 silence
-
-all $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 12 $ "-2"*perlin)), id]
-
-all $ every 2 (hurry 2 . (slow 3))
 
 all $ id
 
-d1 $ silence
+-- outro - feel changes
+-- xfadeIn 1 16
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[[11]00000] [1000100]>"
+in
+do
+    all $ id
+    d2 silence
+    d3 silence
+    d4 silence
+    d5 silence
+    d1
+        $ rarely (# accelerate ((2)*sine))
+        -- $ fast (2/3)
+        -- $ mask (inv kickpat)
+        -- $ struct "{ t*6 t*2 t*6}%3"
+        $ struct "t*12"
+        $ stack [
+             almostNever (# legato 1.1) $
+             whenmod 16 8 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
+             s "midi0"
+             # note (scale "minor" (bass
+                   -- + (floor <$> range 0 14 (slow 4 sine))
+                   - (floor <$> range 0 6(fast 3 cosine))
+                   )
+                 )
+             # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
+             # pan 0.2
+             |- up 12
+            , ccv 64 # ccn 2 # s "midi0" -- filter open up
+            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv (segment 128 $ range 127 0 $ slow 4 sine ) # ccn 74 # s "midi0" -- band res
+            , ccv (segment 128 $ range 16 127 $ fast 4 sine) # ccn 75 # s "midi0" -- band cutoff
+            , ccv (segment 128 $ range 0 127 $ fast 4 sine) # ccn 76 # s "midi0" -- band cutoff
+        ]
+        # cps 0.4
 
-let kickpat = "<[111011] [111000] [111011] [[11]0101[01]]>"
+all $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 12 $ "-2"*perlin)), id , bite 16 "0 1 4!14"] . (sometimes (# verb 0 0 0 0 ))
+
+let kickpat = "<[111011] [11101[11]] [111011] [[11]0101[01]]>"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 d4
