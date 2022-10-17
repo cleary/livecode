@@ -1,0 +1,91 @@
+all $ every 2 (spreadf [off 0.1333 (|+ up 12), (# accelerate ((-2)*sine)), ((# clouds 0.6 0.7 0.4 0.5) . (# cloudsblend 0.9 0.9 0.5 0.4)), jux (ply 2), (# s "[rave| ravetoalgo:1]") ])
+
+all $ slow 1.5
+
+all $ id
+
+d1
+    $ swingBy 0.06 8
+    $ struct "t*32"
+    $ arp "{up down converge}%4"
+    $ n "<[c'maj'16 c3'maj'ii'16] [d'min9'16 d4'min9'ii'16]>"
+    # sound "[sh5mredgar55| superchip| braids]"
+    # octersub 1
+    |+ n 24
+    # cut 1
+    |+ n "<0!8 5!4 2!4>"
+    -- # crushbus 4 (segment 128 $ range 1.1 6 $ slow 3 sine)
+    # gain 1.4
+    -- # real (segment 32 $ sine)
+    -- # imag (irand)
+    -- # smear 0.5
+    # hcutoff 500
+    # cutoff 4000
+
+d2
+    $ stack [
+        s "gnsbd*4" # room 0.4 # sz 0.4 # shape 0.5
+        , someCyclesBy 0.25 (# s "[~ linnhats]!2 [~ linnhats:5]") $ s "[~ linnhats]!4" 
+        , every 4 (rarely  (slow 4 . rev . plyWith 4 (|* gain 0.7))) $ struct (binaryN 16 4626) $ s "gnssd"
+        , mask "<0!7 1>" $ struct "t(13,16,[0|1|2])" $ s "gnstoms" |< n (segment 8 $ irand 16)
+        , mask "< 1 0!7>" $ struct "t" $ s "[cc:4,gnsbd]" |< n (segment 8 $ irand 16)
+    ]
+
+do
+    unmute 1
+
+unsolo 4
+
+d4
+    $ struct (slow 2 "<[[t!3 ~] ~] [t [~ t*3] [t*4 ~] [~ t*4]]>")
+    $ arp "{up}%4"
+    $ note "<[c'maj'7 c3'maj'ii'7] [d'min9'7 d4'min9'ii'7]>"
+    # s "subdirt:6"
+    # cut 1
+    # gain 1.2
+    # legato "{0.5 2 1}%7"
+    # room 0.4 # sz 0.4
+    # shape 0.5
+
+
+d4
+    $ struct (slow 2 "<[[t!3 ~] ~] [t [~ t*3] [t*4 ~] [~ t*4]]>")
+    $ palindrome
+    $ arp "{up}%4"
+    $ note "<[c'maj'7 c3'maj'ii'7] [d'min9'7 d4'min9'ii'7]>"
+    # s "superchip"
+    # cut 2
+    # gain 1.2
+    # legato "{0.5 2 1}%7"
+    |- octave 5
+
+do
+    unmute 1
+    mute 2
+    unsolo 1
+
+panic
+
+all $ id
+
+d5
+    $ whenmod 8 4 (chop 32 . scramble 8)
+    $ loopAt 2
+    -- $ loopAt 4
+    $ s "kitbreaks"
+    -- $ s "pdbreaks"
+    # shape 0.5
+    # gain 1.1
+    -- # scram 0.25
+
+
+d6 
+    $ rarely (#smear rand)
+    $ sometimes (# accelerate ((-2)*sine))
+    $ slow 4
+    $ chop "[16 | 48]"
+    $ press
+    $ s "beckmodularnoisefilterresonancemodulationslasers"
+    |+ note (segment 48 (run "{16 -8 32 4 12}%2"))
+    |+ n "[0 | 5]"
+    # legato "[1 | 0.5]"
