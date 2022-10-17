@@ -51,6 +51,7 @@ do
             , ccv 127 # ccn 1 # s "midi0" -- bass drive
             , ccv (range 127 0 $ slow 4 sine ) # ccn 74 # s "midi0" -- band res
             , ccv (range 16 127 $ fast 4 sine) # ccn 75 # s "midi0" -- band cutoff
+            , ccv (range 16 127 $ fast 4 sine) # ccn 78 # s "midi0" -- high cutoff
         ]
         # cps 0.4
         -- # cps (range 0.2 1.2 "^9")
@@ -63,6 +64,7 @@ in
 do
     -- resetCycles
     -- xfade 1 
+    all $ id
     d1
         -- $ bite 16 "0 1 2!14"
         -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
@@ -142,10 +144,9 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kickpat = "<[[11]00000] [1000100]>"
     bdpat = "<[111011] [11100[01]] [111011] [[11]0101[01]]>"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
-
 in
 do
-    -- resetCycles
+    resetCycles
     -- xfade 1 
     d1
         -- $ bite 16 "0 1 2!14"
@@ -216,7 +217,6 @@ do
         -- # cutoff 2000
         # crush 3
         # amp 0.5
-
     -- drive beat
     d5
         -- $ someCyclesBy 0.3 (linger "[ t | q]")
@@ -231,7 +231,7 @@ do
                 $ fast 2 $ struct "1[[11]0]10[11]0" 
                 $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" 
                 # hcutoff (stitch "{100100101}%10" "10000" "8000") 
-            , s "ho(<3 2 4 1>,12,<2 1>)" # rings 0.9 0.8 0.6 0.7 0.9
+            -- , s "ho(<3 2 4 1>,12,<2 1>)" # rings 0.9 0.8 0.6 0.7 0.9
         ]
         # shape 0.5
         # verb 0.8 0.8 0.1 0.2
@@ -278,10 +278,6 @@ do
             , ccv (range 64 127 $ fast 4 saw) # ccn 76 # s "midi0" -- band cutoff
         ]
 
-
-solo 3
-
-unsolo 2
 
 -- modulate drop
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
@@ -345,10 +341,11 @@ do
              # cutoff (segment 8 $ rangex 400 5000 $ slow 16 saw)
         ]
 
-all $ every 2 (linger "<[0.333 0.666] 0.5 0.1>")
+all $ every 2 (linger "<0.333 0.5 0.333>")
+
+all $ whenmod 4 1 (bite 16 "4!10 14 15")
 
 all $ every 2 (spreadf [sometimes (jux rev), rarely (hurry 2), ((# real (slow 3 sine)) . (# imag (slow 4 saw))) . (# hcutoff (rangex 0 15000 $ slow 3 saw)) . (# enhance "1 0 1 0 1 0")  . (linger "<[0.333 0.666] 0.5 0.1>")])
-
 
 all $ id
 
@@ -381,20 +378,40 @@ do
              # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
              # pan 0.2
              |- up 12
-            , ccv 64 # ccn 2 # s "midi0" -- filter open up
-            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv 32 # ccn 2 # s "midi0" -- filter open up
+            , ccv 32 # ccn 1 # s "midi0" -- bass drive
             , ccv (segment 128 $ range 127 0 $ slow 4 sine ) # ccn 74 # s "midi0" -- band res
             , ccv (segment 128 $ range 16 127 $ fast 4 sine) # ccn 75 # s "midi0" -- band cutoff
             , ccv (segment 128 $ range 0 127 $ fast 4 sine) # ccn 76 # s "midi0" -- band cutoff
         ]
         # cps 0.4
 
-all $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 12 $ "-2"*perlin)), id , bite 16 "0 1 4!14"] . (sometimes (# verb 0 0 0 0 ))
+all $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 12 $ "-2"*perlin)), id , bite 16 "0 1 4!14"] . (sometimes (# verb 0 0 0 0 )) . every 4 (bite 16 "6!10 14 15")
 
-let kickpat = "<[111011] [11101[11]] [111011] [[11]0101[01]]>"
+    -- off beats
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[[11]00000] [1000100]>"
+    -- kickpat = "<[111011] [11101[11]] [111011] [[11]0101[01]]>"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
-d4
+    d4
+        $ someCyclesBy 0.4 (mask kpat2 . (# verb 0 0 0 0) . (sometimes ((ply "[3 | 2 | 1]") . (# pan (rand)) . (# legato 0.5)) ) . (rarely (# speed "-0.5")) )
+        $ someCyclesBy 0.1 (plyWith 2 ("t" <~))
+        $ stack [
+            struct kickpat $ s "[realclaps?, bd:4, clubkick, 808bd:1?]"
+            , degradeBy 0.89 $ struct (inv kickpat) $ s "[sd]" |< n (irand 5) # speed 0.3
+        ] # shape 0.5
+        # verb 0.9 0.9 0.1 0.4
+        -- # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
+        -- # cutoff 2000
+        # crush 3
+        # amp 0.5
+
+let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
+    kickpat = "<[111011] [11101[11]] [111011] [[11]0101[01]]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
+in
+d5
     -- $ every 4 (someCyclesBy 0.3 (linger "[ s | t ]"))
     $ fast "<[2 0.5 1] 2 1 0.5>"
     -- $ sometimes (hurry "<[2 0.5 2] 2 1 0.5>")
@@ -409,7 +426,7 @@ d4
             $ fast 2 $ struct "1[[11]0]10[11]0" 
             $ s "[<hc>, [~ ~ ~ ~ ~ ho:1/4]?]" 
             # hcutoff (stitch "{100100101}%10" "10000" "8000") 
-        , s "ho(3,12,2)" # rings (0.9*(slow 7 $ sine)) 0.8 (0.6*(slow 4 $ saw)) 0.7 0.9
+        , s "ho(3,12,2)" # rings (0.9*(slow 4 $ sine)) 0.8 (0.8*(slow 4 $ saw)) 0.7 0.9
         , ply 2 $ struct (inv (kickpat)) $ s "linnhats" # end "{1}%16" |< n (segment 16 $ irand 4)
     ]
     # shape 0.5
