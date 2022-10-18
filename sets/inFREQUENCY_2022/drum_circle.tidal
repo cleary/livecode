@@ -15,20 +15,27 @@ d1
 
 d10 $ silence --  segment 128 $ ccv (range "[20 | 50]" 88 $ slow 3.666 cosine) # ccn 6 # s "midi0"
 
+all $ id
+
+all $ every 2 (spreadf [bite 7 "[3 3?]!4 0 3 0", (# accelerate ((-2)*sine)), (# scram (fast 2 sine)), ((# delay 1) . (# delaytime (1/14)) . (# dfb 0.93)), (# verb (saw) 0.7 0.5 0.4), (# speed (slow 3 saw)), ((# leslie 3) . (# lrate (0.13*saw)) . (# lsize (2*sine)))])
+
 d2
+    $ someCyclesBy 0.2 (slow 1.5)
     $ slow 1
     $ struct (inv rupak)
-    $ note "<c d g4 bf4>"
-    # s "midi0"
+    $ n "<d'min d'dim7 c'maj7'o!2>"
+    -- # s "[earthkit | drumbrute | tabla2]"
+    # s "[glitch , midi0?, drumbrute?0.2]"
     # legato 1.3
+    |+ n (slow 3 $ run 16)
 
 
 d3 
     $ every' 16 15 (rip 0.125 8)
     $ stack [
-        struct rupak $ s "[808bd:1,808bd:0]",
+        struct rupak $ s "[808bd:1,808bd:0, gnsbd]",
         struct (inv rupak) $ s "[vinylsh:2, vinyltr?]" # gain 0.9,
-        often (ply 2) $ struct "0111111" $ s (segment 64 $ "[vinylsd | tabla2]") # gain (stitch rupak "0.5" "0.7") # speed 0.7 |< n (irand 16)
+        often (ply 2) $ struct "0111111" $ s (segment 64 $ "[vinylsd | tabla2]") # gain (stitch rupak "0.6" "0.8") # speed 0.7 |< n ((irand 16) + 24)
     ]
     # shape 0.5
     # verb 0.7 0.6 0.4 0.5
