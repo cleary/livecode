@@ -74,7 +74,6 @@ d2 $ s "subclean" -- E0, C1:8 lovely deep clean sub bass, 25 samples
 d2 $ s "subdirt" -- C0, slightly muffled dirt sub bass, 24 samples
 d2 $ s "subres" -- E0, C1:8 filter opening sub bass short, 41 samples
 d2 $ s "subresl" -- E0, C1:8 filter opening sub bass long, 53 samples
-d2 $ s "cleansub" -- E0, C1:8 lovely deep clean sub bass, 25 samples
 d1 $ s "s100m808sinspace" -- c2, almost rhodes-like in lower registers, ~3s duration
 d1 $ s "s100mgoodsigns" -- c1, industrial heavy metal sheet sound
 d1 $ s "s100msisters" -- c0, beating filter opening bass
