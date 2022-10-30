@@ -1,54 +1,146 @@
-all $ slow 1.5 . spreadf [ linger "<1 1 [0.33 s]!2 [0.125 0.25 0.5]!2>",  ]
+all $ slow 1.5 . spreadf [ linger "<1 1 [0.33 s]!2 [0.125 0.25 0.5]!2>", bite 16 "{0 1 2}%8" ]
+
+all id
+
+all $ (# legato "<0.2 [0.2 0.5!3 ] [0.4] [0.4 2!3]>")
+    . spreadf [ linger "<1 1 [0.33 s]!2 [0.125 0.25 0.5]!2>", bite 16 "{0 1 2}%8" ]
+
+silence 2
+
+unmute 2
+
+unsolo 7
 
 
-d1
+do
+    d1
+        $ whenmod 32 16 (slow 8 . arp "[converge up | down disconverge]" . (# legato 4) . (# verb 0.9 0.9 0.5 0.6) . (|+ up 5))
+        $ whenmod 4 2 (# djfbus 15 (segment 64 $ rangex 0.2 0.956 $ slow 2 saw)) 
+        $ swingBy 0.1 8
+        $ every 2 (fast "2 1 2")
+        $ struct "0110101[1?]"
+        -- $ almostNever (# rings 0.6 0.6 0.9 0.9 0.6)
+        $ rarely (# octave "[ 5| 6]")
+        $ note "{c'maj7@2 a'm@1 g'sus4@2@2 e'min@1 d'min9@2 b'dim7@1}%3"
+        # stack [
+            s "[supertron]"
+            , s "[~ | supergrind | ~]" # cutoff 5000
+            -- , s "midi0" # cutoff 2000
+        ]
+        # verb 0.4 0.4 0.6 0.3
+        # legato "<0.9>"
+        # voice 6
+        # gain 1
+        -- # delay 1 # dt 0.0666 # dfb 0.8
+        # panbus 4 (segment 4 $ range "-1" 1 $ perlin)
+        # hcutoff 2000
+        # octersub 1
+        # cps 0.666
+        # djf 0.35
+
+    d2
+        -- $ rarely (ply 2 . (# delay 1) . (# dfb 0.87) .(# dt 0.1333) )
+        $ every' 32 31 (linger "s")
+         $ whenmod 32 16 (# cutoff 100)
+        $ stack [
+            struct "{1100110[010]}%4" $ s "[bd, clubkick]"
+            , 
+            s "~ [cp, <vinylsd:2!3 kdrsd:2 realclaps>]" # coarse 5
+            , struct "[011011]*2" $ s "vinylsh"
+            -- triangles
+            -- , mask "<0 0 1>" $ someCyclesBy 0.1 (off "s" (# up (run "[7 | -7]"))) $ struct "[011011]*2" $ s "vinyltr" |< n (segment 8 $ irand 4) # hcutoff 4000
+        ]
+        # shape 0.5
+        -- # verb 0.3 0.3 0.6 0.3
+        # gain 1.6
+        # pan 0.2
+
+do
+    unsolo 3
+    all id
+    -- Vital: jupiter bass
+    d3
+        $ swingBy 0.8 8
+        $ whenmod 31 16 (slow 8 . (# legato 0.2))
+        $ every' 3 3 (bite 8 "3*3 4 5 1" )
+        $ every' 7 7 (sometimes (swingBy 0.06 12 . struct "t(7,12,3)?"))
+        -- $ struct "<[[[t@1 t@1] | ~ | ~] ~ [t@2 t@1]] t>"
+        $ struct (fast 1 $ "{1100110[010]}%4")
+        $ arp "up down converge"  
+        $ note "{c'maj6@2 a'm@1 g'sus4@2@2 e'min@1 d'min9@2 b'dim7@1}%3"
+        -- $ note "{c@1 a@1 g@2 e@1 d@2 b@1}%3"
+        # stack [
+            -- s "midi0" |- up "24"
+            -- , 
+            s "kvbass kvbass:1 kvbass:3" # cut 33
+        ]
+        -- |< n (segment 11 $ irand 8)
+        # legato "{-1.9 0.5 0.9}%8"
+        # gain "{-1.9@2 1.1@1}%3"
+        # legato 1
+    d5 -- midi control
+        $ segment 128
+        $ stack [
+            ccv (range 32 96 $ slow 3 sine) # ccn 1 # s "midi0"
+            , ccv (segment 128 $ range 76 127 $ fast 2 saw) # ccn 2 # s "midi0"
+            , ccv (segment 128 $ range 64 110 $ fast 2 saw) # ccn 60 # s "midi0"
+            , ccv (96) # ccn 10 # s "midi0"
+            , ccv 90 # ccn 61 # s "midi0"
+        ]
+
+do
+    unmute 1
+    unmute 2
+
+d6
+    $ whenmod 32 16 (slow 8 . arp "[converge up | down disconverge]" . (# legato 4) . (# verb 0.9 0.9 0.5 0.6) . (|+ up 5))
+    $ whenmod 4 2 (# djfbus 15 (segment 64 $ rangex 0.2 0.956 $ slow 2 saw)) 
+    $ swingBy 0.1 8
+    $ every 2 (fast "2 1 2")
+    $ struct "0110101[1?]"
     $ almostNever (# rings 0.6 0.6 0.9 0.9 0.6)
-    $ rarely (# octave "[ 5| 6| 7]")
+    $ rarely (# octave "[ 5| 6]")
+    $ slice 16 "<1>"
     $ note "{c'maj7@2 a'm@1 g'sus4@2@2 e'min@1 d'min9@2 b'dim7@1}%3"
     # stack [
-        s (segment 4 $ "[supertron | ~ | supertron]")
-        , s (segment 3 $ "[~ | supergrind | ~]") # cutoff 8000
+       s "[khloops]" # hcutoff 2000
+       , 
+       s "[~ | khbreaks:0 | ~]" -- # cutoff 5000
         -- , s "midi0" # cutoff 2000
     ]
-    # verb 0.4 0.4 0.6 0.3
-    # legato 1.1
-    # voice 6
-    # gain 0.8
-    # delay 1 # dt 0.0666 # dfb 0.8
-    # panbus 4 (segment 4 $ range "-1" 1 $ perlin)
-    # hcutoff 2000
-
-d2
-    $ stack [
-        struct "{1100110[010]}%4" $ s "[bd, clubkick]"
-        , s "~ [cp, <vinylsd:2!3 kdrsd:2 realclaps>]" # coarse 5
-        , struct "[011011]*2" $ s "vinylsh"
-    ]
-    # shape 0.5
     # verb 0.6 0.6 0.6 0.3
-    # gain 1.8
-    # pan 0.2
+    # shape 0.6
+    # legato "<0.9>"
+    # voice 6
+    # gain 1
+    -- # delay 1 # dt 0.0666 # dfb 0.8
+    # panbus 4 (segment 4 $ range "-1" 1 $ perlin)
+    # octersub 1
+    # cps 0.666
+    # djf 0.35
+    # gain 1.3
 
-d3
-    $ someCyclesBy 0.2 (bite 8 "3*3 4 5 1" . |+ up "[12 | 0 | 24]")
-    $ every' 8 7 (sometimes (swingBy 0.06 12 . struct "t(7,12,3)?"))
-    $ struct "<[[[t@2 t@1] | ~ | ~] ~ [t@2 t@1]] t>"
-    $ arp "up down converge"  
-    $ note "{c'maj7@2 a'm@1 g'sus4@2@2 e'min@1 d'min9@2 b'dim7@1}%3"
-    -- $ note "{c@2 a@1 g@2 e@1 d@2 b@1}%3"
-    # s "midi0"
-    -- |< n (segment 12 $ irand 8)
-    # legato 0.9
-    # verb 0.4 0.4 0.6 0.3
-    # gain "{0.9@2 1.1@1}%3"
-    |- up "[24]"
-    # legato 2
+unsolo 7
 
-d4
-    $ stack [
-        ccv (segment 128 $ range 32 96 $ slow 3 sine) # ccn 1 # s "midi0"
-        , ccv (segment 128 $ range 127 76 $ slow 4 saw) # ccn 2 # s "midi0"
-        , ccv (segment 128 $ range 64 110 $ slow 8 sine) # ccn 92 # s "midi0"
-        , ccv 96 # ccn 10 # s "midi0"
-        , ccv 63 # ccn 95 # s "midi0"
-    ]
+do
+    solo 7
+    unmute 1
+    unmute 2
+    d7
+        $ almostNever (off 1.25 (|+ up "[7|12|-5]"))
+        $ struct ("<[t*4] [t(6,8)] [t ~ ~ [t*3] [t*6]]>")
+        $ arp (slow 2 $ "up down converge")
+        $ note "{c'maj7@2 a'm@1 g'sus4@2@2 e'min@1 d'min9@2 b'dim7@1}%3"
+        # s "[flbass:14]"
+        # gain 1.3
+        # clouds 0.9 0.9 0.25 0.8
+        # cloudsblend 0.9 0.9 0.6 0.5
+        # crushbus 71 (segment 32 $ range 2 6 $ slow 2 saw)
+        # legato "{1.6 0.6 2 2}%8"
+
+ -- punctual
+ i << img "https://img.grbt.com.au/inf2.jpg";
+i2 << img "https://img.grbt.com.au/inf4.jpg";
+i3 << img "https://img.grbt.com.au/scream.jpg";
+move [saw 0.1] $ tile 1 $ tile (1 - (ifft i)) $ move 1 $ tile [(-1),1] $ i  * ([ifft (step [i2,i3] (lfsaw cps))]/ilo) >> rgba;
+-- 0.8 >> fdbk;
