@@ -6,23 +6,23 @@
 
 :m +  Data.List Data.Maybe Sound.Tidal.Utils
 
-:{
-rolledWith :: ([Event a] -> [EventF (ArcF Time) b]) -> Pattern a -> Pattern b
-rolledWith f = withEvents aux
-         where aux es = concatMap (steppityIn) (groupBy (\a b -> whole a == whole b) $ sortOn whole (f es))
-               steppityIn xs = mapMaybe (\(n, x) -> shiftIt n (length xs) x) $ enumerate xs
-               shiftIt n d (Event c (Just (Arc s e)) a' v) = do 
-                         a'' <- subArc (Arc newS e) a'
-                         return (Event c (Just $ Arc newS e) a'' v)
-                      where newS = s + (dur * fromIntegral n)
-                            dur = (e - s) / (4*fromIntegral d)
-
-rolled :: Pattern b -> Pattern b
-rolled = rolledWith id
-
-rolled' :: Pattern b -> Pattern b
-rolled' = rolledWith reverse
-:}
+-- :{
+-- rolledWith :: ([Event a] -> [EventF (ArcF Time) b]) -> Pattern a -> Pattern b
+-- rolledWith f = withEvents aux
+--          where aux es = concatMap (steppityIn) (groupBy (\a b -> whole a == whole b) $ sortOn whole (f es))
+--                steppityIn xs = mapMaybe (\(n, x) -> shiftIt n (length xs) x) $ enumerate xs
+--                shiftIt n d (Event c (Just (Arc s e)) a' v) = do 
+--                          a'' <- subArc (Arc newS e) a'
+--                          return (Event c (Just $ Arc newS e) a'' v)
+--                       where newS = s + (dur * fromIntegral n)
+--                             dur = (e - s) / (4*fromIntegral d)
+-- 
+-- rolled :: Pattern b -> Pattern b
+-- rolled = rolledWith id
+-- 
+-- rolled' :: Pattern b -> Pattern b
+-- rolled' = rolledWith reverse
+-- :}
 
 :{
 let 

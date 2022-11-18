@@ -21,7 +21,7 @@ d1
     $ swingBy 0.08 4 $
     stack[
         struct "t*4" $ "clubkick",
-        struct "t*[16| 8]" $ gain accent # s "linnhats" # end "{0.6 1 0.6}%9" # hcutoff "{6000 100 6000}%17"
+        someCyclesBy 0.3 (ply "4 3 1 2") $ struct "t*[16| 8]" $ gain accent # s "linnhats" # end "{0.6 1 0.6}%9" # hcutoff "{6000 100 6000}%17"
     ]
     # cps 0.6
     # verb 0.9 0.9 0.6 0.5
@@ -31,9 +31,9 @@ d3
     $ every 4 (# djfbus 32 (segment 32 $ range 0.5 1 $ isaw))
     $ loopAt 4
     $ s "<pdbreaks pdbreaks >" # nTake "pd" [7, 8]
-    # hcutoff 100
+    -- # hcutoff 500
     # panbus 31 (segment 8 $ rand * "[1 | -1]")
-    # gain 1.2
+    # gain 1.4
     # verb 0.7 0.7 0.6 0.5
 
 d4
@@ -41,19 +41,59 @@ d4
     $ swingBy 0.04 8
     -- $ whenmod 16 12 (struct "t*[8 4 6]" . (# legato "{0.1 0.5 0.2 2}%7") . (superimpose ((# s "clubkick") . (# crush 3))))
     $ whenmod 32 30 (# n (arp "{down up down}%4" "c'maj7'16"))
-    $ superimpose (rev . (# s "[wasp2saws | sh5hendrixfuzz?]") . (# cut 41) . (# gain 1.1) . (|+ n "[24|0]"))
+    $ superimpose (rev . (# s "wasp2saws") . (# cut 41) . (# gain 1.1) . (|+ n "[24|0]"))
     $ struct "t*16"
     $ arp "{down up down}%4"
     $ n "<[g'min'8 g'min'ii'8]!6 [d'dom7'8 d'dom7'ii'8]!2 >"
-    # s "[superchip, supergrind]"
+    # s "[supertron]"
     -- # ampbus 47 (stitch (binary 170) "0.05" "0.5")
-    # voice (irand 15)
+    # voice 4
     # leslie 5
     # lrate (0.13*sine)
     # lsize (2*saw)
     -- # sustain 10
     -- # delay 1 # dt (0.25*saw) # dfb (0.79*sine)
+    # gain 0.9
 
-all $ every 2 (spreadf [hurry 2, (# accelerate ((-2)*isaw)), jux rev, fast 0.666, (# hcutoff (rangex 12000 0 $ saw)), (# squizbus 991 (range 5 1.1 sine)) ])
+all $ every 2 (spreadf [hurry 2, (# accelerate ((-2)*isaw)), jux rev, fast 0.666, (# hcutoff (rangex 12000 0 $ saw)), (# squizbus 991 (range 5 1.1 sine)), (# enhance (0.666*saw)) ])
 
-all $ id
+all $ (# enhance (segment 64 $ (0.450*saw)))
+
+-- slow
+do
+    d1 silence
+    d2 silence
+    d3
+        -- $ every 4 (chop 32 . (# delay 1) . (# dt 0.125) . (# dfb "0.95"))
+        $ hurry 0.5
+        $ every 4 (# djfbus 32 (segment 32 $ range 0.5 1 $ isaw))
+        $ loopAt 4
+        $ s "<pdbreaks pdbreaks >" # nTake "pd" [7, 8]
+        # hcutoff 100
+        # panbus 31 (segment 8 $ rand * "[1 | -1]")
+        # gain 1.2
+        # verb 0.7 0.7 0.6 0.5
+    d4
+        $ slow 3 $ degradeBy 0.1
+        $ whenmod 8 6 (bite 64 (segment 32 $ irand 32))
+        $ fast 2
+        $ swingBy 0.04 8
+        -- $ whenmod 16 12 (struct "t*[8 4 6]" . (# legato "{0.1 0.5 0.2 2}%7") . (superimpose ((# s "clubkick") . (# crush 3))))
+        $ whenmod 32 30 (# n (arp "{down up down}%4" "c'maj7'16"))
+        $ superimpose (rev . (# s "wasp2saws") . (# cut 41) . (# gain 1.1) . (|+ n "[24|0]"))
+        $ struct "t*16"
+        $ arp "{down up down}%4"
+        $ n "<[d'min9'8 d6'min7'o'8]!6 [d'dim7'8 d'dim7'ii'8] [c'maj7'8 c4'maj7'iii'8 ]!2 >"
+        # s "[supertron]"
+        -- # ampbus 47 (stitch (binary 170) "0.05" "0.5")
+        # voice 4
+        # leslie 5
+        # lrate (0.13*sine)
+        # lsize (2*saw)
+        -- # sustain 10
+        -- # delay 1 # dt (0.25*saw) # dfb (0.79*sine)
+        # clouds 0.9 0.9 0.3 0.9
+        # cloudsblend 0.9 0.9 (segment 32 $ range 0.4 0.7 $ slow 4 sine) 0.6
+        # gain 0.9
+        -- # real (slow 3 (0.5*sine))
+        -- # imag "^0"
