@@ -1,0 +1,144 @@
+-- four on the floor
+d1 $ silence 
+
+    $ swingBy 0.1 8
+    $ stack [
+        s "clubkick:2*4"
+        , struct "{1 1 1 0}%16" $ s "drumbrute:3"
+        , struct "0101" $ s "vinylsd"
+    ]
+
+-- calypso
+d1 silence 
+
+    $ every' 16 15 (fast "1 1.5 2" . (# s "[clubkick glitch jazz vinylsd]") . (|< n (segment 16 $ irand 6) ))
+    $ swingBy 0.1 8
+    $ stack [
+        s "clubkick:2*4"
+        , struct "{1 1 1 0}%16" $ s "drumbrute:3" 
+        , fast 2 $ struct (binary 4626) $ s "vinylsd"
+        , mask "<1 0!7>" $ s "[cc:4, bd]"
+    ]
+    -- # octersubsub 1
+    # room 0.4 # sz 0.4
+    # squiz 1.6
+
+d3
+    $ every 8 (# accelerate "0 0 0 -2")
+    $ rarely (# legato "{1 0.2 1}%9")
+    $ swingBy 0.6 4
+    $ sometimesBy 0.33 (off 0.25 (|- up "[5| 12 | <4 0 4> | -7]" ) . (|+ n (range 6 13 rand)))
+    $ every' 16 15 (slow 1 . (struct "t(7,8)") . (# legato 0.9))
+    $ slow 2
+    $ struct "t(<4 5 1 2>,16,<0 1>)"
+    $ note ("<2 1 0 0>") 
+    -- # s "vp330splitandfuzzy"
+    # s "flbass"
+    # cut 3
+    -- # cutoff 500
+    # shape 0.5
+    # crushbus 21 (segment 128 $ range 2 4 $ slow 8 sine)  
+    -- |+ note (segment 8 $ "[12 | 12 | 24]")
+
+d6
+    $ almostNever (# accelerate "0 0 0 -2")
+    $ someCyclesBy 0.1 (iter 2)
+    $ sometimesBy 0.33 (off 0.25 (|+ n 0))
+    $ every' 16 15 (slow 1 . (struct "t(7,8)") . (# legato 0.9))
+    $ slow 2
+    $ struct "t(<4 5 1 2>,16,<0 1>)"
+    $ s "[bd, clubkick?, [hc?0.2]*2?]"
+    # gain 1.2
+    |+ n (irand 8)
+
+d4 
+    $ sometimes (# cut 3)
+    -- $ rarely (off (0.125/2) ((|+ note "12 24") . (# squiz 0) . (# delay "<1 0 1>") . (# dfb 0.8) . (# dt "0.21 0.33 0.4")))
+    $ off (0.125/2) (rev . (# pan (slow 4 saw)) . (# gain 0.8) . (|+ note "12 24"))
+    -- $ mask "<1 1 0 [0 1]>"
+    -- $ mask (inv "t(<4 5 1 2>,16,<0 1>)")
+    -- $ every' 16 15 (arp "down down down")
+    $ swingBy 0.6 12
+    $ slow 2
+    $ almostAlways (arp "up down up")
+    -- $ rarely (struct "t*12")
+    -- $ almostNever (struct "t*24")
+    $ struct (slow 2 $ "t*4 <[t*6 t*4] t*8> t*3")
+    $ n "<2'min9'8 g4'maj'8 0'min7'8 c4'min9'ii'8>"
+    # s "[jvrash]"
+    |+ n ("[48 | 36]")
+    -- # legato 1.3
+    -- # clouds 0.8 0.8 0.3 0.9
+    -- # cloudsblend 0.9 0.9 0.7 0.6
+    # octer 0.5
+    # pan (slow 4 isaw)
+    # djf (range 0.4 0.8 $ slow 8 sine)
+
+d5
+    $ whenmod 16 12 (0.333 ~>)
+    $ almostNever (# accelerate (2*sine))
+    $ sometimesBy 0.05 (# s "torta")
+    $ whenmod 8 6 (# speed (1.13*sine))
+    $ randslice "[64 | 24 | 64 | 64]"
+    $ struct "t(13,16, <0 1>)"
+    $ mask (inv "<1 1 0 [0 1]>")
+    $ slow 2
+    $ s "fafo"
+    # cut 5
+    -- # grain "<0.5 0.1 0.6>" "<1 0.6 1.1>"
+    # octer 1
+    # gain 1.5
+    # legato "{0.8 1 0.8}%7"
+
+d1
+    $ s "amencutup"
+    # gain 1.2
+    # n (segment 8 $ run 8)
+
+all $ ( # clouds 0.8 0.9 0.4 0.7 ). (# cloudsblend 0.9 0.9 0.7 0.6)
+
+once $ s "c_set_intro" # squizbus 3 (segment 64 $ range 8 1.8 $ slow 2 saw) # accelerate (-2 * sine) # gain 1.2 # pan 0.9
+
+
+d6
+    $ off 0 (|+ up 5)
+    $ mask "<0 0 1>"
+    $ struct "<0 [0 1] 0 0>"
+    $ randslice 24
+    $ s "flutejk:7"
+    # gain 1.2
+    # pan 0.3
+    -- # room 0.5 # sz 0.2
+
+    panic
+
+do
+    d7 
+        $ every' 8 7 (chop 32 . hurry 2 . iter 4)
+        $ loopAt 4
+        $ s "breakcore_155bpm:1"
+        # gain 1.2
+        # room 0.4 # sz 0.4
+        -- # djfbus 1 (segment 16 $ slow 4 $ saw)
+    d8 
+        $ s "808bd:1*2"
+        # gain 1.2
+
+
+d1 
+    $ s "[bd*2, <~ [~ ~ ~ [~ [realclaps,sd,vinylsd]]]>]"
+    # room 0.6 # sz 0.6
+    # gain 1.2
+
+d2 
+    $ every 2 (off (0.125/2) (slow 2 . rolled))
+    $ struct "t(3,8)"
+    $ note "<d'min9 c'sus2>"
+    # s "< braids tides plaits>"
+    # gain 1.4
+    # tidesshape (segment 8 $ slow 4 sine)
+    # tidessmooth (segment 8 $ range 0.5 1 (slow 5 sine))
+    # harm (segment 8 $ fast 2  saw)
+    # lpg 0.9 0.9
+    # shift "{0.1 0.9}%3"
+    # engine (run 15)
