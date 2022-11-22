@@ -1,9 +1,17 @@
 -- punctual - first pass
 {-
+-- lower precedence cell, do not eval
+i1 << img "https://img.grbt.com.au/av/jos.jpg";
+v << img "https://img.grbt.com.au/pattern10.jpg";
+mod << [rgbb v, rgbg v] +: sin [0.02, 0.05];
+i << i1 * mod;
+setfxy [prox (0 ** (8* (0.1 ~~ 1 $ sin 0.2))), mod/8] $ ifft mod * [sin 0.08,1,0.4] >> hsv
+
+-- higher precedence cell, eval
 f << move [0,-0.4] $ hline [ifft fx] ((ifft fxy * (0.1 ~~ 0.9 $ sin 0.05) * 1.5));
 i << tile [prox 0.5 * sin (0.01), (ifft fx / sin 0.01)] $ img "https://img.grbt.com.au/av/jos.jpg"; 
-i2 << hsvrgb (i * [ifft fy, 1,1]);
-0 - ((min (i * ifft fxy ) (i2 / ilo)) - f * 0.2) >> video;
+ i2 << hsvrgb (i * [sin 0.2, 1,1]);
+ 0 - ((min (i * ifft fxy ) (i2 / ilo)) - f * 0.2) >> hsv;
 -}
 
 all $ (# verb 0.9 0.7 0.1 0.4) 
@@ -118,6 +126,7 @@ d6
     # gain 0.9
     # legato 1.1
 
+-- PUNCTUAL!
 do
     -- chords
     d7
