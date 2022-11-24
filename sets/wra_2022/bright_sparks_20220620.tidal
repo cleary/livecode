@@ -1,0 +1,282 @@
+let chords = "<a'm9'o f'maj9 d'm11 g'add9>"
+    dist pat = ccv pat # ccn 1
+    cutoff pat = ccv pat # ccn 2
+    cutgain pat = ccv pat # ccn 3
+    pan pat = ccv pat # ccn 4
+    maskpat = "<0 0 1 1>"
+    cutpat = "<[0000000101010000][0][0010101001010000][0]>"
+
+-- vital - Analog Pad
+
+-- intro
+d1
+    -- $ rarely ((0.375 ~>) . fast 1.75 . arp "down" . (|- n 12) . (# legato 0.5))
+    $ rarely ((0.375 ~>) . fast 1.75 . arp "<down@0.4 up@0.4 converge@0.8 up@0.4>" . (|- nTake "8ve" [-24, -12, 0, 12, 24]) . (# legato 0.5))
+    $ swingBy (1/7) 8
+    -- $ struct (slow 2 $ "t(13,16,<0 2>)")
+    $ struct (slow 8 $ "t(13,16,<0 2>)")
+    $ stack [
+        n (chords) 
+        # s "[midi0]"
+        , mask maskpat $ dist "60" # s "midi0"
+        , cutoff "24.87" # s "midi0"
+        -- , cutgain (stitch (slow 2 $ cutpat) "100" "55.8") # s "midi0"
+        , pan (stitch (slow 2 $ cutpat) "{127 0 127}%16" "64") # s "midi0"
+    ]
+    # legato "{0.5 1.1 0.5}%16"
+    # cps 0.45
+
+--outro
+do
+    solo 1
+    d1
+        $ swingBy (1/7) 8
+        -- $ struct (slow 2 $ "t(13,16,<0 2>)")
+        $ struct (slow 8 $ "t(13,16,<0 2>)")
+        $ stack [
+            n (chords) 
+            # s "[midi0]"
+            , mask maskpat $ dist (segment 32 $ slow 8 $ range 64 127 $ saw) # s "midi0"
+            , cutoff "24.87" # s "midi0"
+            -- , cutgain (stitch (slow 2 $ cutpat) "100" "55.8") # s "midi0"
+            , pan (stitch (slow 2 $ cutpat) "{127 0 127}%16" "64") # s "midi0"
+        ]
+        # legato "{0.5 1.1 0.5}%16"
+        # cps 0.45
+
+unsolo 1
+
+all $ every' 12 "[8 | 6]" (linger "0.125 [0.25 | 0.125]")
+
+all $ id
+
+d2
+    $ degradeBy 0.5
+    $ swingBy (1/7) 8
+    $ every' 2 1 (rev . plyWith (range 8 16 $ fast 2.3 sine) (|* gain 0.9) )
+    $ struct (slow 8 $ "t(13,16,<0 2>)")
+    $ s "kdrsd"
+    # verb 0.4 0.4 0.1 0.2
+    |< n (irand 8)
+    -- # nudge 0.08
+    # panbus "2" (range 0.3 0.6 $ slow 3 sine)
+    # gain 0.96
+
+d3
+    $ swingBy (1/7) 8
+    -- $ rarely (# speed "-2")
+    $ s "~ [kdrsd, sd, 808sd:1]"
+    # pan 0.3
+    -- # nudge 0.04
+    # elementsblowlevel 0.9
+    # elementsbowlevel 0.8
+    # elementsflow 0.7
+    # elementscontour 0.9
+    # elementsgeom 0.8
+    # elementspitch 0.9
+    # elementsstrength 0.9
+    # gain 1.1
+
+do
+    d1
+        $ swingBy (1/7) 8
+        $ every 2 (mask (inv (binaryN 16 34952)))
+        $ every' 2 1 (mask (inv (binaryN 16 2056)))
+        $ struct (slow 2 $ "t(13,16,<0 2>)")
+        -- $ struct (slow 8 $ "t(13,16,<0 2>)")
+        $ stack [
+            n (chords) 
+            # s "[midi0]"
+            , mask maskpat $ dist (segment 32 $ slow 2 $ range 64 127 $ saw) # s "midi0"
+            , mask (inv maskpat) $ dist 60 # s "midi0"
+            , cutoff (stitch (slow 2 $ cutpat) "60" "24.87") # s "midi0"
+            , cutgain (stitch (slow 2 $ cutpat) "100" "55.8") # s "midi0"
+            , pan (stitch (slow 2 $ cutpat) "{127 0 127}%16" "64") # s "midi0"
+        ]
+        # legato "{0.5 1.1 0.5}%16"
+        # cps 0.45
+    d4
+        $ someCyclesBy 0.11 (linger "< [0.5 0.25] >")
+        $ every' 2 1 ((# delay 0.7) . (# dfb 0.6) . (# dt 0.6))
+        $ slow 8 $ chop 32
+        $ s "[kdrloops:8, kdrloops:9]"
+        # speed 0.7
+        # pan 0.7
+        # verb 0.4 0.4 0.1 0.2
+    	# gain 0.96
+    d5 
+        -- $ sometimesBy 0.1 ((# crushbus 51 (stitch (slow 2 $ cutpat) "4" "2")) . (# gain 0.9))
+        $ rarely (off 0.125 (# up 12))
+        $ swingBy (1/7) 8
+        $ whenmod 16 14 ( struct (slow 2 $ "t(13,16,<0 2>)") . off 0.125 (# up 4))
+        $ struct "<[1100] [00[01][11]]>"
+        $ arp "<up converge>"
+        $ n (chords + 8)
+        # s "subclean"
+        |< n (run 6)
+        # cut 25
+        # verb 0.4 0.4 0.1 0.2
+        # pan 0.3
+        # gain 1.2
+        # nudge 0.08
+        # shape 0.5
+
+d9 silence
+    
+unmute 7
+
+do
+    unmute 1
+    unmute 4
+    unmute 2
+    mute 7
+    d6
+        -- $ someCyclesBy 0.43 (plyWith 2 ((1 ~>) . (# cut 61) . (# s "s100mcommonground") . (# gain 1.2) . (# delay 0)))
+        $ someCyclesBy 0.43 (rev)
+        $ mask "<0 1 0 0 0 0>"
+        $ (0.125 ~>)
+        $ n "[~ . ~ . c6 b . a?]"
+        # s "vp330stringslow"
+        |+ n 36
+        # cut 6
+        # nudge 0.08
+        # hold 2.5
+        # rel 0.5
+        # panbus 61 (range "-1" 1 $ slow 4 sine) 
+        # delay 0.7
+        # dfb 0.6
+        # dt 0.6
+        -- # cutoff 3000 
+        # elementsblowlevel 0.6
+        # elementsbowlevel 0.8
+        # elementsflow 0.3
+        # elementscontour 0.5
+        # elementsgeom 0.2
+        # elementspitch 0.4
+        # elementsstrength 0.6
+
+unmute 7
+
+-- breakdown
+do
+    mute 1
+    mute 2
+    mute 4
+    mute 2
+    d6
+        $ superimpose (|- n 24)
+        -- $ someCyclesBy 0.43 (plyWith 2 ((1 ~>) . (# cut 61) . (# s "s100mcommonground") . (# gain 1.2) . (# delay 0)))
+        $ someCyclesBy 0.43 (rev)
+        $ mask "<0 1 >"
+        $ (0.125 ~>)
+        $ n "[~ . ~ . c6 b . a?]"
+        # s "vp330stringslow"
+        |+ n 29
+        -- # cut 6
+        # nudge 0.08
+        # hold 2.5
+        # rel 0.5
+        # panbus 61 (range "-1" 1 $ slow 4 sine) 
+        # delay 0.7
+        # dfb 0.6
+        # dt 0.6
+        # legato "<4 1>"
+        # cutoff 3000 
+        # elementsblowlevel 0.6
+        # elementsbowlevel 0.8
+        # elementsflow 0.3
+        # elementscontour 0.5
+        # elementsgeom 0.2
+        # elementspitch 0.4
+        # elementsstrength 0.3
+        # roombus 62 (stitch (binary 170) "0" "0.5")
+        # sizebus 63 (stitch (binary 170) "0" "0.5")
+        # crushbus 64 (stitch (binary 170) "5" "3")
+
+do
+    unmute 7
+    d7
+        $ always (plyWith 2 ((1 ~>) . (# accelerate "-1.9")))
+        $ mask "<0 1 0 0>"
+        -- $ almostNever (plyWith 2 ((1 ~>) . (# accelerate "-1.9")))
+        -- $ mask "<0 0 <0 1?> <1 0> 0 0 0 0 0 0 0>"
+        $ (0.125 ~>)
+        $ note "[~ . ~ . c6 b . a?]"
+        # s "[s100mcommonground]"
+        |+ note "[-12 ]"
+        # cut 6
+        # nudge 0.08
+        # hold 2.5
+        # rel 0.5
+        # panbus 71 (range "-1" 1 $ slow 4 sine) 
+        -- # octave 4
+
+d8
+    $ almostNever (plyWith 2 ((1 ~>) . (# accelerate "-1.9")))
+    $ mask "<0 0 <0 1> <1? 0> 0 0>"
+    $ (0.125 ~>)
+    $ sometimesBy 0.5 (|- noteTake "8ve8" [24,12,0,-12,-24])
+    $ note "[~ . ~ . c6 b . a?]"
+    # s "[ jrhodes:4]"
+    -- |+ note "[-12 ]"
+    # cut 6
+    # nudge 0.08
+    # hold 2.5
+    # rel 0.5
+    # panbus 81 (range "-1" 1 $ slow 7 sine) 
+    # delay 0
+    # dfb 0.5
+    # dt 0.5
+    # clouds 0.7 0.6 0.32 0.4
+    # cloudsblend 0.9 0.9 0.7 0.9
+
+
+let chordsarp = "<[a'm9'o@0.4 ~@0.6] [~@0.6 f'maj9@0.4] [d'm11@0.4 ~@0.6] [~@0.6 g'add9@0.4]>"
+in
+d8
+    $ swingBy (1/7) 8
+    $ someCyclesBy 0.9 (|- noteTake "8ve8" [24,12,0,-12,-24])
+    $ mask "<0 0 <0 1> <1 0> 0 0>"
+    $ (0.125 ~>)
+    $ arp "down"
+    $ note chordsarp
+    # s "[ jrhodes:2]"
+    |+ note "[-12 ]"
+    # cut 6
+    # nudge 0.08
+    # hold 2.5
+    # rel 0.5
+    # panbus 81 (range "-1" 1 $ slow 7 sine) 
+    # delay 0
+    # dfb 0.5
+    # dt 0.5
+    # clouds 0.7 0.6 0.3 0.4
+    # cloudsblend 0.9 0.9 0.65 0.9
+
+setcps 0.45
+
+
+
+import Sound.Tidal.Chords
+
+chordList
+
+all
+    $ 
+    (# elementsblowlevel 0.8).
+    (# elementsbowlevel 0.4).
+    (# elementsflow (segment 64 $ slow 8 saw) ).
+    (# elementscontour 0.9).
+    (# elementsgeom 0.2).
+    (# elementspitch 0.4).
+    (# elementsstrength 0.5)
+
+all
+    $ s "braziliankit:8*4"
+    # elementsblowlevel 0.8
+    # elementsbowlevel 0.4
+    # elementsflow 0.3
+    # elementscontour 0.9
+    # elementsgeom 0.2
+    # elementspitch 0.4
+    # elementsstrength 0.5
