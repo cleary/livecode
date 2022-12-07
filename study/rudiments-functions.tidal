@@ -33,3 +33,4 @@ in
 d1
     $ every' 4 1 (zoom (0, 0.75) . (# cps (c * (4/3))))
     $ s "bd cp"
+    # cps c
