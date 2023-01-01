@@ -1,0 +1,33 @@
+-- punctual impro
+
+1. i1 inf2.jpg background
+2. tile [?*ilo, 1]
+3. step fdbk
+4. zoom (prox (ifft i1))
+5. mask1 vline 0 0.5
+6. mask2 1 - mask1
+7. i2 inf3.jpg eye
+8. mask i1 and i2
+9. v pattern3.jpg
+10. mod [rgbr v, rgbb v] +: sin [0.01,0.02]
+11. setfxy [1 - (i2 * mod)] $ i2
+
+
+
+
+m1 << vline 0 0.5;
+m2 << 1 - m1;
+i1 << img "https://img.grbt.com.au/inf2.jpg";
+i2 << img "https://img.grbt.com.au/inf3.jpg";
+v << img "https://img.grbt.com.au/pattern3.jpg";
+mod << [rgbr v, rgbb v] +: sin [0.01, 0.04];
+zoom (prox (fft m2)) $tile [3* lo,1] $ setfxy [i1 * mod, fy] $ i1 * m2 >> video;
+zoom (prox (fft m1)) $setfxy [1- (i2 * mod)] $ i2 * m1 >> video;
+step [0.8, 0.98, 0.2, 0.3] (lfsaw (cps/16)) >> fdbk;
+
+-- starfish
+
+r1 << rect 0 2;
+r2 << zoom (0.95) $ circle 0 2.5 ;
+r3 << zoom 0.95 $ r1;
+zoom (prox (lo - 0.5) ** 8 ) $ tile [12,8] $ (r1 - r2) * r3 >> video

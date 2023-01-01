@@ -16,7 +16,9 @@ ccv "pat" # ccn N # s "midiN"
 | 10  | Gain       |
 | 1-4 | Left Sidebar |
 | 5   | Pitch Wheel |
-| 6   | Mod Wheel  |
+| 6   | Mod Wheel   |
+| 10  | OSC1 Level  |
+| 11  | OSC1 Pan    |
 
 ### Effects
 

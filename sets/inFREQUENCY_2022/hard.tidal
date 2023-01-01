@@ -5,6 +5,9 @@
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     mel1 = "0 3 [4 5] [8 7]"
     pat = "100010001011"
+    kickpat = "<[[11]00000] [1000100]>"
+    bdpat = "<[111011] [11100[01]] [111011] [[11]0101[01]]>"
+    kpat2 = (/= 0) <$> (bass:: Pattern Int)
 
 panic
 
@@ -18,8 +21,8 @@ do
     xfade 5 $ silence
     xfade 6 $ silence
     xfade 7 $ silence
-    xfade 8 $ silence`
-    xfade 9 $ silence`
+    xfade 8 $ silence
+    xfade 9 $ silence
     all $ id
 
 do
@@ -54,16 +57,10 @@ do
     d1
         $ rarely (# accelerate ((2)*sine))
         $ bite 16 "0 1 2!14"
-        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-        -- $ fast (2/3)
-        -- $ mask (inv kickpat)
-        -- $ struct "{ t*6 t*2 t*6}%3"
         $ struct "t*12"
         $ stack [
              almostNever (# legato 1.1) $
-             whenmod 16 8 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
-             -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-             -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
+             -- whenmod 16 8 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5| jrhodes:4 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
              s "midi0"
              # note (scale "minor" (bass
                    -- + (floor <$> range 0 14 (slow 4 sine))
@@ -74,7 +71,7 @@ do
              # pan 0.2
              |- up 12
             , ccv 64 # ccn 2 # s "midi0" -- filter open up
-            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            , ccv 96 # ccn 1 # s "midi0" -- bass drive
             , ccv (range 127 0 $ slow 4 sine ) # ccn 74 # s "midi0" -- band res
             , ccv (range 16 127 $ fast 4 sine) # ccn 75 # s "midi0" -- band cutoff
             , ccv (range 16 127 $ fast 4 sine) # ccn 78 # s "midi0" -- high cutoff
@@ -88,24 +85,15 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 do
-    -- resetCycles
-    -- xfade 1 
     all $ id
+    resetCycles
+    -- xfade 1 
     d1
-        -- $ bite 16 "0 1 2!14"
-        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-        -- $ fast (2/3)
-        -- $ mask (inv kickpat)
-        -- $ struct "{ t*6 t*2 t*6}%3"
         $ struct "t*12"
         $ stack [
              almostNever (# legato 1.1) $
-             -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-             -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
              s "midi0"
              # note (scale "minor" (bass
-                   -- + (floor <$> range 0 14 (slow 4 sine))
-                   -- - (floor <$> range 0 6(fast 3 cosine))
                    )
                  )
              # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
@@ -113,11 +101,10 @@ do
              |- up 12
         ]
         # cps 0.4
-        -- # cps (range 0.2 1.2 "^9")
     -- midi ctl
     d2 
         $ segment 128 $ stack [
-            ccv 127 # ccn 2 # s "midi0" -- filter open up
+            ccv 64 # ccn 2 # s "midi0" -- filter open up
             , ccv 0 # ccn 1 # s "midi0" -- bass drive
             , ccv 0 # ccn 74 # s "midi0" -- band res
             , ccv 0 # ccn 75 # s "midi0" -- band cutoff
@@ -125,20 +112,13 @@ do
         ]
     d3
         $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-        -- $ fast (2/3)
         $ mask (inv (kickpat))
         -- $ every 2 (struct "t*6")
         -- $ struct (kickpat)
         $ struct ("t*12")
         $ stack [
-             -- someCyclesBy 0.3 (linger "[ s | t]") $ 
-             -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-             -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
              s "[flbass | flbass:14?]"
-             -- s "[ flbass:14]"
              # note (scale "minor" (bass
-                   -- + (floor <$> range 0 14 (slow 4 sine))
-                   -- - (floor <$> range 0 6(fast 3 cosine))
                    )
                  ) # cut 1 # crush 2
              # legato "<[0.2 1.1 0.2] 0.2 1 1.1>"
@@ -159,13 +139,14 @@ do
         # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
         -- # cutoff 2000
         # crush 3
-        # amp 0.5
+        # amp 0.4
 
 solo 3
 
 unsolo 3
 
-hush
+
+all $ (# djfbus 11 "^0")
 
 -- drop
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
@@ -174,19 +155,14 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 do
+    all $ id
     resetCycles
     -- xfade 1 
     d1
         -- $ bite 16 "0 1 2!14"
-        -- $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-        -- $ fast (2/3)
-        -- $ mask (inv kickpat)
-        -- $ struct "{ t*6 t*2 t*6}%3"
         $ struct "t*12"
         $ stack [
              almostNever (# legato 1.1) $
-             -- whenmod 32 24 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-             -- whenmod 32 28 (|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) $
              s "midi0"
              # note (scale "minor" (bass
                    -- + (floor <$> range 0 14 (slow 4 sine))
@@ -210,15 +186,10 @@ do
         ]
     d3
         $ whenmod 8 6 (slow 2 . off (1/6) (|+ up 12))
-        -- $ fast (2/3)
         $ mask (inv (kickpat))
-        -- $ every 2 (struct "t*6")
-        -- $ struct (kickpat)
         $ struct ("t*12")
         $ stack [
-             -- someCyclesBy 0.3 (linger "[ s | t]") $ 
-             -- whenmod 48 32 (|+ note (Note . fromIntegral . floor <$> range 0 14 (slow 4 sine))) $
-             -- whenmod 50 24 ((|- note (Note . fromIntegral . floor <$> range 0 6(fast 3 cosine))) . (|+ note 12)) $
+             someCyclesBy 0.3 (linger "[ s | t]") $ 
              s "[flbass | flbass:14?]"
              -- s "[ flbass:14]"
              # note (scale "minor" (bass
@@ -244,7 +215,7 @@ do
         -- # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
         -- # cutoff 2000
         # crush 3
-        # amp 0.5
+        # amp 0.4
     -- drive beat
     d5
         -- $ someCyclesBy 0.3 (linger "[ t | q]")
@@ -282,6 +253,7 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 do
+    all $ id
     solo 1
     -- resetCycles
     -- xfade 1 
@@ -308,8 +280,8 @@ do
         -- # cps (range 0.2 1.2 "^9")
     d2 
         $ segment 128 $ stack [
-            ccv 127 # ccn 2 # s "midi0" -- filter open up
-            , ccv 127 # ccn 1 # s "midi0" -- bass drive
+            ccv 99 # ccn 2 # s "midi0" -- filter open up
+            , ccv 99 # ccn 1 # s "midi0" -- bass drive
             , ccv 127 # ccn 74 # s "midi0" -- band res
             , ccv 127 # ccn 75 # s "midi0" -- band cutoff
             , ccv (range 64 127 $ fast 4 saw) # ccn 76 # s "midi0" -- band cutoff
@@ -378,7 +350,7 @@ do
              # cutoff (segment 8 $ rangex 400 5000 $ slow 16 saw)
         ]
 
-all $ every 2 (linger "<0.333 0.5 0.333>")
+all $ every' 2 1 (linger "<0.333 0.5 0.333>")
 
 all $ whenmod 8 6 (bite 16  "[0 0 0 0  . 7 7 [7 8] . 2 2 2 2 . 2  15 15]")
 
@@ -397,19 +369,17 @@ let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
 in
 do
     all $ id
+    -- COMMENT
     d2 silence
     d3 silence
     d4 silence
     d5 silence
     d1
         $ rarely (# accelerate ((2)*sine))
-        -- $ fast (2/3)
-        -- $ mask (inv kickpat)
-        -- $ struct "{ t*6 t*2 t*6}%3"
         $ struct "t*12"
         $ stack [
              almostNever (# legato 1.1) $
-             whenmod 16 8 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000)) $
+             whenmod 16 8 (jux (((1 + (1/3)) ~>) . (slow 2 . (# s "[jrhodes:5 | jrhodes:2]"))) . (# legato 0.5) . (# delay 1) . (# delayfb 0.9) . (# dt (1/8)) . (# cutoff 2000) . (# squizbus 13 (segment 32 $ range 2 5 (fast 2 saw)))) $
              s "midi0"
              # note (scale "minor" (bass
                    -- + (floor <$> range 0 14 (slow 4 sine))
@@ -419,7 +389,8 @@ do
              # legato "<[0.2 1.1 0.2] 0.2 1 <[1.1 1 1.1 0.8] 1>>"
              # pan 0.2
              |- up 12
-            , ccv 32 # ccn 2 # s "midi0" -- filter open up
+ -- filter open up
+            , ccv 32 # ccn 2 # s "midi0"
             , ccv 32 # ccn 1 # s "midi0" -- bass drive
             , ccv (segment 128 $ range 127 0 $ slow 4 sine ) # ccn 74 # s "midi0" -- band res
             , ccv (segment 128 $ range 16 127 $ fast 4 sine) # ccn 75 # s "midi0" -- band cutoff
@@ -430,6 +401,8 @@ do
 all $ every 2 $ spreadf [jux rev, (# hcutoff 2000), (# djfbus 111 (range 0.1 0.9 $ fast 2 isaw)), id, ((# leslie 5) . (# lrate 0.9) . (# lsize (0.13*(slow 3 saw)))) , id,  (# accelerate (segment 6 $ "-2"*perlin)), id , bite 16 "0 1 4!14"] . (sometimes (# verb 0 0 0 0 )) . every 4 (bite 16 "6!10 14 15" . (# verb 0 0 0 0)  )
 
 all $ id
+
+unmute 4
 
     -- off beats
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
@@ -448,14 +421,13 @@ in
         -- # cutoff (segment 8 $ rangex 200 2000 $ slow 16 saw)
         -- # cutoff 2000
         # crush 3
-        # amp 0.5
+        # amp 0.4
 
 let bass =  "[4 0 0 0 3 0 0 0 4 0 4 5]"
     kickpat = "<[111011] [11101[11]] [111011] [[11]0101[01]]>"
     kpat2 = (/= 0) <$> (bass:: Pattern Int)
 in
 d5
-    -- $ every 4 (someCyclesBy 0.3 (linger "[ s | t ]"))
     $ fast "<[2 0.5 1] 2 1 0.5>"
     -- $ sometimes (hurry "<[2 0.5 2] 2 1 0.5>")
     $ sometimesBy 0.21 (# verb "[0.8 0]" "[0.8 0]" 0.1 0.2) 
@@ -478,6 +450,8 @@ d5
     # gain 1.1
 
 
+solo 5
+
 do
   unsolo 5
   mute 4
@@ -485,9 +459,7 @@ do
 
 -- punctual
 c1 << zoom (1.5 + ilo) $ (hsvrgb (fit (4/3) $ img "https://img.grbt.com.au/inf2.png" * [ifft fx*0.75, ifft fy]));
---c2 << zoom (2.5 + ilo) $ (hsvrgb (img "https://img.grbt.com.au/pattern4.jpg" * [ifft fx*0.75, ifft fy]));
 c2 << zoom (2.5 + ilo) $ (hsvrgb (img "https://img.grbt.com.au/inf2.png" * [ifft fx*0.75, ifft fy]));
--- c2 << zoom (2.5 + ilo) $ (hsvrgb (img "https://img.grbt.com.au/pattern4.jpg"));
 c3 << zoom (1.5 + ilo) $ (hsvrgb (fit (4/3) $ img "https://img.grbt.com.au/inf1.png" * [ifft fx*0.75, ifft fy]));
 c << step [c1,c3] (lfsaw (cps/4));
 mod << [rgbb c2, rgbr c2] +: sin [0.1 ~~ 0.8 $ 0.05, 0.2 ~~ 0.5 $ 0.01];
@@ -495,6 +467,5 @@ a << hline ([0.5, 0.8 .. 2.5 ]* ((ifft fx) * fy)) (0.5) * 0.6;
 a * (setfxy c  mod) >> video;
 spin 1 $ a *c >> video;
 b << hline ([0.5, 0.8 .. 2.5 ]*((ifft fx) * (1- fy))) (0.9*ilo) * [sin 0.1, 1, 0.6, ifft fx];
--- move [saw 0.1,0] $ tile 1 $ tile (prox 0 ** imid) $ b/c >> rgba;
 move [saw 0.1,0] $ tile 1 $ spin 1 $ b * [ifft fxy, 1, ifft fy] >> rgba;
 -- 0.55 >> fdbk;

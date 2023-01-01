@@ -1,0 +1,113 @@
+-- longest night set
+-- https://night.tidalcycles.org
+-- https://github.com/cleary/livecode/sets/
+
+-- include
+-- - https://raw.githubusercontent.com/cleary/livecode/main/weekly/20210526.tidal
+d1
+    $ whenmod 64 48 (|+ up "<5!4 4!4 2!4 1!4>"  )
+    $ sometimesBy 0.05 (slow 2 . (stutWith 3 0.2 (|- note "-5")))
+    $ whenmod 32 30 (iter' 4 . jux rev . density "[1.5]")
+    $ whenmod 41 39 (iter' 2 . jux rev . density "[0.7]")
+    $ (struct "t*2 t*3 t*4 t*3"
+    $ note (arp "down" "<c'min11'20 ~ ~ df'min13'19 ~ ~ ~ ~ ~ ~>")
+    # s "superpiano")
+    -- # clouds 0.9 0.7 0.67 0.7
+    -- # cloudsblend 0.7 0.7 0.9 0.7
+    # nudge (range "-0.025" 0.075 ((slow 3 sine) + cosine))
+    # sustain 5
+    # lpf 2000
+    # octave 4
+    # cps "<0.32!4 0.45>"
+    -- # cps 0.32
+    # pan 0.8
+    # verb 0.8 0.6 0.1 0.1
+
+-- bass
+let gate = "<t(<11 9>,16,<0 3>)>"
+    abgate = (smooth $ stitch (inv gate) 0.5 0)
+in
+d2 
+    -- $ whenmod 8 0 (struct "<[t [~ t] t ] [~ t [~ t] t]>")
+    $ whenmod 64 48 ((|+ up "<5!4 4!4 2!4 1!4>") )
+    $ someCyclesBy 0.7 (struct "t" . (# hcutoffbus 3 (rangex 0 4000 (saw))))
+    $ whenmod 32 30 (iter' 4 . jux rev . density "<0.2 [1@0.125 0.2@0.875]>" . (# cut 1) . (arp "up") )
+    $ somecyclesBy 0.3 (degradeBy 0.8)
+    $ every 7 (iter' 4 . jux rev . density "2" . (# cut 1) . (arp "down up"))
+    $ every "<9 17>" ((# ampbus 1 abgate) )
+    $ struct "<[t ~ [~ t] t ] < [~ t [~ t] t]!3 ~>  >"
+    $ note (arp "<converge down disconverge down up >" "<c4'min'8!3 df4'min'8!2>")
+    # s "{flbass flbass:6 flbass flbass flbass:6 flbass}%5"
+    # lpf 200
+    # verb 0.6 0.7 0.1 0.1
+    # pan 0.3
+    # cut 1
+
+-- rhythm 1
+d3 
+    $ whenmod 32 30 (# silence)
+    $ stack [
+        {- kick -} almostNever (ply 2) $ struct "<[t ~ [~ t] t ] [~ t [~ t] t]>" $ s "[dr_few?, bd, 808bd:1/8]"  # cutoff 400 # speed 0.8 # gain 0.98
+        {- ride -}, stutWith 8 0.25 ((* gain 0.8) . (# begin 0.1))
+        $ almostNever (# accelerate "-0.5")
+        $ struct "<~ ~ t ~ ~>"
+        $ s "cr:5"
+        # hcutoff 4000
+        # speed "[-0.3 | -0.3 | -1.3 | 0.3]"
+        # rings 0.8 0.8 0.4 0.8 0.3
+        {- snare -}, someCyclesBy 0.12 (plyWith 2 (0.25 <~)) $ someCyclesBy 0.1 (ghost . (# pan (rand) )) $ (struct "~ t" $ s "sd") |< n (irand 3) # end "0.1" # hcutoff 2000
+    ]
+    # verb 0.6 0.4 0.1 0.1
+
+-- rhythm snap
+d4
+    $ struct "~ t" 
+    $ s "snap"
+
+-- rhythm break
+d4 
+    $ whenmod 32 30 (# silence)
+    $ loopAt 4 $ slice 32 (run 32) $ s "[breph | breph:1]"
+
+-- vox
+d5 
+    $ whenmod 64 48 (|+ up "<5!4 4!4 2!4 1!4>"  )
+    -- $ sometimesBy 0.2 (off 0.5 ((|+ up 12) . (|+ n 5) . (# accBy 4)) )
+    $ sometimesBy 0.55 ( (|+ up 14) . (# ampbus 6 (stitch (binaryN 16 43690) "0" "0.5")))
+    $ n (scale "minor" "< ~ ~ ~ ~ ~ <11?0.4 ~> ~ <12 ~> ~ ~ ~ >")
+    # s "lidvox"
+    # verb 0.9 0.9 0.1 0.1
+    # clouds 0.7 0.6 0.6 0.7
+    # cloudsblend 0.9 0.9 0.4 0.3
+    # ampbus 1 (smooth $ "0 0.5 0.3!3")
+    # gain 0.8
+    # hcutoff 5000
+    # cut 1
+    # panbus 5 (range "-1" 1 (slow 3 sine))
+
+-- hush on transition
+do
+d2 silence
+d3 silence
+d4 silence
+d5 silence
+
+-- punctual
+-- record:
+a << spin (time/2) $ zoom 1.6 $ tex "https://upload.wikimedia.org/wikipedia/commons/f/ff/Compact-vinyl.JPG" [fx, fy * 1.32];
+b << spin (time/2) $ zoom (1.6 + (ilo/6)) $ texhsv "https://upload.wikimedia.org/wikipedia/commons/f/ff/Compact-vinyl.JPG" [fx, fy * 1.32] * (ilo);
+hsvrgb $ max a b * [ifft (fx),1,0.5] * (rect 0 2) >> video;
+
+prox lo/4
+
+-- spectro
+-- longest night #2
+c << zoom (1.5 + ilo) $ texhsv "https://upload.wikimedia.org/wikipedia/commons/2/20/Scream_crosathorian.jpg" [fx*1.75, fy];
+a << hline ([1.5, 1.6 .. 2.5 ]* ((ifft fx) * fy)) (0.1) * 0.6;
+a * c >> video;
+spin 1 $ a *c >> video;
+b << hline ([1.5, 1.6 .. 2.5 ]*((ifft fx) * (1- fy))) (0.1) * [sin 0.1, 1, 0.6];
+b/c >> video;
+spin 1 $ b - c >> hsv;
+0.95 >> fdbk;
+
