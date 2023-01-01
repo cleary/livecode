@@ -1,0 +1,79 @@
+-- patternuary #2
+
+-- patternuary #2
+
+let maskpat = "<[110] [100110] 0 {0111}%8>"
+in
+d1
+  $ whenmod 16 14 (hurry "<0.5 0.75>")
+  $ whenmod 21 16 (degradeBy (range 0 0.7 $ slow 8 saw))
+  $ every 2 (spreadf [jux (# accelerate ("-2"*sine)), 
+    (# imag (saw)), 
+    ((# leslie 5) . (# lsize 0.5) . (# lrate 1.1)), 
+    ((# delay 1) . (# dt 0.119) . (# dfb (segment 8 $ range 0.4 0.92 $ saw))), 
+    (sometimes (fast 2)),
+    struct "t([8|9],[16| 17| 33])" . (#legato "{0.5 0.5 1 0.5}%6")
+    , (plyWith "[2|3]" ((|* room 0) . (|* sz 0) . (# legato 0.7)))
+    ]
+  )
+  $ stack [
+    mask maskpat
+    $ whenmod 8 4 (every' 2 1 (off 0.102 (# accelerate (0.13*(slow 5 sine)))))
+    $ every 2 (# speed (1 + perlin))
+      $ echoWith 8 0.120 (someCyclesBy 0.71 (# djfbus 12 (segment 16 $ range 0.2 0.95 $ saw))) 
+      $ s "[tink]" |< n "[c|[c3|c4|c6]]" # speed (6/8) |* gain 2
+    # ampbus 1 (stitch (inv "10010010") "0.1" "0.4")
+    # octersubsub "{0 1}%8"
+    # engine (irand 15)
+    # timbre (slow 3 saw)
+    # morph "{0.2 0.8 0.2 0 1}%2"
+    # pan 0.3
+    , mask (inv maskpat) $ whenmod 8 4 (every' 2 1 (off 0.102 (# accelerate (0.13*(slow 5 sine)))))
+      $ every 2 (# speed (1 + perlin))
+      $ echoWith 8 0.120 (someCyclesBy 0.41 (# crush (range 6 1.1 $ saw))) 
+      $ s "[ braids? | brv0x]" |< n "[c|[c3|c4|c6]]"
+    # ampbus 1 (stitch (inv "10010010") "0.1" "0.4")
+    # model (irand 15)
+    # timbre (slow 3 saw)
+    # morph "{0.2 0.8 0.2 0 1}%2"
+    # panbus 45 (range "-1" 1 (fast 1.5 sine))
+    |* speed "[1 | 8]" 
+    , sometimesBy 0.8 (# legato 0.5) $ whenmod 8 6 (plyWith 2 (0.125 ~>))
+      $ s "[808bd:1, bd]?" # distort (2/8) # shape (7/8) # gain 1.5 # waveloss 20 
+    , whenmod 16 12 (mask (inv maskpat)) $ someCyclesBy 0.22 (plyWith 2 (0.25 <~)) 
+      $ s "~ [808sd:8]" # gain 1.2
+    , sometimesBy 0.27 (# rings 0.6 ((slow 3 sine)*0.7) 0.8 0.9 0.7) 
+      $ whenmod 16 12 (mask (inv maskpat)) $ someCyclesBy 0.35 (ply "<2 3 4>") 
+      $ echo 2 0.13 0.95 $ s "linnhats*8" # end (rand) |< n (irand 8) # pan (slow 3 sine)
+  ]
+  # room (range 0.1 1.5 $ slow 3 sine)
+  # sz (range 0.1 0.9 $ slow 5 sine)
+  -- # cps 0.45
+
+all $ every 2 (degradeBy 0.9)
+
+hush
+
+do
+  unsolo 1
+  d2
+    $ someCyclesBy 0.17 ("[0.125 | 0.225 | 0.575]" ~>)
+    $ every' 16 15 (|* gain "1000"
+    $ hurry 0.5
+    $ sometimes ((# room 0) . (#orbit 0))
+    $ whenmod 24 20 (sometimes (mask "{00001010101010000001010}%17"))
+    $ s "{gnsbd:0 [gnssd| gnsbd?]}%4"
+    # gain 1.1
+    # coarse 0.5
+    # shape 0.8
+    # verb 0.9 0.6 0.2 0.4
+    # verbdiff 1
+    # verbgain 0.9
+    |< n (irand 20)
+    # cps 0.65
+
+-- punctual
+
+i1 << img "https://img.grbt.com.au/scream.jpg";
+zoom (0 ~~ 3 $ ceil $ lo) $ zoom [prox i1 ] $ tile (step [2,4,8,16,32,4](lfsaw cps/8)) $ setfxy [ifft fx,i1 +: sin [ 0.08, 0.15]] $ i1 * 0.4 >> hsv
+
