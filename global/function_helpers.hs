@@ -6,6 +6,8 @@
 
 :m +  Data.List Data.Maybe Sound.Tidal.Utils
 
+import Data.Char as Char
+
 -- :{
 -- rolledWith :: ([Event a] -> [EventF (ArcF Time) b]) -> Pattern a -> Pattern b
 -- rolledWith f = withEvents aux
@@ -63,6 +65,42 @@ let
     --   # lpf (rangex 400 12000 $ crop 0 0.5 kn)
     --   -- 2nd half adds reverb:
     --   # room (range 0 0.15 $ crop 0.5 1 kn)
+    -- Code adapted from morse-tidal by https://github.com/paulchannelstrip
+
+    -- Hex to Bool represented as a table.
+    mAlphabet :: [ (Char, String ) ]
+    mAlphabet =  [ ('0' , "0000" )
+                 , ('1' , "0001" )
+                 , ('2' , "0010" )
+                 , ('3' , "0011" )
+                 , ('4' , "0100" )
+                 , ('5' , "0101" )
+                 , ('6' , "0110" )
+                 , ('7' , "0111" )
+                 , ('8' , "1000" )
+                 , ('9' , "1001" )            
+                 , ('a' , "1010" )
+                 , ('b' , "1011" )
+                 , ('c' , "1100" )
+                 , ('d' , "1101" )
+                 , ('e' , "1110" )
+                 , ('f' , "1111" )
+                 ]
+
+    -- `n` is the number of subdivisions per-cycle in the resulting pattern
+    -- `s` is the string to be hex-encoded
+    hexAt :: Int -> [Char] -> Pattern Bool
+    hexAt n s = parseBP_E $ "{" ++ (mconcat $ map mLookup s') ++ "}%" ++ show n
+                where mLookup l = maybe "" id (lookup l mAlphabet)
+                      s'        = (map Char.toLower s)
+
+    -- A default function with 16 subdivisions per-cycle.
+    hex :: [Char] -> Pattern Bool
+    hex s = hexAt 16 s
+
+    --  Two convenience functions
+    structH s = struct (hexAt 16 s)
+    maskH s = mask (hexAt 16 s)
 :}
 
 -- text representation of patterns
