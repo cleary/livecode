@@ -1,0 +1,74 @@
+-- patternuary 3
+
+d1
+  -- $ (linger ( "<3 3 3 4 3 3 5 8>"/8) . chop 1 ) 
+  $ every' 13 12 (while (binaryN 12 233844) rolled)
+  $ linger ("{3 3 3 4 2 8 5 8}"/8)
+  $ sometimesBy 0.45 ((# clouds 0.8 0.6 0.02 0.4) . (# cloudsblend 1 1 0.4 0.9))
+  $ iter 2
+  $ struct "t*16"
+  $ sometimes (# sustain 3)
+  $ arp "{up up converge up}%8"
+  $ n "<f'maj7'i'16 f'maj7'o'8 f'maj7'ii'12 f4'maj7'iii'12>"
+  # s "supermandolin"
+  |* gain 1.5
+
+d2
+  $ every' 16 15 (0.125 ~>)
+  $ every 3 (sometimesBy 0.3 (off 0 ((|+ note 24) . (|+ n 24) . (# krush 4) . (# gain 0.8) 
+    . (# cut 12) . (rarely (# accelerate (-1/16))))))
+  $ every' 13 12 (|* ampbus 21 (stitch (binaryN 12 233844) "0" "1"))
+  $ n "<a f c <e f>>"
+  # s "vp330stringslow"
+  # model 2 # timbre 0.9 # color 0.62
+  # cut 2
+  # rel 8
+  # sustain 10
+  |* gain 1.1
+  # shape 0.8
+  |- note 24
+
+d3
+  $ every' 13 12 (struct (binaryN 12 233844))
+  $ while 
+  ( slow 3 $ iter 4 $ "<<0 1 0 0> 1>") 
+  (linger ( "<3 3 3 4 3 3 5 8>"/8) . chop 1 ) 
+  $ stack [
+    s "{~ cr:4}%4" # speed "-0.8"  # djfbus 33 (segment 32 $ range 0.65 1$ fast 2 saw )
+      # accelerate (1/8) # real 0.4 # imag 0.6 # gain 1.5
+    , sometimes (# cut 2) $  s "~ 808sd:-1"
+    , s "tenkitsunekick:2"
+  ] # cut 31 # shape 0.8
+  # krush 4 |* gain 1.0
+  # pan 0.8
+
+all $ (struct "t*8") 
+
+panic
+
+all $ id
+
+all $ while 
+  ( slow (2) $ iter (4) $ "<<0 1 0 0> 1>") 
+  (linger ( "<3 3 3 4 3 3 5 8>"/8) . chop 1 ) 
+
+d3 
+  -- $ linger ("{3 <3 1> 4 2*4 8 2}"/8)
+  $ sometimes (# verb 0.9 0.8 0.3 0.4)
+  $ loopAt 4 $ slice 32 (fast 4 $ inside 2 (iter 4) 
+        $ "[0] [1] [3] [1] [1] [0] [<2!7 0>] [<7 7>]" + "<24>")
+  $ s "breakcore_155bpm"
+  # n "27"
+  |+ n 8
+  |* gain 0.9 |* speed 1.2 # shape 0.5
+  # krush 4
+  
+-- punctual
+
+i1 << vid "https://upload.wikimedia.org/wikipedia/commons/4/42/The_Battle_Royal_1916_OLIVER_BABE_HARDY_Plump_and_Runt_Willard_Louis.webm";
+i2 << img "https://img.grbt.com.au/pattern1.jpg";
+mod << [rgbb i2, rgbr i2 ] +: saw [0.015, 0.03];
+l << hline [-0.9,-0.6..0.9] 0.1 ;
+spin 1 $ move [0, saw 0.11] $ tile 1 $ zoom 2 $ move [saw (0.1), prox (fft fx) ** (8*ilo) ]$ tile 1 $ (tile [1,8] $ move [saw 0.1 + ifft fx, 0] $ tile 1 $ spin (0.1~~0.33 $ sin 0.13) $ tile [prox mod] $ i1 - l) * [ifft fx, sin 0.1,0.1] >> hsv;
+0.8 >> fdbk;
+
