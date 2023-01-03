@@ -1,0 +1,33 @@
+-- patternuary 4
+
+d1
+  $ someCyclesBy 0.3 ((|+ note (scale "indian" (run 7))) . rarely (jux rev))  
+  $ whenmod 15 14 (|* gain "1 1 1 0 0 1 [0 1]")
+  $ stack [
+    sometimesBy 0.23 (# crushbus 11 (segment 32 $  range 1.1 6 $ slow 4 sine)) $
+    while "0000101" (rarely (ply "[2]"))
+    $ struct (inv "<[0001010]>")
+    $ s "tabla2"
+    # n ("{3 22 4 18 }%10" + "<0 8 16>")
+    # shape 0.4 # pan 0.2,
+    someCyclesBy 0.2 (while "1110101" (struct "t*35" . (# gain "{0.7 1.1 0.7}%35") 
+      . (|< n (irand 7))))
+    $ struct "{0101000}%14" $ s "808sd:-1"
+    # shape 0.5,
+    s "vinyltr" |* gain 1.2 # shape 0.4 |< n (irand 8) # pan 0.8 |* speed 1.5,
+    struct "<[0001010]>" 
+    $ s "808bd:1"
+    # n "{6 8}%7"
+    # shape 0.5 # distort 0.2
+    |* gain 1.2 |* speed 0.8
+    # verb 0.7 0.7 0.3 0.2
+  ]
+
+hush
+
+-- punctual
+
+r1 << rect 0 (2*imid);
+r2 << zoom (1.2*ilo) $ r1;
+zoom ((-3) ~~ 2 $ ilo) $(r1- r2) * [ifft fxy, 0.44,0.4] >> hsv;
+0.95 >> fdbk
