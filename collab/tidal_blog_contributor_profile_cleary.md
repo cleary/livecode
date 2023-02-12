@@ -53,6 +53,8 @@ For the WeekendJam sessions, I never prepare anything beyond the occasional grou
 
 I tend to make a point to separate my rhythmic and harmonic elements for easy reuse (`struct` and `n`/`note`) - which is a hangover from the collaborative nature of the WeekendJam sessions.
 
+I keep the code for most sets I play on [Github](https://github.com/cleary/livecode/tree/main/sets)
+
 - Do you use Tidal with other tools / environments?
 
 I've done some external software synth control (Vital/Yoshimi), I also have a Midi Fighter Twister controller which sometimes gets a run - I tend to keep it pretty vanilla though, particularly since doing the workshop tours last year
@@ -85,6 +87,7 @@ I'd also like to finish and release some music, just to learn a bit more about t
     - YouTube: https://www.youtube.com/@clearyss
     - Soundcloud: https://soundcloud.com/bergra
     - Twitch: https://www.twitch.tv/clearyss
+    - Github (code): https://github.com/cleary/livecode
 
 ### Other
 
