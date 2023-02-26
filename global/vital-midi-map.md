@@ -37,6 +37,7 @@ ccv "pat" # ccn N # s "midiN"
 | ccn  | Distortion |
 |------|------------|
 | 60   | Drive      | 
+| 61   | Mix        | 
 |61-69 | todo       |
 
 | ccn  | Filter     |
