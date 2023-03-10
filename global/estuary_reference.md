@@ -44,7 +44,15 @@ https://intramuros.mcmaster.ca/
 ```
 !localview $ grid 1 2 [code 0 0, code 0 1]
 ```
-
+*horizontal cells, removed all gridlines, menus etc*
+```
+!localview $ grid 1 6 [code 1 0 [nomenu, noeval],code 3 0 [nomenu, noeval],code 5 0 [nomenu, noeval],code 7 0 [nomenu, noeval],code 9 0 [nomenu, noeval],code 11 0 [nomenu, noeval]]
+```
+Since there's no menu to pick the language you have to do it with the first line of the code...
+```
+##minitidal cleary
+s "bd cp"
+```
 # estuary in-jam functions
 *get tempo*
 ```
