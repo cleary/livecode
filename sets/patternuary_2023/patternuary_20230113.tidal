@@ -1,0 +1,30 @@
+let 
+    bounceWith :: Pattern Int -> Pattern Time -> Pattern Rational -> (Pattern a -> Pattern a) -> Pattern a -> Pattern a
+    bounceWith n t l f p = innerJoin $ (\a b l -> _bounceWith a b l f p) <$> n Sound.Tidal.Context.<* t Sound.Tidal.Context.<* l
+    _bounceWith :: (Num n, Ord n) => n -> Time -> Rational -> (Pattern a -> Pattern a) -> Pattern a -> Pattern a
+    _bounceWith count time loss f p | count <= 1 = p
+                         | otherwise = overlay (f (time `rotR` _bounceWith (count-1) (time*loss) loss f p)) p
+in
+d1 
+  $ bounceWith "<16>" 0.5 (4/5) (|+ n (arp "<up down [converge up]>" ("<d'min'6 g'maj'6 c'sus2'6 c'maj'o'6>" + 0))) 
+  $ s "[pulse, xx?] cpu2?"
+
+hush
+
+
+d1 
+  $ rarely ((# legato 0.8) . (# cut 1) )
+  $ note (scale "phrygian" (segment 8 $ choose[0, -3, -5, -7]))
+  #sound "superpiano"
+  # sus "{5 2 5 5 2}%17"
+  # cutoff 2000
+  # speed "[1,1.02]"
+  # gain "1(<8 16 13>,<0 1 2>)" 
+
+d1 
+$ gain "1(<8 16 13>,<0 1 2>)" 
+#sound "jungbass:5" 
+#sus 0.2 #rel 0.3 #shape 0.9
+#speed "[1,1.02]"
+#note (scale "phrygian"(choose[0, -3, -5, -7]))
+

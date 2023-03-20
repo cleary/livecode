@@ -14,9 +14,9 @@ d1
       $ arp "up" $ note chords # s "subdirt" |* gain 1.4 # cut 1 
       # legato (stitch (slow 2 $ kickpat) "0.4" "0.9") # shape 0.5 # pan 0.8,
     someCyclesBy 0.2 ((# n 0) . (ply "[2| 4 3]")) $ struct (inv kickpat) $ s "linnhats" 
-    |* gain 1.2 # shape 0.7 # nudge 0.03 # pan 0.3
+    |* gain 1.2 # shape 0.7 # nudge 0.03 # pan 0.3 # speed 2
       |< n (stitch (slow 2 $ kickpat) "3" "0") # end 0.5,
-    ((0.125) ~>) $ mask "0101" $ struct (inv (slow 2 $ kickpat)) $ s "gnssd" |* gain 1.2 |* speed 1.5 # shape 0.8
+    sometimes (echoWith 8 (0.125/4) (|*| speed "[1.1 | 1.2 | 0.9]")) $ ((0.125) ~>) $ mask "0101" $ struct (inv (slow 2 $ kickpat)) $ s "gnssd" |* gain 1.2 |* speed 1.5 # shape 0.8
       # elementsstrength 0.9 # elementsblowlevel 0.3 # elementsblowtimb 0.9 # elementsmodel 0 # panbus 33 (slow 7 sine)
       # room 0.7 # size 0.4, 
     while (slow 4 $ kickpat) (# legato 0.5) 
@@ -25,7 +25,7 @@ d1
       # djfbus 16 (range 0.4 1 $ fast 2 saw )
       # roombus 17 (range 0.1 0.9 $ slow 5 isaw ) # sz 0.4
   ]
-  # cps 0.50
+  # cps 0.55
 
 hush
 
