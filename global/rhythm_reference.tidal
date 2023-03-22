@@ -14,6 +14,16 @@
 10101010 10101010 = 43690
 00010010 00010010 = 4626 -- calypso rs
 
+-- swing, ref: https://www.youtube.com/watch?v=S66ToPWrxEg
+d1 
+  $ timeLoop 4 . rotL 4 -- 4 cycle loop, ref http://tidalcycles.org/blog/tidal_profile_polymorphic_engine
+  $ stack [
+    struct "<[10000010.00000010][00001000.00100000]>" $ s "bd" # cps 0.75 # nudge "<0 0.02>"
+  , struct "00000000.10000000" $ s "sd" # nudge "< -0.035 [-0.045 -0.04]>" -- Dilla-esque early snare
+  , swingBy "<0.18 0.15>" 4 $ sometimesBy 0.42 (|> n (irand 4)) $ struct "11111111" $ s "hc" # cut 1
+  , swingBy "<0.18 0.15>" 4 $ struct "<[0][00000000.00100000]>" $ s "ho?0.5" # cut 1
+]
+
 -- basic drum machine patterns, ref https://www.youtube.com/watch?v=tm2BgO1VaRY
 
 -- Mardi Gras
@@ -63,7 +73,7 @@ d1 $ stack [
 ]
 
 -- four on the floor
-d1 $ stack [
+d1 $ swingBy 0.2 4 $ stack [
     struct "1111" $ s "bd" # cps 0.5
   , struct "0101" $ s "realclaps"
   , struct "01010101" $ s "hc" # cut 1
@@ -72,7 +82,7 @@ d1 $ stack [
 
 -- basic rock beat
 d1 $ stack [
-    struct "10001000" $ s "bd"
+    struct "10001000" $ s "bd" # cps 0.5
   , struct "0101" $ s "sd"
   , struct "11111011" $ s "hc" # cut 1
   , struct "00000100" $ s "ho" # cut 1
@@ -100,8 +110,8 @@ d1 $ struct " [t [~ t]] [~ t] [~ t] [t ~]" $ s "arpy"
 d1 $ struct "[t [~ t]] [~ t] [~ t] [t ~]" $ s "arpy"
 
 -- Cuban - basic Tumbao
-d1 $ s "[ lo:4, ~ lo:3 ~ lo:3*2, lo:2*2 . [~ lo2]. lo:2*2 . [~ lo:2] ]"
 
+d1 $ s "[ lo:4, ~ lo:3 ~ lo:3*2, lo:2*2 . [~ lo2]. lo:2*2 . [~ lo:2] ]"
 -- rx queen - deftones
 d1 $ stack [
     struct "<[t t ~ t*2] [[~ t] ~ [~ t] <~ [~ t]>]> " $ s "bd"
