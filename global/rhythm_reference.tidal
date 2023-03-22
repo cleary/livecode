@@ -30,10 +30,10 @@ d1
 d1
   $ swingBy "<0.18 0.15>" 4
   $ stack [
-    struct "<[10000010.00000010][00001000.00100000]>" $ n "-24" # s "midi0" # cps 0.75
-  , struct "00000000.10000000" $ n "-22" # s "midi0"
-  , sometimesBy 0.42 (|> n (irand 4)) $ struct "11111111" $ n "-18" # s "midi0" # cut 1
-  , struct "<[0][00000000.00100000]>" $ n "-16" # s "midi0?0.5" # cut 1
+    struct "<[10000010.00000010][00001000.00100000]>" $ n (36 - 60) # s "midi0" # cps 0.75
+  , struct "00000000.10000000" $ n (38 - 60) # s "midi0"
+  , sometimesBy 0.42 (|> n (irand 4)) $ struct "11111111" $ n (42 - 60) # s "midi0" # cut 1
+  , struct "<[0][00000000.00100000]>" $ n (44 - 60) # s "midi0?0.5" # cut 1
 ]
 
 -- basic drum machine patterns, ref https://www.youtube.com/watch?v=tm2BgO1VaRY
