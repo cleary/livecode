@@ -22,10 +22,16 @@ where `ports=` can be configured for the number of ports you want available, and
 
 *Note: this also includes apt-pinning to avoid snap making a comeback*
 
-### Install Vital Wavetable synth
- - https://vital.audio/
-
 ### Install carla from backports
 20230515 Ref Issue: https://github.com/falkTX/Carla/issues/1063
 Follow instructions at:
  - https://github.com/falkTX/Carla/issues/1063#issuecomment-1543056159
+
+## Synths
+
+### Install Vital Wavetable synth
+ - https://vital.audio/
+
+### Under Investigation
+- [Dexed](https://github.com/asb2m10/dexed): Open Source DX7 clone
+- [JS80P](https://github.com/attilammagyar/js80p): Open Source Yamaha CS-80 clone
