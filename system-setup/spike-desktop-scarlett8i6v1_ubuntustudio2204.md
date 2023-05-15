@@ -19,7 +19,7 @@ Specifically:
  - open `qasmixer`
  - select the Scarlett 8i6 from the `hw:` item in the right hand pane
  - using the speaker and mic icons at the bottom of that pane, display only the input sources
- - map `PCM[1-8]` to `Input Source 1-8` 
+ - map `Analog [1-4]` to `Input Source 1-4` 
  - run `sudo alsactl store` to save state
 
 ### Headphone jack not playing back any signal
