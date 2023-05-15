@@ -4,6 +4,8 @@
 20230515 Follow the instructions here:
  - https://pipewire-debian.github.io/pipewire-debian/
 
+*Note: pipewire is already default in vanilla Ubuntu 22.10, this will likely make it's way into Studio in the near future
+
 ### Configure multiple virtual midi-through ports
 Create a new file: `/etc/modprobe.d/midi_virtual.conf`
 With the contents:
