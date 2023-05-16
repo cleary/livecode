@@ -37,3 +37,4 @@ Follow instructions at:
 ### Under Investigation
 - [Dexed](https://github.com/asb2m10/dexed): Open Source DX7 clone
 - [JS80P](https://github.com/attilammagyar/js80p): Open Source Yamaha CS-80 clone
+- [surge](https://surge-synthesizer.github.io/)
