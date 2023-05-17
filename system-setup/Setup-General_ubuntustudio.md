@@ -1,5 +1,11 @@
 # General Setup Steps
 
+### add Ubuntu Studio backports repo
+```
+sudo add-apt-repository ppa:ubuntustudio-ppa/backports
+sudo apt-get dist-upgrade
+```
+
 ### Use pipewire as audio subsystem
 20230515 Follow the instructions here:
  - https://pipewire-debian.github.io/pipewire-debian/
