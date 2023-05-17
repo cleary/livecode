@@ -20,6 +20,11 @@ options snd-seq-dummy ports=4
 ```
 where `ports=` can be configured for the number of ports you want available, and these appear numbered in qjackctl and similar
 
+### Add supercollider ppa
+```
+sudo add-apt-repository ppa:bernard-gray/supercollider
+```
+
 ### Install TidalCycles
 20230515 Follow the instructions here:
  - https://github.com/cleary/ansible-tidalcycles
