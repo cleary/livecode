@@ -41,10 +41,12 @@ Follow instructions at:
 
 ## Synths
 
-### Install Vital Wavetable synth
- - https://vital.audio/
+### Install Synths
+ - [Vital](https://vital.audio/) - Open Source Wavetable synth
 
 ### Under Investigation
 - [Dexed](https://github.com/asb2m10/dexed): Open Source DX7 clone
 - [JS80P](https://github.com/attilammagyar/js80p): Open Source Yamaha CS-80 clone
-- [surge](https://surge-synthesizer.github.io/)
+- [Surge XT](https://surge-synthesizer.github.io/): Open Source Synthesizer
+- [Helm](https://tytel.org/helm/)
+- [Odin 2](https://thewavewarden.com/pages/odin-2) Open Source 24 Voice Polyphonic Beast
