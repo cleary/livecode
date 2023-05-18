@@ -5,6 +5,10 @@
 sudo add-apt-repository ppa:ubuntustudio-ppa/backports
 sudo apt-get dist-upgrade
 ```
+### add my SuperCollider backport repo
+```
+https://launchpad.net/~bernard-gray/+archive/ubuntu/supercollider
+```
 
 ### Use pipewire as audio subsystem
 20230515 Follow the instructions here:
@@ -19,11 +23,6 @@ With the contents:
 options snd-seq-dummy ports=4
 ```
 where `ports=` can be configured for the number of ports you want available, and these appear numbered in qjackctl and similar
-
-### Add supercollider ppa
-```
-sudo add-apt-repository ppa:bernard-gray/supercollider
-```
 
 ### Install TidalCycles
 20230515 Follow the instructions here:
