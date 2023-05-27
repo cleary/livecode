@@ -1,7 +1,6 @@
 /*
-This is an ansible generated startup file.
-Modifications will be overwritten on next run,
-but a backup copy will exist in the same dir as this file
+This is an example startup file. You can load it from your startup file
+(to be found in Platform.userAppSupportDir +/+ "startup.scd")
 */
 
 // The following section is required for mapping MIDI -> OSC.
@@ -11,7 +10,6 @@ var on, off, cc;
 var osc;
 
 // END MIDI INPUT SECTION 1 OF 3
-
 (
 s.reboot { // server options are only updated on reboot
 	// configure the sound server: here you could add hardware specific options
@@ -19,10 +17,9 @@ s.reboot { // server options are only updated on reboot
 	s.options.numBuffers = 1024 * 256; // increase this if you need to load more samples
 	s.options.memSize = 8192 * 32; // increase this if you get "alloc failed" messages
 	s.options.numWireBufs = 64; // increase this if you get "exceeded number of interconnect buffers" messages
-	s.options.maxNodes = 1024*32; // increase this if you are getting drop outs and the message "too many nodes"
-	s.options.numOutputBusChannels = 16; // set this to your hardware output channel size, if necessary
+	s.options.maxNodes = 1024 * 32; // increase this if you are getting drop outs and the message "too many nodes"
+	s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
 	s.options.numInputBusChannels = 2; // set this to your hardware output channel size, if necessary
-	s.options.maxLogins = 8; // optional, required to enable feedforward VU meter
 	// boot the server and start SuperDirt
 	s.waitForBoot {
 		~dirt = SuperDirt(2, s); // two output channels, increase if you want to pan across more channels
@@ -33,12 +30,13 @@ s.reboot { // server options are only updated on reboot
 		~dirt.loadSoundFiles("/home/bernie/Nextcloud/Music/tidal/my-samples/*");
 		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/supercontinent/*");
 		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/cybernetic-samples/*");
-
 		// s.sync; // optionally: wait for samples to be read
-		~dirt.start(57120, [0, 2, 4, 6, 8, 10, 12, 14] );   // start listening on port 57120, create 8 stereo busses
+		~dirt.start(57120, 0 ! 12);   // start listening on port 57120, create two busses each sending audio to channel 0
 
-		// optional, enable feedforward vu meter
-		~dirt.startSendRMS;
+		// StageMaster: https://github.com/calumgunn/StageMaster
+		// Quarks.install("https://github.com/calumgunn/StageMaster.git");
+		StageMaster.activate(numChannels: 2, compThreshold: 0.7, limiterLevel: 1.0, highEndDb: 3.0);
+		//StageMaster.deactivate;
 
 		// midi
 		(
@@ -54,35 +52,36 @@ s.reboot { // server options are only updated on reboot
 
 		);
 
-
 		// The following section starts mapping MIDI -> OSC.
 		// BEGIN MIDI INPUT SECTION 2 OF 3
-		osc = NetAddr.new("127.0.0.1", 6010);
+		(
+			osc = NetAddr.new("127.0.0.1", 6010);
 
-		MIDIClient.init;
-		MIDIIn.connectAll;
+			//MIDIClient.init;
+			MIDIIn.connectAll;
 
-		on = MIDIFunc.noteOn({ |val, num, chan, src|
-			osc.sendMsg("/ctrl", num.asString, val/127);
-		});
+			on = MIDIFunc.noteOn({ |val, num, chan, src|
+				osc.sendMsg("/ctrl", num.asString, val/127);
+			});
 
-		off = MIDIFunc.noteOff({ |val, num, chan, src|
-			osc.sendMsg("/ctrl", num.asString, 0);
-		});
+			off = MIDIFunc.noteOff({ |val, num, chan, src|
+				osc.sendMsg("/ctrl", num.asString, 0);
+			});
 
-		cc = MIDIFunc.cc({ |val, num, chan, src|
-			osc.sendMsg("/ctrl", num.asString, val/127);
-		});
+			cc = MIDIFunc.cc({ |val, num, chan, src|
+				osc.sendMsg("/ctrl", num.asString, val/127);
+			});
 
-		if (~stopMidiToOsc != nil, {
-			~stopMidiToOsc.value;
-		});
+			if (~stopMidiToOsc != nil, {
+				~stopMidiToOsc.value;
+			});
 
-		~stopMidiToOsc = {
-			on.free;
-			off.free;
-			cc.free;
-		};
+			~stopMidiToOsc = {
+				on.free;
+				off.free;
+				cc.free;
+			};
+		);
 		// END MIDI INPUT SECTION 2 OF 3
 
 		// optional, needed for convenient access from sclang:
@@ -105,7 +104,8 @@ s.reboot { // server options are only updated on reboot
 
 	};
 
-	s.latency = 0.3; // increase this if you get "late" messages
+
+	s.latency = 0.5; // increase this if you get "late" messages
 
 	// BEGIN MIDI INPUT SECTION 3 OF 3
 	load("/home/bernie/source/livecode/global/midi_input.scd");
