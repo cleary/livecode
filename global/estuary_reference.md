@@ -2,6 +2,17 @@
 
 https://intramuros.mcmaster.ca/
 
+# estuary audio output functions
+
+*get available number of channels*
+```
+!maxAudioOutputs
+```
+*reconfigure the number of channels you want to use*
+```
+!setAudioOutputs 8
+```
+
 # estuary view functions 
 
   1. open a new browser tab at https://estuary.mcmaster.ca
