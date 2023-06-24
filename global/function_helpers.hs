@@ -40,6 +40,8 @@ let
     move78 p = foldEvery [7,8] (0.25 <~) $ p -- every 7th and 8th cycles shift beat by 1/4 cycle
     -- quieten = mapM_ (\i -> xfade i silence) [1 .. 16] -- fade all channels to silence over 16 cycles
     -- quietenIn t = mapM_ (\i -> xfadeIn i t silence) [1 .. 16] -- fade all channels to silence over t cycles
+    sqz effectcycle pat = squeezeJoin $ ((# effectcycle) . pure) <$> pat
+    -- example: d1 $ sqz (djfbus 4 (segment 128 $ rangex 0.1 0.9 tri)) $ note "0 7 -7 5 8 12 0" # s "braids" # sustain 2
     accBy x = accelerate (2 **| (x |/ 12) - 1) -- accelerate by x semitones
     -- kindohm, ref: https://blog.tidalcycles.org/kindohm-interview/
     rip a b p = within (0.25, 0.75) (slow 2 . rev . stut 8 a b) p
