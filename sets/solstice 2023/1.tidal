@@ -1,9 +1,23 @@
-d1 $ every' 5 1 (someCyclesBy 0.3 ((# ccv (segment 128 (range 64 0 $ slow 3 saw ))) . (# ccn 67) )) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") $ arp "<up>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
+d1 $ every' 5 1 (someCyclesBy 0.4 ((# ccv (segment 128 (range 64 0 $ slow 3 saw ))) . (# ccn 67) )) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") $ arp "<up>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
    # s "midi0"
    -- # engine 4
    # sustain 2
    # pan 0.3
    # ccv 0 # ccn 67 # s "midi0"
+
+
+d2 $ stack [
+    struct "<t(3,8,[0 1]) t(2,8,3)>" $ s "[808bd:3, vinylbd:2]" # shape 0.5 |* gain 1.1 # speed "[1,1.02]"
+    , struct "<[~ t] ~ >" $ s "drumbrute" # n "[6,3]" # speed 1 # shape 0.5
+    , sometimesBy 0.34 (# n "4") $sometimes (jux rev) $ struct (inv "t(3,8,<0 2>)") $ s "drumbrute:2" # pan (segment 8 (rand))
+]
+# verb 0.9 0.8 0.4 0.8
+
+hush
+
+
+
+d11 $ silence
 
 d11 $ segment 128 $ stack [
   ccv 0 # ccn 67 # s "midi0"
@@ -13,15 +27,19 @@ d11 $ silence
       
 once $  -- coarse
 
+d1 $ silence
+
 d3 $ every 4 (sometimes (off 0.125 ((# s "flbass:15") . (# panbus 31 (range "-1" 0 $ slow 3 sine)))))
-   $ almostAlways (# cut 31) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) $ struct "<[t*2 t t t] [t t*2 t ~] t t(3,8,1)>" $ arp "<thumbup>" 
+   $ almostAlways (# cut 31) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) 
+   -- $ struct "<[t*2 t t t] [t t*2 t ~] t t(3,8,1)>" 
+   $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ arp "<thumbup>" 
    $ note ("<d'min7'<d2 d1 i>'6 <c>'min7'<o ii>'6>") # s "[flbass]"
    -- # legato "<{0.3 1 0.7}%8  0.7 3 0.7>"
    -- # octave 4
-   # gain 1.4
+   # gain 1.0
    -- # speed "[1,0.5]"
    # shape 0.5
-   # pan 0.7
+   # pan 0.3
    # n (segment 16 (irand 6))
    # verb 0.4 0.6 0.2 0.4
 
@@ -30,10 +48,11 @@ d4 $ silence
 unmute 1
 unmute 2
 
-d2 $ (every' 2 1 (plyWith " 1 1 1 1 2 3 4" (bite 16 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>")))) $ chop 32 $ loopAt 4 $  s "breph:3"
+d2 $ (every' 2 1 (plyWith " 1 1 1 1 2 3 4" (bite 16 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>")))) $ chop 32 $ loopAt 8 $  s "breph:3"
    # gain 1.1
    # shape 0.5
    # verb 0.8 0.7 0.3 0.7
+   # hcutoff 2000
 
 d2 $ every' 4 1 (jux (# hcutoffbus 21 (segment 16 $ range 0 8000 $ slow 2 isaw)))
    $ every' 4 1 (almostNever (# verb 0 0 0 0) ) $ (every' 4 1 (plyWith " 1 1 1 1 2 3 4" (bite 8 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>")))) $ chop 16 $ loopAt 2 $  s "breakcore_doa_breaks"
@@ -57,7 +76,7 @@ all $ bite 16 1
 all $ id
 
 
-
+panic
 
 hush
 hush
