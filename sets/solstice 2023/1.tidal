@@ -42,8 +42,8 @@ hush
 d2 $ timeLoop 8 $ rotL 8
    $ every 4 (sometimes (off 0.125 ((# s "flbass:15") . (# panbus 31 (range "-1" 0 $ slow 3 sine)))))
    $ almostAlways (# cut 31) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) 
-   $ struct "<[t*2 t t t] [t t*2 t ~] t t(3,8,1)>" $ arp "down" 
-   -- $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ arp "<thumbup>" 
+   -- $ struct "<[t*2 t t t] [t t*2 t ~] t t(3,8,1)>" $ arp "down" 
+   $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ arp "<thumbup>" 
    $ note ("<d'min7'<d2 d1 i>'6 <c>'min7'<o ii>'6>") # s "[flbass]"
    # gain 1.7
    # shape 0.5
@@ -53,7 +53,7 @@ d2 $ timeLoop 8 $ rotL 8
    # leslie 3 # lrate 3 # lsize 0.5
    # xsdelay 0.2
    # tsdelay 0.8
-   # freeze "0.8?0.2"
+   -- # freeze "0.8?0.2"
    
 d3 $ stack [
     degradeBy 0.5 $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ s "[808bd:3, vinylbd:2]" 
