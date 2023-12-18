@@ -1,28 +1,43 @@
-do
-  mute 7
-  -- unmute 3
+setcps 0.5625
 
 --dexed pharoh
 -- ccn 67 = 4 coarse
 -- ccn 68 = global cutoff
-d1 $ every' 5 1 (someCyclesBy 0.4 ((# ccv (segment 128 (range 64 0 $ slow 3 saw ))) . (# ccn 67) )) 
-   $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") 
-   $ struct "t(4,8,<0 1>)"
-   -- $ arp "<up>" 
-   $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
-   # s "midi0"
-   # sustain 2
-   # ccv 0 # ccn 67 -- # s "midi0"
-   # ccv (segment 256 $ rangex 25 127 $ slow 2 saw) # ccn 68 -- # s "midi0"
-   |* gain 0.8
+    
+d3 $ stack [
+        degradeBy 0.5 $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ s "[808bd:3, vinylbd:2]" 
+        # shape 0.5 |* gain 1.1 # speed "[1,1.02]" # size 0.7 # cutoff 1000 |* speed 0.8
+        , 
+        struct "<[~ t] ~ >" $ s "drumbrute" # n "[6,3]" # speed 1 # shape 0.5
+        , sometimesBy 0.34 (# n "4") $sometimes (jux rev) $ struct (inv "t(3,8,<0 2>)") $ s "drumbrute:2" # pan (segment 8 (rand))
+    ]
+    # verb 0.9 0.8 0.4 0.8
+
+-- bass
+
+d2 $ timeLoop 8 $ rotL 8
+   $ every 4 (sometimes (off 0.125 ((# s "flbass:15") . (# panbus 31 (range "-1" 0 $ slow 3 sine)))))
+   $ almostAlways (# cut 31) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) 
+   $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ arp "<thumbup>" 
+   $ note ("<d'min7'<d2 d1 i>'6 <c>'min7'<o ii>'6>") # s "[flbass]"
+   # gain 1.7
+   # shape 0.5
+   # pan 0.2
+   # n (segment 16 (irand 6))
+   # verb 0.4 0.6 0.2 0.4
+   # leslie 3 # lrate 3 # lsize 0.5
+   # xsdelay 0.2
+   # tsdelay 0.8
+   -- # freeze "0.8?0.2"
 
 -- lead
-d7 $ silence
-   
+
 d7 
-   -- $ sometimes (|+ up 13)
+   $ every' 5 1 (someCyclesBy 0.4 (# cutoff 400)) 
    $ mask "<[0 1] [1] [0 0 0 1] 1>"
-   $ someCyclesBy 0.25 ("<0.25 0.5>" ~>) $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") $ arp "<[thumbup, up]>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
+   $ someCyclesBy 0.25 ("<0.25 0.5>" ~>) 
+   $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") 
+   $ arp "<[thumbup, up]>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
    # s "plaits"
    # engine 2
    # sustain 2
@@ -36,64 +51,128 @@ d7
    |+ n 24
    # legato "{2 1 0.5 0.8}%9"
 
-hush
-
--- bass
-d2 $ timeLoop 8 $ rotL 8
-   $ every 4 (sometimes (off 0.125 ((# s "flbass:15") . (# panbus 31 (range "-1" 0 $ slow 3 sine)))))
-   $ almostAlways (# cut 31) $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) 
-   -- $ struct "<[t*2 t t t] [t t*2 t ~] t t(3,8,1)>" $ arp "down" 
-   $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ arp "<thumbup>" 
-   $ note ("<d'min7'<d2 d1 i>'6 <c>'min7'<o ii>'6>") # s "[flbass]"
-   # gain 1.7
-   # shape 0.5
-   # pan 0.2
-   # n (segment 16 (irand 6))
-   # verb 0.4 0.6 0.2 0.4
-   # leslie 3 # lrate 3 # lsize 0.5
-   # xsdelay 0.2
-   # tsdelay 0.8
-   -- # freeze "0.8?0.2"
-   
-d3 $ stack [
-    degradeBy 0.5 $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ s "[808bd:3, vinylbd:2]" 
-    # shape 0.5 |* gain 1.1 # speed "[1,1.02]" # size 0.7 # cutoff 1000 |* speed 0.8
-    , 
-    struct "<[~ t] ~ >" $ s "drumbrute" # n "[6,3]" # speed 1 # shape 0.5
-    , sometimesBy 0.34 (# n "4") $sometimes (jux rev) $ struct (inv "t(3,8,<0 2>)") $ s "drumbrute:2" # pan (segment 8 (rand))
-]
-# verb 0.9 0.8 0.4 0.8
+all $ (# hcutoff (segment 256 $ rangex 1 18000 $ slow 8 sine))
 
 do
-  all $ id
-  d4 $ stack [
-     every' 4 1 (jux (# hcutoffbus 21 (segment 16 $ range 0 8000 $ slow 2 isaw)))
-     $ every' 4 1 (almostNever (# verb 0 0 0 0) ) 
-     $ (every' 4 1 (plyWith " 1 1 1 1 2 3 4" (bite 8 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>") 
-       . (sometimes (# djfbus 61 (segment 16 $ slow 3 saw)))))) 
-     $ chop 16 
-     $ loopAt 2 $  s "breakcore_doa_breaks"
-     # gain 1.0
-     # shape 0.7
-     # verb 0.8 0.7 0.3 0.7
-     , struct "<t>" $ s "[clubkick, 808bd:1]" # gain 1.2
-     ]
-     -- # cutoff 500
+    all $ id
+    d1 $ every' 5 1 (someCyclesBy 0.4 ((# ccv (segment 128 (range 45 0 $ slow 3 saw ))) . (# ccn 67) )) 
+       $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>) $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") 
+       $ struct "t(4,8,<0 1>)"
+       $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
+       # s "midi0"
+       # sustain 2
+       # ccv 0 # ccn 67
+       # ccv (segment 256 $ rangex 36 95 $ slow 2 saw) # ccn 68
+       |* gain 0.8
+    d4 $ stack [
+       every' 4 1 (jux (# hcutoffbus 21 (segment 16 $ range 0 8000 $ slow 2 isaw)))
+       $ every' 4 1 (almostNever (# verb 0 0 0 0) ) 
+       $ (every' 4 1 (plyWith " 1 1 1 1 2 3 4" (bite 8 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>") 
+         . (sometimes (# djfbus 61 (segment 16 $ slow 3 saw)))))) 
+       $ chop 16 
+       $ loopAt 2 $  s "breakcore_doa_breaks"
+       # gain 1.0
+       # shape 0.7
+       # verb 0.8 0.7 0.3 0.7
+       , struct "<t>" $ s "[clubkick, 808bd:1]" # gain 1.2
+       ]
 
-all $ (# hcutoff (segment 256 $ rangex 1 2000 $ slow 4 sine))
 
-all $ struct "t*4"
+all $ spreadf [sometimes (jux rev), id, almostNever (# accelerate "-1")]
 
-all $ fast 2.5 . struct "t(<7 13>,<8 16>,<1 0>)" . (# legato 0.4)
+do
+    mute 1
+    all $ id
+    d7 
+       $ every' 5 1 (someCyclesBy 0.4 (# cutoff 400)) 
+       $ sometimes (|+ up "[14 | 13 | 11 | 10]")
+       $ mask "<[0 1] [1] [0 0 0 1] 1>"
+       $ someCyclesBy 0.25 ("<0.25 0.5>" ~>) 
+       $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") 
+       $ arp "<[thumbup, up]>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
+       # s "plaits"
+       # engine 2
+       # sustain 2
+       # pan 0.75
+       # harm (segment 16 $ range 0.1 0.9 sine)
+       # timbre 0.4
+       # mode 1
+       |* gain 1.1
+       # shape 0.4
+       # cutoff 15000
+       |+ n 24
+       # legato "{2 1 0.5 0.8}%9"
+    d4  $ every 4 (rarely (off 0.125 (# s "becklfosqrlpglaserguns") . (# cut 42)))
+        $ stack [
+        every' 4 1 (jux (# hcutoffbus 21 (segment 16 $ range 0 8000 $ slow 2 isaw)))
+        $ every' 4 1 (almostNever (# verb 0 0 0 0) ) 
+        $ (every' 4 1 (plyWith " 1 1 1 1 2 3 4" (bite 8 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>") 
+          . (sometimes (# djfbus 61 (segment 16 $ slow 3 saw)))))) 
+        -- $ chop 16 
+        $ loopAt 4 $ s "{breakcore_doa_breaks kvbreaks pdbreaks}%8" # cut 41
+        # gain 1.0
+        # shape 0.7
+        # verb 0.8 0.7 0.3 0.7
+        , struct "<t>" $ s "[clubkick, 808bd:1]" # gain 1.2
+        # n (irand 4)
+        # hcutoff 2000
+        ]
 
-all $ bite 16 "1*16"
+all $ spreadf [sometimes (jux rev), id, almostNever (# accelerate "-1")]
 
-all $ id
+all $ struct ("t(<7 13>,<8 16>,<1 0>)") . (# legato 0.4)
 
+all $ bite 16 "1*16" . (# panbus 100 (segment 128 $ range "-1" 1 $ (slow 3 sine * perlin)) )
+
+mute 4
+
+do
+    unmute 1
+    unmute 2
+    unmute 3
+    unmute 4
+    d1  $ every' 5 1 (someCyclesBy 0.4 ((# ccv (segment 128 (range 45 0 $ slow 3 saw ))) . (# ccn 67) )) 
+        $ every 2 (0.128 ~>)
+        $ struct "t(8,16,0)"
+        $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
+        # s "midi0"
+        # ccv 0 # ccn 67 -- # s "midi0"
+        # ccv (segment 256 $ rangex 36 95 $ slow 8 saw) # ccn 68 -- # s "midi0"
+        |* gain 0.8
+    d7  
+        $ every' 5 1 (someCyclesBy 0.4 (# cutoff 400)) 
+        $ mask "<[0 1] [1] [0 0 0 1] 1>"
+        $ someCyclesBy 0.25 ("<0.25 0.5>" ~>) 
+        $ struct (inv "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") 
+        $ arp "<[thumbup, up]>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
+        # s "plaits"
+        # engine "[3,2]"
+        # pan 0.75
+        # harm (segment 16 $ range 0.1 0.9 sine)
+        # timbre 0.4
+        # mode 1
+        |* gain 1.1
+        # shape 0.4
+        # cutoff 15000
+        |+ n 24
+        # legato "{2 1 0.5 0.8}%9"
+    d4  $ every' 5 1 (someCyclesBy 0.4 (# silence)) 
+        $ stack [
+        every' 4 1 (jux (# hcutoffbus 21 (segment 16 $ range 0 8000 $ slow 2 isaw)))
+        $ every' 4 1 (almostNever (# verb 0 0 0 0) ) 
+        $ (every' 4 1 (plyWith " 1 1 1 1 2 3 4" (bite 8 ("0 1 2 3 0 2 2 2" + "<0 1 2 3 4>") 
+          . (sometimes (# djfbus 61 (segment 16 $ slow 3 saw)))))) 
+        $ chop 16 
+        $ loopAt 2 $  s "breakcore_doa_breaks"
+        # gain 1.0
+        # shape 0.7
+        # verb 0.8 0.7 0.3 0.7
+        , struct "<t>" $ s "[clubkick, 808bd:1]" # gain 1.2
+        ]
+    -- all $ (# room 0.3) . (# size 0.3)
+
+all $ degradeBy 0.0 . (# room 0.9) . (# size 1)
+
+hush
 
 panic
-
-hush
-hush
-
-d1 $ slow 2 $ note (scale "egyptian" (run 5)) # s "midi0"
