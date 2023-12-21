@@ -61,7 +61,7 @@ let word = pS "word"
      tParamTup :: ((a,b) -> c -> Pattern d) -> (Pattern a, Pattern b) -> c -> Pattern d
      tParamTup f = uncurry $ tParam2 $ curry f
      zoom' = tParamTup zoom
-     lingerAt :: (Pattern Time, Pattern Time) -> Pattern a -> Pattern a
+     lingerAt :: (Pattern Sound.Tidal.Context.Time, Pattern Sound.Tidal.Context.Time) -> Pattern a -> Pattern a
      lingerAt a@(t1,t2) p = slow (t2 - t1) $ zoom' a p
      dRack :: Pattern String -> ControlPattern
      dRack = n . (subtract 48 . drumN <$>)
@@ -143,7 +143,7 @@ let word = pS "word"
                               return (Event c (Just $ Arc newS e) a'' v)
                            where newS = s + (dur * fromIntegral n)
                                  dur = (e - s) / (4*fromIntegral d)
-     ncat :: [(Time, Pattern a)] -> Pattern a
+     ncat :: [(Sound.Tidal.Context.Time, Pattern a)] -> Pattern a
      ncat = seqPLoop . go 0
        where
          go _     []          = []
