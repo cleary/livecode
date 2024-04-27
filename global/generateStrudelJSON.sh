@@ -10,12 +10,13 @@
 #
 # License: GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 
-BASE="https://samples.grbt.com.au/"
+#TODO: pickup BASE as cli arg
+BASE="https://raw.githubusercontent.com/cleary/samples-hydrogen-drums/"
 
 printf "{\n"
 printf "\"_base\": \"%s\",\n" "${BASE}"
 dircount=0
-find $1 -mindepth 1 -maxdepth 1 -type d | sort | while read d; do
+find $1 -mindepth 1 -maxdepth 1 -type d -not -name "\.*" | sort | while read d; do
     dirname=`basename $d`
     # testing
     if [[ $dircount -ne 0 ]]; then
