@@ -193,11 +193,11 @@ do
       $ sometimesBy 0.21 (fast 2)
       $ rarely (off 0 (
         ( # ripplescf 0.6) . 
-        (# ripplesreson (range 0.5 1 $ slow 7 sine)) .
+        ( # ripplesreson (range 0.0 0.5 $ slow 7 sine)) .
         ( # ripplesdrive "{1 3 5}%2")))
       $ struct (("<0.125 0>" ~>) . slow "<2 1 2>" $ binary "<37 201 48 245>")
       $ spreadf [arp "up down converge", rolledBy "<4 6 7>", arp "up down converge"]
-      $ n "[f |f | c]'<min9 min sus4>'<d1 ii 12 iii d2 ii d3 o i 10> ~"
+      $ n "[f |f | c]'<min9 min sus4>'<d1 ii iii d2 ii d3 o i > ~"
       # s "superfm"
       # sustain "{5 2 5 3 1}%4"
       # panbus 41 (segment 16 $ range "-0.7" 0.7 $ slow 7 sine)
