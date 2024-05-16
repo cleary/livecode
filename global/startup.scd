@@ -1,15 +1,13 @@
 /*
-This is an example startup file. You can load it from your startup file
-(to be found in Platform.userAppSupportDir +/+ "startup.scd")
+This is an ansible generated startup file.
+Modifications will be overwritten on next run,
+but a backup copy will exist in the same dir as this file
 */
 
-// The following section is required for mapping MIDI -> OSC.
-// BEGIN MIDI INPUT SECTION 1 OF 3
-
-var on, off, cc;
+var mutes, solos, muteAll, unmuteAll, unsoloAll, hush;
+var playbackControl, on, off, cc;
 var osc;
 
-// END MIDI INPUT SECTION 1 OF 3
 (
 s.reboot { // server options are only updated on reboot
 	// configure the sound server: here you could add hardware specific options
@@ -17,48 +15,91 @@ s.reboot { // server options are only updated on reboot
 	s.options.numBuffers = 1024 * 256; // increase this if you need to load more samples
 	s.options.memSize = 8192 * 32; // increase this if you get "alloc failed" messages
 	s.options.numWireBufs = 64; // increase this if you get "exceeded number of interconnect buffers" messages
-	s.options.maxNodes = 1024 * 32; // increase this if you are getting drop outs and the message "too many nodes"
+	s.options.maxNodes = 1024*32; // increase this if you are getting drop outs and the message "too many nodes"
 	s.options.numOutputBusChannels = 2; // set this to your hardware output channel size, if necessary
 	s.options.numInputBusChannels = 2; // set this to your hardware output channel size, if necessary
+    s.options.maxLogins = 8; // optional, required to enable feedforward VU meter
 	// boot the server and start SuperDirt
 	s.waitForBoot {
 		~dirt = SuperDirt(2, s); // two output channels, increase if you want to pan across more channels
-		loadRelative("ansible_tidal_synthdefs/*.scd");
-		~dirt.doNotReadYet = true;
+        loadRelative("ansible_tidal_synthdefs/*.scd");
+		~dirt.doNotReadYet = true; //lazy sample loading
 		~dirt.loadSoundFiles;   // load samples (path containing a wildcard can be passed in)
 		// for example: ~dirt.loadSoundFiles("/Users/myUserName/Dirt/samples/*");
-		~dirt.loadSoundFiles("/home/bernie/Nextcloud/Music/tidal/my-samples/*");
-		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/supercontinent/*");
-		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/cybernetic-samples/*");
+    		~dirt.loadSoundFiles("/home/bernie/Nextcloud/Music/tidal/my-samples//*");
+    		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/supercontinent/*");
+    		~dirt.loadSoundFiles("/home/bernie/.local/share/ansible-tidalcycles/git_sample_sets_dir/cybernetic-samples/*");
+
 		// s.sync; // optionally: wait for samples to be read
 		~dirt.start(57120, 0 ! 12);   // start listening on port 57120, create two busses each sending audio to channel 0
+
+        // optional, enable feedforward vu meter
+        ~dirt.startSendRMS;
 
 		// StageMaster: https://github.com/calumgunn/StageMaster
 		// Quarks.install("https://github.com/calumgunn/StageMaster.git");
 		StageMaster.activate(numChannels: 2, compThreshold: 0.7, limiterLevel: 1.0, highEndDb: 3.0);
 		//StageMaster.deactivate;
 
-		// midi
-		(
-			MIDIClient.init;
 
-			~midithroughport0 = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
-			~midithroughport0.latency = 0;
-			~dirt.soundLibrary.addMIDI(\midi0, ~midithroughport0);
+		// optional, needed for convenient access from sclang:
+		(
+			~d1 = ~dirt.orbits[0]; ~d2 = ~dirt.orbits[1]; ~d3 = ~dirt.orbits[2];
+			~d4 = ~dirt.orbits[3]; ~d5 = ~dirt.orbits[4]; ~d6 = ~dirt.orbits[5];
+			~d7 = ~dirt.orbits[6]; ~d8 = ~dirt.orbits[7]; ~d9 = ~dirt.orbits[8];
+			~d10 = ~dirt.orbits[9]; ~d11 = ~dirt.orbits[10]; ~d12 = ~dirt.orbits[11];
+		);
+
+        // define global effects for mutable instruments effects
+        ~dirt.orbits.do { |x|
+            //var clouds = GlobalDirtEffect(\global_mi_clouds, [\cloudspitch, \cloudspos, \cloudssize, \cloudsdens, \cloudstex, \cloudswet, \cloudsgain, \cloudsspread, \cloudsrvb, \cloudsfb, \cloudsfreeze, \cloudsmode, \cloudslofi]);
+            var verb = GlobalDirtEffect(\global_mi_verb, [\verbwet, \verbtime, \verbdamp, \verbhp, \verbfreeze, \verbdiff, \verbgain]);
+            x.globalEffects = x.globalEffects
+              //.addFirst(clouds)
+              .addFirst(verb);
+            x.initNodeTree;
+        };
+		        // midi
+        (
+            MIDIClient.init;
+
+            ~midithroughport0 = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+            ~midithroughport0.latency = 0;
+            ~dirt.soundLibrary.addMIDI(\midi0, ~midithroughport0);
 
 			~midithroughport1 = MIDIOut.newByName("Midi Through", "Midi Through Port-1");
 			~midithroughport1.latency = 0;
 			~dirt.soundLibrary.addMIDI(\midi1, ~midithroughport1);
 
-		);
+			/* -- MIDI Controller Mapping ---------------------------- */
+			// Edit this section to configure your MIDI controller
+			// "mutes" and "solos" are each a Dictionary of MIDI CC IDs -> Pattern IDs
+			// in this case, I map multiple buttons to the same Pattern ID
+			// one button is a toggle (push and release to enable, push and release again to disable)
+			// the other is a momentary (push and hold, release to release)
+			mutes = Dictionary[
+				16 -> 1,
+				17 -> 1,
+				20 -> 2,
+				21 -> 2,
+				24 -> 3,
+				25 -> 3,
+				28 -> 4,
+				29 -> 4
+			];
 
-		// The following section starts mapping MIDI -> OSC.
-		// BEGIN MIDI INPUT SECTION 2 OF 3
-		(
+			solos = Dictionary[
+				18 -> 1,
+				19 -> 1,
+				22 -> 2,
+				23 -> 2,
+				26 -> 3,
+				27 -> 3,
+				30 -> 4,
+				31 -> 4
+			];
+
 			osc = NetAddr.new("127.0.0.1", 6010);
-
-			//MIDIClient.init;
-			MIDIIn.connectAll;
 
 			on = MIDIFunc.noteOn({ |val, num, chan, src|
 				osc.sendMsg("/ctrl", num.asString, val/127);
@@ -72,44 +113,59 @@ s.reboot { // server options are only updated on reboot
 				osc.sendMsg("/ctrl", num.asString, val/127);
 			});
 
-			if (~stopMidiToOsc != nil, {
-				~stopMidiToOsc.value;
+			playbackControl = MIDIFunc.cc({ |val, num, chan, src|
+				var patID;
+
+				if (mutes.at(num) !== nil, {
+					patID = mutes.at(num);
+					if (val !== 0, {
+						osc.sendMsg("/mute", patID);
+					}, {
+						osc.sendMsg("/unmute", patID);
+					});
+				});
+
+				if (solos.at(num) !== nil, {
+					patID = solos.at(num);
+					if (val !== 0, {
+						osc.sendMsg("/solo", patID);
+					}, {
+						osc.sendMsg("/unsolo", patID);
+					});
+				});
+
+				if (muteAll == num, {
+					if (val !== 0, {
+						osc.sendMsg("/muteall");
+					}, {
+						osc.sendMsg("/unmuteall");
+					});
+				});
+
+				if (unsoloAll == num, {
+					osc.sendMsg("/unsoloAll");
+				});
+
+				if (hush == num, {
+					osc.sendMsg("/hush");
+				});
 			});
 
-			~stopMidiToOsc = {
-				on.free;
-				off.free;
-				cc.free;
+			if (~stopMidiMuteControl != nil, {
+				~stopMidiMuteControl.value;
+			});
+
+			~stopMidiMuteControl = {
+				playbackControl.free;
 			};
-		);
-		// END MIDI INPUT SECTION 2 OF 3
 
-		// optional, needed for convenient access from sclang:
-		(
-			~d1 = ~dirt.orbits[0]; ~d2 = ~dirt.orbits[1]; ~d3 = ~dirt.orbits[2];
-			~d4 = ~dirt.orbits[3]; ~d5 = ~dirt.orbits[4]; ~d6 = ~dirt.orbits[5];
-			~d7 = ~dirt.orbits[6]; ~d8 = ~dirt.orbits[7]; ~d9 = ~dirt.orbits[8];
-			~d10 = ~dirt.orbits[9]; ~d11 = ~dirt.orbits[10]; ~d12 = ~dirt.orbits[11];
+			"*** NOTICE ***".postln;
+			"*** Don't forget to run `MIDIIn.connectAll;`!".postln;
 		);
-
-		// define global effects for mutable instruments effects
-		~dirt.orbits.do { |x|
-			var clouds = GlobalDirtEffect(\global_mi_clouds, [\cloudspitch, \cloudspos, \cloudssize, \cloudsdens, \cloudstex, \cloudswet, \cloudsgain, \cloudsspread, \cloudsrvb, \cloudsfb, \cloudsfreeze, \cloudsmode, \cloudslofi]);
-			var verb = GlobalDirtEffect(\global_mi_verb, [\verbwet, \verbtime, \verbdamp, \verbhp, \verbfreeze, \verbdiff, \verbgain]);
-			x.globalEffects = x.globalEffects
-			.addFirst(clouds)
-			.addFirst(verb);
-			x.initNodeTree;
-		};
 
 	};
 
-
-	s.latency = 0.5; // increase this if you get "late" messages
-
-	// BEGIN MIDI INPUT SECTION 3 OF 3
-	load("/home/bernie/source/livecode/global/midi_input.scd");
-	// END MIDI INPUT SECTION 3 OF 3
+	s.latency = 0.3; // increase this if you get "late" messages
 
 };
 );
