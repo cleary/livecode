@@ -1,0 +1,7 @@
+-- https://dktr0.github.io/Punctual/
+
+[osc 0.2 * imid,sqr (cps/2),(1 - ihi)] - (ilo * (osc (step [fr, fx, fy, fxy, fy, fx] (lfsaw (cps/4))))) >> add;
+v1 << vid "https://upload.wikimedia.org/wikipedia/commons/b/b4/Geometric_psychedelia.webm";
+v2 <<  vid "https://upload.wikimedia.org/wikipedia/commons/9/9f/Okeanos_Explorer_PR_and_USVI_Dive_8-_Psychedelic_Medusa-NOAA-1280x720.webm";
+i1 << tile (osc (cps/fr)) $ spin (fr - ifft fy) $ tile (ifft (unipolar fx)) $ img "https://img.grbt.com.au/scream.jpg" >> add <> 10;
+1 - (tile [2,2] $ zoom 2 $ zoom (unipolar $ ifft fxy) $ (step [v1,  cam] (lfsaw cps/4))*2) >> alpha;
