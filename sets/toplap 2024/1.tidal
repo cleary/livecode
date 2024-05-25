@@ -1,8 +1,6 @@
 setcps 0.6
 
 -- vintage Rezolutor w/ LFO
--- ccn 67 = 4 coarse
--- ccn 68 = global cutoff
     
 all $ id 
 
@@ -18,7 +16,7 @@ d1
    $ arp "<[thumbup, up]>" $ n ( "<d4'sus4'<d2 d1 i>'16 <c4 c3>'min9'<o ii>'16>")
    # s "plaits" # engine 2 # mode 1
    # sustain (slow 8 $ range 2 6 saw)
-   # harm (segment 8 $ slow 2 $ range 0.9 0.01 sine)
+   # harm (segment 8 $ slow 2 $ range 0.6 0.01 sine)
    # timbre (segment 16 $ slow 5 $ range 0.7 0.01 saw)
    |* gain 0.8 # pan 0.2 # shape 0.4
    |+ n 12 # legato "{2 1 0.5 0.8}%9"
@@ -37,7 +35,7 @@ d2
     |* gain 1.2 # shape 0.5
     # xsdelay 0.2 # tsdelay 0.8
     # pan 0.9
-    -- # n (segment 16 (irand 6))
+    # n (segment 16 (irand 6))
 
 -- perc 1
 do
@@ -45,13 +43,15 @@ do
         stack [
             degradeBy 0.5 $ struct "<t(3,8,[0 1]) t(2,8,3)>" $ s "[808bd:3, vinylbd:2]" 
             # shape 0.5 |* gain 1.1 # speed "[1,1.02]" # size 0.7 # cutoff 1000 |* speed 0.8
-            , struct "<[~ t] ~ >" $ s "drumbrute" # n "[6,3]" # speed 1 # shape 0.5
+            , struct "<[~ t] ~ >" $ s "drumbrute" # n "[6,3]" # speed 1 # shape 0.3
             , sometimesBy 0.34 (# n "4") $ sometimes (jux rev) $ 
               struct (inv "t(3,8,<0 2>)") $ s "drumbrute:2" # pan (segment 8 (rand))
         ]
-        # room 0.5 # size 0.5
+        # room 0.4 # size 0.3
 
 all $ (# hcutoff (segment 256 $ rangex 1 18000 $ slow 8 sine))
+
+       -- $ struct "t(4,8,<0 1>)"
 
 do
     all $ id
@@ -59,17 +59,14 @@ do
     mute 2
     mute 5
     setcps 0.3
-    d3 $ rolled
-       $ foldEvery [2,4] ((# sustain 0.4) . (# legato 0.5) . struct "t f f f" )
-       $ every' 5 1 (someCyclesBy 0.4 ((# ccv (segment 128 (range 45 0 $ slow 3 saw ))) . (# ccn 67) )) 
+    d3 $ rolled $ foldEvery [2,4] ((# sustain 0.4) . (# legato 0.5) . struct "t f f f" )
+       $ every' 5 1 (someCyclesBy 0.4 
+            ((# ccv (segment 128 (range 45 0 $ slow 3 saw ))) . (# ccn 67) )) 
        $ someCyclesBy 0.25 ("<0.25 0.125 0.5>" ~>)
        $ struct (inv (slow 2 $ "<[t*2 tf tf tf] [tf t*2 tf ~] [tfff] t(3,8,1)>") )
-       -- $ struct "t(4,8,<0 1>)"
        $ n ( "<d4'sus4'<d2 d1 i>'8 <c4 c3>'min9'<o ii>'8>")
        # s "midi0"
-       # sustain 2
-       |* gain 1
-       # octave 7
+       # sustain 2 |* gain 1 # octave 7
 
 
 do
@@ -171,7 +168,7 @@ all $ ((|+ note 5) . (# legato 0.3))
 
 all $ hurry  0.5
 
-all $ hurry 0.5 . degradeBy 0.1 . (# room 0.5) . (# size 0.5) . (|* gain 0.9)
+all $ hurry 0.5 . degradeBy 0.3 . (# room 0.9) . (# size 1.0) . (|* gain 0.7)
 
 all $ (# room 0.5) . (# size 0.5)
 
@@ -192,7 +189,10 @@ do
     -- $ n "f'min9'<d1 d2 d3 o i> ~"
 
 d1 
+    $ every 2 (fastspread ($) [id, bite 8 "1*4 2*6 4*8"])
+    $ struct "t(7,33,<0 0 0 1 0 0>)"
     $ sometimes (rolledBy 0.5)
+    -- $ n "f'min9'<d1 d2 d3 o i> ~"
     $ n "[f |f | c]'<min sus4 min9 >'<d1 ii 12 iii d2 ii d3 o i 10> ~"
     # s "braids" # model 28
     # sustain "{5 1 5 1 1 0.2}%4"
@@ -226,7 +226,7 @@ d3
     # sustain 5
     # panbus 41 (segment 16 $ range "-0.7" 0.7 $ slow 7 sine)
     # gain "{0.8 0.9 0.8}%17"
-    |* gain 1.05
+    |* gain 1.10
     # octave 4
 
 d5 $  stack [
@@ -257,17 +257,19 @@ do
     unmute 3
     unmute 4
     all $ fast 2
-    d4 -- $ slow 2 
+
+    d4 $ slow 2 
       $ loopAt 4 $ chop 16
       $ someCyclesBy 0.3 (off 0.125 (rev)  . (|* gain 0.95) . (sometimesBy 0.3 ((# room 0) . (# size 0)) ))
       $ every (floor <$> (4 - perlin)) (sometimesBy 0.4 (jux rev) . sometimes (off 0.125 (hurry 2)) . (|* gain 0.95))
       $ s "breakcore_new_breaks:53"
       # pan 0.55 # shape 0.5 |* gain 0.9
-      # room 0.6 # size 0.7
+      # room 0.6 # size 0.7 # legato 0.2
 
 
 
-all $ hurry 2 . every 4 (bite 16 "[0 3 7 [11 12 13 14]]" . sometimes (ply 2))
+all $ fast 1 . every 4 (bite 16 "[0 3 7 [11 12 13 14]]" . sometimes (ply 2)) 
+    . (# room 0.9) . (# size 1) . (|* gain 0.9)
 
 hush
 
