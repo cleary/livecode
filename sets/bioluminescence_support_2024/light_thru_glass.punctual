@@ -1,0 +1,12 @@
+-- tiled masks and stripes with multi-light mask
+mask << spin (time/10) $ prox [0,0.1 .. 0.8]**8;
+zoom ((unipolar $ fxy) - lo) $ tile 4 $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0.5 [1,4]) * mask * 2 >> add;
+
+-- spinning lights reflecting on water(ish)
+r << spin (time/fr ** lo) $ rect 0.5 [2,4];
+mask << spin (time/(-4)) $ prox [-0.4,-0.3..0.4]**8;
+tile mask $ (mask / r) * 8  >> rgba
+
+-- stars and lights
+mask << spin (time/10) $ prox [0,0.1 .. 0.8]**8;  
+zoom ((unipolar $ fxy * (dist $ smoothstep [0.5,0,1,0,0.5,0](lfsaw cps))) - lo) $ tile 4 $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0.5 [1,4]) * mask * 2 >> add;

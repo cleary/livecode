@@ -1,0 +1,103 @@
+-- a square with audio sensitive gradient
+grad << move [-1,0] $ fft fx * [1,1,0];
+side << ((move [-1,0] $ spin 0.25 $ rect 0 1.4121) - grad);
+spin [0,0.5,1,1.5] $ side >> add;
+
+-- a square with gradient
+side << ((move [-1,0] $ spin 0.25 $ rect 0 1.4121)) * [0,0,(1 - abs fx)] >> add;
+spin [0,0.5,1,1.5] $ side >> add;
+
+-- a square with a changing gradient
+sq1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4121)) * [0,0,(1 - (abs fx * (0.2~~1.0 $ sin 0.2)))];
+spin [0,0.5,1,1.5] $ sq1 >> add;
+
+-- a square with a changing gradient and moving highlight source
+sq1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4121)) * [0,0,(1 - (abs fx * (0.2~~1.0 $ sin 0.2)))];
+(move [osc 0.023, osc 0.04 * cps] $ (prox 0)) * (spin [0,0.5,1,1.5] $ sq1) >> add;
+
+-- a square with a gradient and hard edge
+sq1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4122)) * [0,0,(1 - (abs fx))];
+zoom 0.25 $ (spin [0,0.5,1,1.5] $ sq1) * (rect 0 2) >> add;
+
+-- four squares
+sq1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4122)) * [0,0,(1 - (abs fx))];
+move [-0.75,0 ] $ zoom 0.25 $ (spin [0,0.5,1,1.5] $ sq1) * (rect 0 2) >> add;
+move [-0.25,0 ] $ zoom 0.25 $ (spin [0,0.5,1,1.5] $ sq1) * (rect 0 2) * 1.2 >> add;
+move [0.25,0 ] $ zoom 0.25 $ (spin [0,0.5,1,1.5] $ sq1) * (rect 0 2) * 1.4 >> add;
+move [0.75,0 ] $ zoom 0.25 $ (spin [0,0.5,1,1.5] $ sq1) * (rect 0 2) * 1.6 >> add;
+
+-- four squares with fb
+r1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4122));
+mask << (rect 0 2);
+sq1 << r1 * [0,0,(1 - (abs fx))];
+sq2 << r1 * [0,0,(1.05 - (abs fx))];
+sq3 << r1 * [0,0,(1.1 - (abs fx))];
+sq4 << r1 * [0,0,(1.15 - (abs fx))];
+
+fit 1 $ move [-0.75,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq1) * mask >> add;
+fit 1 $ move [-0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq2) * mask >> add;
+fit 1 $ move [0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq3) * mask >> add;
+fit 1 $ move [0.75,0 ] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq4) * mask >> add;
+
+0.97*(zoom 1.02 $ fb fxy) >> add
+
+-- four squares on white bg
+r1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4122));    
+mask << (rect 0 2);    
+(rect 0 2) - (fit 1 $ move [-0.75,0] $ zoom 0.21 $ mask) - (fit 1 $ move [-0.25,0] $ zoom 0.21 $ mask)  - (fit 1 $ move [0.25,0] $ zoom 0.21 $ mask) - (fit 1 $ move [0.75,0] $ zoom 0.21 $ mask)  >> add;
+sq1 << r1 * [0,0,(1 - (abs fx))];    
+sq2 << r1 * [0,0,(1.05 - (abs fx))];    
+sq3 << r1 * [0,0,(1.1 - (abs fx))];    
+sq4 << r1 * [0,0,(1.15 - (abs fx))];    
+    
+fit 1 $ move [-0.75,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq1) * mask >> add;    
+fit 1 $ move [-0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq2) * mask >> add;    
+fit 1 $ move [0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq3) * mask >> add;    
+fit 1 $ move [0.75,0 ] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq4) * mask >> add;
+
+-- four squares with zoomed feedback effects
+r1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4122));
+mask << (rect 0 2);
+sq1 << r1 * [0,0,(1 - (abs fx))];
+sq2 << r1 * [0,0,(1.05 - (abs fx))];
+sq3 << r1 * [0,0,(1.1 - (abs fx))];
+sq4 << r1 * [0,0,(1.15 - (abs fx))];
+
+fit 1 $ move [-0.75,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq1) * mask >> add;
+fit 1 $ move [-0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq2) * mask >> add;
+fit 1 $ move [0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq3) * mask >> add;
+fit 1 $ move [0.75,0 ] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq4) * mask >> add;
+
+f << zoom (0.7 ~~ 1.2 $ unipolar $ saw 0.1) $ (0.99*fb fxy);
+gatep 0.18 $ f >> add
+
+-- separate squares, make space zooms
+r1 << ((move [-1,0] $ spin 0.25 $ rect 0 1.4122));    
+mask << (rect 0 2);    
+sq1 << r1 * [0,0,(1 - (abs fx))];    
+sq2 << r1 * [0,0,(1.05 - (abs fx))];    
+sq3 << r1 * [0,0,(1.1 - (abs fx))];    
+sq4 << r1 * [0,0,(1.15 - (abs fx))];    
+    
+t1 << tile 4 $ fit 1 $ tile (prox 0**(lo*0.5)) $ move [-0.75,0] $ zoom 0.81 $ (spin [0,0.5,1,1.5] $ sq1) * mask ;    
+t2 << fit 1 $ spin (osc 0.5) $ zoom (0 ~~ 2 $ lo) $ move [-0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq2) * mask;    
+t3 << fit 1 $ spin (time/cps) $ (prox (0 ** (fft (unipolar $ fxy)))) * (move [0.25,0] $ zoom 0.21 $ (spin [0,0.5,1,1.5] $ sq3)) * mask ;    
+t4 << tile [1,6] $ move [(time/4),0] $ tile 1 $ fit 1 $ zoom (prox 0**(lo*0.5)) $ move [0.75,0 ] $ zoom [0.21, 4*0.21] $ (spin [0,0.5,1,1.5] $ sq4) * mask;
+
+([t2 *: t4])  >> add;
+tile 4 $ spin (time/cps) $ ([t1 *: t2])  >> hsv;
+
+f << zoom (0.7 ~~ 1.2 $ unipolar $ saw 0.1) $ (0.99*fb fxy);   
+gatep 0.18 $ f >> add
+
+-- melodix soundtrack (tidal)
+stack [ 
+while "{001000001}%9" (ply 2) $ struct "t*8" $ s "melodix" <| n (slow 8 $ run 128) # cut 1 # pan 1
+, struct "t(<3 6>,8,<0 0 1>)" $ n (scale "pentatonic" (fast 4 (slow 1.5 $ run 8)) + "12") # s "mm14" # cut 2 # end "{0.1 0.1 0.4}%4" # pan 0
+, every 2 (within (0.65, 1) (plyWith "3 4" ((|* speed "[1.2 | 1.1 | 0.5 | -1.1]")). (# s "tabla2") . (# cut 4))) $struct (inv "t(<3 6>,8,<0 0 1>)") $ s "marssn" # cut 2 # speed "{1 -1 1 1}%5" # pan 0 # n (segment 16 $ run 16)
+]
+
+-- modified squares
+mask << rect 0 2;
+d << fit [1,2..10] $ max (abs fx *lo) (abs fy) * mask * [osc 0.1,0,0.2 ~~ 1 $ saw 1];
+spin (osc 0.3) $ tile 4 $ spin (step [0, lo**2, 0, mid, 0, hi] (lfsaw cps)) $ move [saw 0.1, 0] $ tile 1 $ zoom [0.5**lo] $ move [-0.75,fft (unipolar $ fx * pi)] $ d >> add;
