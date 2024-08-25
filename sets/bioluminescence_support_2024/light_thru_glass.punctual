@@ -1,12 +1,29 @@
+-- basic rectangle
+mask << spin (time/10) $ prox [0,0.1 .. 1.2]**8;
+zoom ((unipolar $ fxy) - lo) $ (rect 0 2) * mask * 2 >> add;
+
+-- whole screen rectangle
+mask << spin (time/10) $ prox [0,0.1 .. 1.2]**8;
+move [-1,-1] $ zoom ((unipolar $ fxy) - lo) $ (rect 1 2) * mask * 2 >> add;
+
+-- dual masks
+mask << spin (time/10) $ prox [0.5,0.6 .. 1.2]**8;
+mask2 << spin (time/10) $ prox [1.2,1.1..0.7]**8;
+move [-1,-1] $  zoom [1, ((unipolar $ fxy) - lo)] $ tile [spin (time/(-4)) $ fr ,unipolar fy] $ (rect 0 2) * mask * mask2 * 2 >> add;
+
+-- purple orange
+mask << spin (time/10) $ prox [0,0.1 .. 0.8]**8;
+zoom [1, ((unipolar $ fxy) - lo)] $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0 2) * mask * 2 >> add;
+
 -- tiled masks and stripes with multi-light mask
 mask << spin (time/10) $ prox [0,0.1 .. 0.8]**8;
-zoom ((unipolar $ fxy) - lo) $ tile 4 $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0.5 [1,4]) * mask * 2 >> add;
+zoom ((unipolar $ fxy) - lo) $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0 2) * mask * 2 >> add;
 
 -- spinning lights reflecting on water(ish)
 r << spin (time/fr ** lo) $ rect 0.5 [2,4];
 mask << spin (time/(-4)) $ prox [-0.4,-0.3..0.4]**8;
-tile mask $ (mask / r) * 8  >> rgba
+tile mask $ (mask / (0.2 ~~ 1 $ r)) * 8  >> rgba
 
 -- stars and lights
 mask << spin (time/10) $ prox [0,0.1 .. 0.8]**8;  
-zoom ((unipolar $ fxy * (dist $ smoothstep [0.5,0,1,0,0.5,0](lfsaw cps))) - lo) $ tile 4 $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0.5 [1,4]) * mask * 2 >> add;
+zoom ((unipolar $ fxy * (dist $ smoothstep [0.5,0,1,0,0.5,0](lfsaw cps))) - lo) $ tile [spin (time/(-4)) $ fr + fx,unipolar fy] $ (rect 0.5 [1,4]) * mask * 2 >> add;

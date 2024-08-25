@@ -6,4 +6,7 @@
 
  - https://www.artdesign.unsw.edu.au/unsw-galleries/jessica-loughlin
 
-Opaline glass - works light in the sky, reflects blue spectrum but allows red spectrum to pass through
+[Opaline glass](https://en.wikipedia.org/wiki/Opaline_glass)
+ - works like light in the sky, reflects blue spectrum but allows red spectrum to pass through
+ - depends on which way you view it from
+
