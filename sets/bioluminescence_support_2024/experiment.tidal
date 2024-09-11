@@ -1,0 +1,13 @@
+-- soskick with rings and clouds
+d1 
+    $ every 2 (someCyclesBy 0.3 (struct "t" . (# cloudsblend 0.9 0.9 "^0" 0)))
+    $ sometimes (ply "2 3?")
+    $ s "soskick*4" +| n (slow 4 $ run 32)
+    # clouds 0.9 0.9 0.2 (range 0.2 0.9 $ slow 3 sine)
+    # cloudsblend 0.9 0.9 "^0" 0.9
+    # voice (segment 8 $ irand 18)
+    # freq (segment 4 $ rangex 32 128 $ sine * perlin)
+    # rings 100 rand 0.7 (segment 16 $ slow 3 sine) 0.9
+    # ringsmodel "[0|1]"
+    # ringspoly "[0|1|0]"
+    # ringsinternal "[1|0|1|1]"
