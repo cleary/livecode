@@ -1,0 +1,8 @@
+-- first 8 bars
+
+d1  $ arp "down" 
+    $ n "<c6'maj d6 c6'maj d6 [c6 d6 e6] [f6 e6 d6] [e6 d6 c6] e6>" 
+    # s "superpiano"
+
+d2  $ arp "up" 
+    $ n "<[c5'maj] [b4,f,g]>" # s "superpiano"
