@@ -1,14 +1,27 @@
 -- complex tiling, audioreactive
 -- may work as a background
-mask << spin (time/10) $ prox [0,0.1 .. 0.8]**(step [2,4...16](lfsaw (cps/4)));  
-v << vid "https://upload.wikimedia.org/wikipedia/commons/5/5a/Autoraces_om_de_grote_prijs_van_Zandvoort-PGM4012048.webm";
+    mask << spin (time/10) $ prox [0,0.1 .. 0.8]**(step [2,4...16](lfsaw (cps/4)));
+    v << vid "https://upload.wikimedia.org/wikipedia/commons/5/5a/Autoraces_om_de_grote_prijs_van_Zandvoort-PGM4012048.webm";
 
-tile [[2, prox 0 ** sin 0.2],[2*fr, prox [2,4]]] $ zoom ((unipolar $ fxy * (dist $ smoothstep [0,2,0,3](0 ~~ 4 $lfsaw 0.25))) - lo) $ tile 1 $ tile [spin (time/(4)) $ (prox fr) + (unipolar fx),unipolar fy] $ (rect 0.5 [1,4,lo, hi]) ++ v * mask   * 2 >> rgba;
+    tile [[2, prox 0 ** sin 0.2],[2*fr, prox [2,4]]] $ zoom ((unipolar $ fxy * (dist $ smoothstep [0,2,0,3](0 ~~ 4 $lfsaw 0.25))) - lo) $ tile 1 $ tile [spin (time/(4)) $ (prox fr) + (unipolar fx),unipolar fy] $ (rect 0.5 [1,4,lo, hi]) ++ v * mask   * 2 >> rgba;
 
--- combine with alpha channel
-r << rect [0.52,0] [1,2];              
-c << (circle [(-0.8) * lo ,0] 1.5) * r;    
-bg << spin (time/10) $ (fx <= fy) *: fft (unipolar fx);
-l << spin (time/(cps*2)) $ hline ((-1.5) ~~ 1.5 $ osc 0.2) 0.8;
-b << (0.4 * c) + (c * (((-1) ~~ 1 $ osc (0.1)) * abs fx * 4)) * [0,0.1,0.8] ;
-tile [[3,prox 0** 8],fr] $ ((b ++ (spin 1 $ b))+ l) % (2*lo) >> alpha;
+    -- combine with alpha channel
+    r << rect [0.52,0] [1,2];
+    c << (circle [(-0.8) * lo ,0] 1.5) * r;
+    bg << spin (time/10) $ (fx <= fy) *: fft (unipolar fx);
+    l << spin (time/(cps*2)) $ hline ((-1.5) ~~ 1.5 $ osc 0.2) 0.8;
+    b << (0.4 * c) + (c * (((-1) ~~ 1 $ osc (0.1)) * abs fx * 4)) * [0,0.1,0.8] ;
+    tile [[3,prox 0** 8],fr] $ ((b ++ (spin 1 $ b))+ l) % (2*lo) >> alpha;
+
+
+-- resting screen pair v2
+    mask << spin (time/10) $ prox [0.5,0.6 .. 1.2]**8;
+    mask2 << spin (time/10) $ prox [1.2,1.1..0.7]**8;
+    -- move [-1,-1] $ zoom ((unipolar $ fxy) - lo) $ (rect 1 2) * mask * mask2 * 2 >> add;
+    move [-1,-1] $  zoom [1, ((unipolar $ fxy) - lo)] $ tile [spin (time/(-4)) $ fr ,unipolar fx] $ (rect 1 2) * mask * 4 >> add <> 10;
+
+    -- alpha bit
+    mask << spin (time/10) $ prox [0.5,0.6 .. 1.2]**8;
+    mask2 << spin (time/10) $ prox [1.2,1.1..0.7]**8;
+    -- move [-1,-1] $ zoom ((unipolar $ fxy) - lo) $ (rect 1 2) * mask2 * 2 >> add;
+    move [-1,-1] $  zoom [1, ((unipolar $ fxy) + lo)] $ tile [spin (time/(-4)) $ fr ,unipolar fx] $ (rect 1 2) * mask * 2 >> alpha;
