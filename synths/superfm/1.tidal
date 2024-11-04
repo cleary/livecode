@@ -1,0 +1,191 @@
+
+d1 $ swingBy 0.18 8 $ n (scale "major" "<c'maj [0 7 4 2] [-5 ~] [-2 d'sus2]>") 
+    # s "superfm"
+    # amp1 1
+    # amp2 1
+    # amp3 1
+    # amp4 0
+    # amp5 0
+    # amp6 0
+    # ratio1 (segment 128 $ range 0.5 1.8 $ slow 4 sine)
+    # ratio2 (segment 128 $ range 0.3 1.2 $ slow 4 sine)
+
+d1 $ swingBy 0.18 8 $ n (scale "major" "<c'maj [0 7 4 2] [-5 ~] [-2 d'sus2]>") 
+    # s "superfm"
+    # amp1 1
+    # amp2 1
+    # amp3 0.5
+    # amp4 0.4
+    # amp5 0.3
+    # amp6 0.2
+    # ratio1 1
+    # ratio2 2
+    # ratio3 1.01
+    # ratio4 0.5
+    # ratio5 1.01
+    # ratio6 1.5
+
+d1 $ swingBy 0.18 8 $ n (scale "ritusen" "<c'maj [0 7 4 2] [-5 ~] [-2 d'sus2]>") 
+    # s "superfm"
+    -- # verb 0.9 0.9 0.4 0.5
+    # octave 4
+    # amp1 1
+    # amp2 0
+    # amp3 1
+    # amp4 0
+    # amp5 0
+    # amp6 0
+    -- # mod12 4
+    # mod12bus 12 (segment 128 $ range 0.1 5 $ slow 4 saw)
+    # mod34 1
+    # ratio1 1
+    -- # ratio2bus 2 (segment 128 $ "<1 2 3>" + perlin)
+    # ratio3bus 3 (segment 12 $ range 0.2 1.05 $ saw)
+    -- # ratio4 4
+    
+do
+    let pat =  n (scale "ritusen" "<c'maj [0 7 4 2] [-5 ~] [-2 d'sus2]>")
+    let chain = delayfeedbackbus 21 (cF 0.0 "15") # delaytime 0.667 # delaybus 20 (cF 0.0 "16") # crushbus 1 (range 0.1 16.0 $ cF 1.0 "5") # roombus 2 (range 0.0 4.0 $ cF 0.0 "6")
+    let env = attack (range 0.0 2.0 $ cF 0.4 "7") # release (range 0.0 4.0 $ cF 0.5 "8")
+    let veu = s "superfm" # legato 1 # amp1 1 # amp2 (segment 8 $ range 0.5 3 $ slow 4 sine) # amp3 0 # amp4 0 # amp5 0 # amp6 0 # feedback 1
+    d6
+        $ degradeBy 0
+        $ sometimesBy 0.1 (# legato 2)
+        $ sometimesBy 0.4 (stutter 4 (1/4) . (# pan (segment 16 $ rand)))
+        $ sometimesBy 0.2 (fast 2)
+        $ slow 1
+        $ pat |- n 12
+        # veu
+        # mod12bus 12 (segment 128 $ rangex 0.2 2.4 $ slow 2 saw)
+        # mod11 0.6
+        # feedback 1
+        # ratio2bus 11 (3 + (range 0 0.5 $ cF 0.0 "11"))
+        # env
+        # chain
+        # clouds 0.9 0.8 0.3 0.9
+        # cloudsblend 0.9 0.9 "^2" "^1"
+        # cloudsfb 0 # gain 0
+
+d1 $ s "bd*4"
+    # pan 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- miUgens busses experiment
+    makeBus name busId pat = pF name pat # pI ("^" ++ name) busId
+    makeRecv name busId = pI ("^ ++ name") busId
+    cloudsposbus = makeBus "cloudspos"
+    cloudsposrecv = makeRecv "cloudspos"
+
+
+d1 $ s "superfm" # n "<0 [-5]>"
+    # cloudsposbus 12 (segment 128 $ range 0 "<0 [1 0.8] [0.9 0]>" $ slow 4 sine)
+    # cloudssize 0.3
+    # cloudsblend 0.9 0.9 0.3 0.5
+    # legato 1.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- miUgens busses experiment
+    makeBus name busId pat = pF name pat # pI ("^" ++ name) busId
+    makeRecv name busId = pI ("^ ++ name") busId
+    cloudsposbus = makeBus "cloudspos"
+    cloudsposrecv = makeRecv "cloudspos"
+    cloudssizebus = makeBus "cloudssize"
+    cloudssizerecv = makeRecv "cloudssize"
+    cloudspitchbus = makeBus "cloudspitch"
+    cloudspitchrecv = makeRecv "cloudspitch"
+    cloudsdensbus = makeBus "cloudsdens"
+    cloudsdensrecv = makeRecv "cloudsdens"
+    cloudstexbus = makeBus "cloudstex"
+    cloudstexrecv = makeRecv "cloudstex"
+    cloudsgainbus = makeBus "cloudsgain"
+    cloudsgainrecv = makeRecv "cloudsgain"
+    cloudswetbus = makeBus "cloudswet"
+    cloudswetrecv = makeRecv "cloudswet"
+    cloudsspreadbus = makeBus "cloudsspread"
+    cloudsspreadrecv = makeRecv "cloudsspread"
+    cloudsfbbus = makeBus "cloudsfb"
+    cloudsfbrecv = makeRecv "cloudsfb"
+    cloudsrvbbus = makeBus "cloudsrvb"
+    cloudsrvbrecv = makeRecv "cloudsrvb"
+    cloudslofibus = makeBus "cloudslofi"
+    cloudslofirecv = makeRecv "cloudslofi"
+    
+let sqz effectcycle pat = squeezeJoin $ ((# effectcycle) . pure) <$> pat
+
+d1 
+    -- $ sqz (cloudsposbus 1 (segment 128 $ smooth "0 0.2 1 1"))
+    $ sqz (cloudsposbus 1 (segment 128 $ smooth "0 1 0.5 0.9"))
+    $ s "moog" <| n "<0@1 [-5@3 1@1]>"
+    # cut 1
+    -- # cloudspos 1
+    -- # cloudsdensbus 13 (segment 128 $ range 0 1 saw)
+    # cloudssizebus 12 (segment 128 $ rangex 0 1 sine)
+    # cloudsblend 0.9 0.9 0.3 0.5
+    # cloudsrvb 0.8
+    # legato 1.1
+    # cps 0.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
