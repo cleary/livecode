@@ -7,7 +7,7 @@ This post is meant as a fairly raw summary of how I approached it, the things th
 
 ## Venue Choice
 
-For context only, I live in a small-ish city of about 25,000 people in regional Australia. We do not have a large variety of suitable arts spaces or organisations for doing this sort of thing - however a shop called [Make-a-ma-jig](https://makeamajig.com.au/) opened in late 2023 with a dual focus on quality products and creative workshops for kids. My son started getting drum lessons there, and after several (wide ranging) discussions with the owners about their interests and goals for the shop, I proposed doing these livecoding workshops. They loved the idea since exploring tech in a creative context was a gap they wanted to fill in their curriculum.
+For context only, I live in a small-ish city of about 25,000 people in regional Australia. We do not have a large variety of suitable arts spaces or organisations for doing this sort of thing - however a shop called [Make-a-ma-jig](https://makeamajig.com.au/) opened in late 2023 with a dual focus on toys/clothing products and creative workshops for kids. My son started getting drum lessons there, and after several (wide ranging) discussions with the owners about their interests and goals for the shop, I proposed doing these livecoding workshops. They loved the idea since exploring tech in a creative context was a gap they wanted to fill in their curriculum.
 
 Some key things about the relationship with the venue:
 
