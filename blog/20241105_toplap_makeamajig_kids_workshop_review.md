@@ -21,7 +21,7 @@ As a teacher, the domain knowledge lies with me so having these clear lines draw
 
 ## The Plan
 
-I wanted to do 6x 1 hr lessons over 6 weeks. 4x weeks of exploring different languages (audio minitidal/estuary, visual punctual, audio strudel, visual hydra), a 5th week to hone in on one or two languages and then a demonstration/performance for the kids to show-off some of the stuff they learnt in the 6th week (parents invited). It included some languages I was not as familiar with to try and extend the opportunity to explore to myself as well.
+I wanted to do 6x 1 hr lessons over 6 weeks. 4x weeks of exploring different languages (audio [minitidal/estuary](https://estuary.mcmaster.ca), visual [punctual](https://dktr0.github.io/Punctual/), audio [Strudel](https://strudel.cc), visual [hydra](https://hydra.ojack.xyz)), a 5th week to hone in on one or two languages and then a demonstration/performance for the kids to show-off some of the stuff they learnt in the 6th week (parents invited). It included some languages I was not as familiar with to try and extend the opportunity to explore to myself as well.
 
 Before beginning, I wrote an [overview](https://docs.google.com/document/d/1Z01dPVMlJMlOobWonFpk1MBkTXG3u0X2r5I6oWJITQg/edit?usp=sharing) of how I planned to approach each week, and wrote a [set of slides](https://docs.google.com/presentation/d/19qY2wa65UC0coEdhGgoT2PM4uHvhQ5FtBrnm642jaG8/edit?usp=sharing) for the 1st Week
  - [Lesson Plan Overview](https://docs.google.com/document/d/1Z01dPVMlJMlOobWonFpk1MBkTXG3u0X2r5I6oWJITQg/edit?usp=sharing)
