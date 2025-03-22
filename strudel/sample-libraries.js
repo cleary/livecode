@@ -9,3 +9,4 @@ samples('github:tidalcycles/dirt-samples')
 // unsorted/tested
 samples('github:bubobubobubobubo/dough-waveforms')
 samples('bubo:fox')
+samples('github:yaxu/clean-breaks')
