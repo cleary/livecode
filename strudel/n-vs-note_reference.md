@@ -34,7 +34,7 @@ $: n("0 2 4 1 3 5")
 
 ## melody with pitched single sample
  - use `cut()` or `clip()` to control length
- - `C3` is original pitch??? in this case, yes, but there may be some pitching smarts???
+ - `C2` is original sample pitch reference
 ```
 samples('https://samples.grbt.com.au/strudel.json')
 $: n("0 2 4 1 3 5")
