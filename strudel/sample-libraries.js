@@ -9,3 +9,4 @@ samples('github:tidalcycles/dirt-samples')
 // unsorted/tested
 samples('github:bubobubobubobubo/dough-waveforms')
 samples('github:yaxu/clean-breaks')
+samples('github:0nefeather/akas-dnb-essentials') //20251012
