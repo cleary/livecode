@@ -78,6 +78,7 @@ $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
 
 ### melody with pitched sample set
 ```
+samples('https://samples.grbt.com.au/strudel.json')
 $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
   .s("hello")
   .clip(1)
@@ -85,6 +86,7 @@ $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
 
 ### melody with pitched single sample
 ```
+samples('https://samples.grbt.com.au/strudel.json')
 $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
   .s("flbass:14")
   .cut(1)
