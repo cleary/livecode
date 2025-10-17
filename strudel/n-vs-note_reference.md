@@ -4,6 +4,10 @@ Coming from tidalcycles, this is something that has taken me too long to wrap my
 
 To be fair, it was relatively tricky to wrap my head around in tidalcycles too ...
 
+`n(i)` for unpitched sounds is very simple. If a folder named `foosamples` has 4 samples in it, then `i` references the ith sample in the folder. 
+
+However, when working with pitched samples `n()` usage gets a little more nuanced. 
+
 There are three main sources for pitched sounds that I use:
  - inbuilt synth
  - sample set with full set of pitched samples (eg 88 pitched piano samples) 
