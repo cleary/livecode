@@ -23,10 +23,12 @@ samples('github:0nefeather/akas-dnb-essentials') //20251012
 samples('github.:mot4i/garden')
 ```
 
-- unsorted/tested
+## unsorted/untested
+- https://github.com/bubobubobubobubo/dough-waveforms
 ```
 samples('github:bubobubobubobubo/dough-waveforms')
 ```
+- https://github.com/yaxu/clean-breaks
 ```
 samples('github:yaxu/clean-breaks')
 ```
