@@ -9,6 +9,8 @@ samples('github:tidalcycles/dirt-samples')
 // pads_drones(16), bass_one_shots(24), sfx(24)
 samples('github:0nefeather/akas-dnb-essentials') //20251012
 
+// bank("garden")
+samples('github.:mot4i/garden')
 
 // unsorted/tested
 samples('github:bubobubobubobubo/dough-waveforms')
