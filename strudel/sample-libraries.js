@@ -10,7 +10,10 @@ samples('github:tidalcycles/dirt-samples')
 samples('github:0nefeather/akas-dnb-essentials') //20251012
 
 // bank("garden")
+https://github.com/mot4i/garden
+```
 samples('github.:mot4i/garden')
+```
 
 // unsorted/tested
 samples('github:bubobubobubobubo/dough-waveforms')
