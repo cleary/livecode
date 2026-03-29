@@ -1,0 +1,20 @@
+samples('https://samples.grbt.com.au/strudel.json')
+
+_$: s("<riscpad1 jpads lobstr:5>*8").speed("-1")
+  .chop("[8 4]@15 1".segment(32))
+  .struct("t*8?")
+  .clip(" 0.6@15 4".segment(32))
+  .pan(perlin)
+  .plyWith(" 3 | 4".segment(8), x=>x.room(1).size(1).mul(speed(1.23)))
+  .postgain(0.2)
+  .sometimes(x=>x.transpose("12 | -5"))
+  .cps(0.3)
+  
+
+_$: n("[0, 2, 4, 7,11]/8").scale("D:lydian").s("sine")
+  .attack(4)
+  .release(4)
+  .postgain(0.5)
+  .fmh(0.28)
+  .vib(0.2)
+  .crush(8)
