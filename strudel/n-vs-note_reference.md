@@ -8,10 +8,11 @@ To be fair, it was relatively tricky to wrap my head around in tidalcycles too .
 
 However, when working with pitched samples `n()` usage gets a little more nuanced. 
 
-There are three main sources for pitched sounds that I use:
+There are four main sources for pitched sounds that I use:
  - inbuilt synth
  - sample set with full set of pitched samples (eg 88 pitched piano samples) 
  - single sample tuned to C
+ - sample set with a range of different timbres all tuned to C (eg [flbass](https://github.com/cleary/samples-flbass))
 
 This reference is designed to explain how to use these different sources correctly, with a reminder on how to use `note()` correctly
 
@@ -47,6 +48,19 @@ samples('https://samples.grbt.com.au/strudel.json')
 $: n("0 2 4 1 3 5")
   .scale("A2:minor")
   .s("flbass:14")
+  .cut(1)
+```
+
+### melody with multiple sample indexes
+ - use `cut()` or `clip()` to control length
+ - `C2` is original sample pitch reference
+ - notice the `s()` is contained **within** the `n()` function
+ - `note()` needs to be intr
+```
+samples('https://samples.grbt.com.au/strudel.json')
+$: note("0 2 4 1 3 5")
+  .scale("A2:minor")
+  .n("0 1 15 3 4 14".s("flbass"))
   .cut(1)
 ```
 
@@ -135,3 +149,36 @@ $: chord("<Bm7b5 Em Am F>").voicing()
   .s("square")
   .sometimesBy(0.5, x=>x.off(0, y=>y.arp("[0 4 5] [2 6 4] [0 2 4] [2 4 0]").transpose(24)))
 ```
+
+# Experiments challenging my notes
+
+## using `n()` twice, once to choose notes from a scale, once to choose indexes from sample pack
+ - Notice the containment of `s()` inside the second `n()`
+```
+$: n("0 2 4 1 3 5")
+  .scale("A2:minor")
+  .n("0 1 15 3 4 14".s("flbass"))
+  .cut(1)
+```
+
+## using `note()` as a synonym for `n()` with `scale()`
+```
+$: note("0 2 4 1 3 5")
+  .scale("A2:minor")
+  .n("0 1 15 3 4 14".s("flbass"))
+  .cut(1)
+```
+
+## Chords with different sample indexes
+```
+$: chord("Dm G7 C Am").voicing()
+  .n("0 1 2 10".s("flbass"))
+```
+
+## arpeggiated chords with different sample indexes
+```
+$: chord("Dm G7 C Am").voicing().arp("<0 3 2 3>*16")
+  .n("0 1 2 10".s("flbass"))
+  .rel(0.8)
+```
+
