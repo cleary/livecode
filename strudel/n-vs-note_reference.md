@@ -1,13 +1,5 @@
 # `n()` vs `note()` reference
 
-Coming from tidalcycles, this is something that has taken me too long to wrap my head around ...
-
-To be fair, it was relatively tricky to wrap my head around in tidalcycles too ...
-
-`n(i)` for unpitched sounds is very simple. If a folder named `foosamples` has 4 samples in it, then `i` references the ith sample in the folder. 
-
-However, when working with pitched samples `n()` usage gets a little more nuanced. 
-
 There are four main sources for pitched sounds that I use:
  1. inbuilt synth
  2. sample set with full set of pitched samples (eg 88 pitched piano samples) 
@@ -22,11 +14,12 @@ Source Documentation:
 
 ## 1. Inbuilt Synth
  - when combined with `scale()`, `n()` and `note()` are interchangeable
- - when there is no reference pitch (eg with `scale()`) `note()` requires midi pitches, or note names
+ - when there is no reference pitch (eg with `scale()` or `chord()`) `note()` requires midi pitches, or note names
+ - for most built-in synths, the lowest bare `note()` value that is usable requires `.add("12|24")`
 
 ### melody with inbuilt synth
 
- - always use with `scale()` to set reference pitch
+ - recommend always using with `scale()` to set reference pitch
 
 ```
 $: n("0 2 4 1 3 5")
@@ -40,19 +33,31 @@ $: note("0 2 4 1 3 5")
   .s("sine")
 ```
 
+Bare `note()` usage (lowest usable for `"sine"`):
+```
+$: note("0 2 4 1 3 5".add(24))
+  .s("sine")
+```
+
+```
+$: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
+  .s("sine")
+```
+
 ### manual chord construction with inbuilt synth
 
 ```
 $: n("<[1,3,5] [4,6,8] [0,2,4] [5,7,9]>")
   .scale("A3:minor")
-  .s("square")
+  .s("sine")
 ```
 
----
+## 2. sample set with full set of pitched samples (eg 88 pitched piano samples) 
 
 ### melody with pitched sample set
- - always use `n()` and `scale()` together
+ - Use `scale()` to set reference pitch, makes `n()` and `note()` interchangeable
  - use `cut()` or `clip()` to control length
+
 ```
 samples('https://samples.grbt.com.au/strudel.json')
 $: n("0 2 4 1 3 5")
@@ -61,22 +66,47 @@ $: n("0 2 4 1 3 5")
   .cut(1)
 ```
 
-### melody with pitched single sample
- - use `cut()` or `clip()` to control length
- - `C2` is original sample pitch reference
+Bare `note()` usage with **pitched sample set**:
 ```
 samples('https://samples.grbt.com.au/strudel.json')
-$: n("0 2 4 1 3 5")
+$: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
+  .s("hello")
+  .clip(1)
+```
+
+## 3. single sample tuned to C
+
+### melody with pitched single sample
+ - use `scale()` to set reference pitch, makes `n()` and `note()` interchangeable
+ - use `cut()` or `clip()` to control length
+ - `C2` is original sample pitch reference for `"flbass"`
+```
+samples('https://samples.grbt.com.au/strudel.json')
+$: note("0 2 4 1 3 5")
   .scale("A2:minor")
   .s("flbass:14")
   .cut(1)
 ```
 
-### melody with multiple sample indexes
+### Bare `note()` usage
+```
+samples('https://samples.grbt.com.au/strudel.json')
+$: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
+  .s("flbass:14")
+  .cut(1)
+```
+
+
+## 4. sample set with a range of different timbres all tuned to C
+
+### melody using multiple sample indexes at the same pitch (different timbres)
  - use `cut()` or `clip()` to control length
  - `C2` is original sample pitch reference
  - notice the `s()` is contained **within** the `n()` function
- - `note()` needs to be intr
+ - `n()` and `note()` are interchangeable for the melody component
+ - `n()` and `note()` are **NOT** interchangeable for the sample index component
+ - recommend using `note()` for melody, and `n()` for sample index for clarity
+
 ```
 samples('https://samples.grbt.com.au/strudel.json')
 $: note("0 2 4 1 3 5")
@@ -85,65 +115,15 @@ $: note("0 2 4 1 3 5")
   .cut(1)
 ```
 
-### manual chords with inbuilt synth
+# `chord()` Appendix
 
-```
-$: n("<[1,3,5] [4,6,8] [0,2,4] [5,7,9]>")
-  .scale("A3:minor")
-  .s("square")
-```
+ - ref: https://strudel.cc/understand/voicings/#chord-symbols
+ - you cannot use lower case for names
+ - `chord()` application is the same across sound sources
+ - use `clip()` to control sample length
+ - do not use `cut()` with `chord()` or you will only hear one note (and no chord)
 
-### using `n()` to pick individual notes from `chord()`
- - for `chord()` info, see below
-
-```
-$: n("<[0 4 5] [2 6 4] [0 2 4] [2 4 0]>*8")
-  .chord("<Bm7b5 Em Am F>").voicing()
-  .s("square")
-```
-
-For chords defined by name, see the section below on `chord()`
-
-## `note()` is for using note names, or midi pitches 
- - don't use `scale()`, it doesn't make sense here
- - ref: https://strudel.cc/learn/notes/#notes
-
-### melody with inbuilt synth
-
-```
-$: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
-  .s("square")
-```
-
-### melody with pitched sample set
-```
-samples('https://samples.grbt.com.au/strudel.json')
-$: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
-  .s("hello")
-  .clip(1)
-```
-
-### melody with pitched single sample
-```
-samples('https://samples.grbt.com.au/strudel.json')
-$: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
-  .s("flbass:14")
-  .cut(1)
-```
-
-## `chord()` is a different kettle of fish
-
-- ref: https://strudel.cc/understand/voicings/#chord-symbols
-
-### chords defined by name
- - note you cannot use lower case
-
-```
-$: chord("<Bm7b5 Em Am F>").voicing()
-  .s("square")
-```
-
-### default dictionary of chord names
+## default dictionary of chord names
 ```
 2 5 6 7 9 11 13 69 add9
 o h sus ^ - ^7 -7 7sus
@@ -162,44 +142,74 @@ m^7 -M7 m^9 -M9 m9 madd9
 m11 m7b5 mb6 m#5 mM7 mM9
 ```
 
+## manual chords with inbuilt synth
+
+```
+$: n("<[1,3,5] [4,6,8] [0,2,4] [5,7,9]>")
+  .scale("A3:minor")
+  .s("sine")
+```
+
+### using `n()` to pick individual notes from `chord()`
+ - for `chord()` info, see below
+
+```
+$: n("<[0 4 5] [2 6 4] [0 2 4] [2 4 0]>*8")
+  .chord("<Bm7b5 Em Am F>").voicing()
+  .s("sine")
+```
+
+...almost equivalent to `arp()` usage
+```
+$: chord("<Bm7b5 Em Am F>").voicing()
+  .arp("<[0 4 5] [2 6 4] [0 2 4] [2 4 0]>*8")
+  .s("sine")
+```
+
 ### `chord()` and individual notes blended, with `arp()`
-- doesn't work the way I remember in tidal, need to work out what I used to do though
+- requires `off()` or `arp()` is applied in place of the original pattern which I want to preserve
 
 ```
 $: chord("<Bm7b5 Em Am F>").voicing()
-  .s("square")
-  .sometimesBy(0.5, x=>x.off(0, y=>y.arp("[0 4 5] [2 6 4] [0 2 4] [2 4 0]").transpose(24)))
+  .s("sine")
+  .off(0, y=>y.arp("[0 4 5] [2 6 4] [0 2 4] [2 4 0]")
+    .transpose(24)
+    .mask("<0 1 1 0 0 1 0 1 1 >*16"))
 ```
 
-## Experiments challenging my definitions
+# Appendix: The confusion explained (maybe ... somewhat)
 
-### using `n()` twice, once to choose notes from a scale, once to choose indexes from sample pack
- - Notice the containment of `s()` inside the second `n()`
-```
-$: n("0 2 4 1 3 5")
-  .scale("A2:minor")
-  .n("0 1 15 3 4 14".s("flbass"))
-  .cut(1)
-```
+Coming from tidalcycles, this is something that has taken me too long to wrap my head around ...
 
-### using `note()` as a synonym for `n()` with `scale()`
+To be fair, it was relatively tricky to wrap my head around in tidalcycles too ... but this is extra!
+
+Consider:
+
+`n(i)` for unpitched sounds - if a folder named `foosamples` has 4 samples in it, then `i` references the ith sample in the folder. 
 ```
-$: note("0 2 4 1 3 5")
-  .scale("A2:minor")
-  .n("0 1 15 3 4 14".s("flbass"))
-  .cut(1)
+$: n("1 2 3 4").s("jazz")
 ```
 
-### Chords with different sample indexes
+If you want to pitch the sounds in this bank, use `note()`
 ```
-$: chord("Dm G7 C Am").voicing()
-  .n("0 1 2 10".s("flbass"))
-```
-
-### arpeggiated chords with different sample indexes
-```
-$: chord("Dm G7 C Am").voicing().arp("<0 3 2 3>*16")
-  .n("0 1 2 10".s("flbass"))
-  .rel(0.8)
+note("1 2 3 4 5 6 7 8").s("jazz")
 ```
 
+But we are no longer referencing different indexes now.
+Add the indexes back:
+```
+note("1 2 3 4 5 6 7 8")
+.n("1 2 3 4").s("jazz")
+```
+
+We have no pitch reference, so add `scale()`
+```
+note("1 2 3 4 5 6 7 8").scale("A3:minor")
+.n("1 2 3 4").s("jazz")
+```
+
+...now we have a reference pitch, `note()` and `n()` are interchangeable(!!)
+```
+n("1 2 3 4 5 6 7 8").scale("A3:minor")
+.n("1 2 3 4").s("jazz")
+```
