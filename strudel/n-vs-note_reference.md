@@ -9,25 +9,46 @@ To be fair, it was relatively tricky to wrap my head around in tidalcycles too .
 However, when working with pitched samples `n()` usage gets a little more nuanced. 
 
 There are four main sources for pitched sounds that I use:
- - inbuilt synth
- - sample set with full set of pitched samples (eg 88 pitched piano samples) 
- - single sample tuned to C
- - sample set with a range of different timbres all tuned to C (eg [flbass](https://github.com/cleary/samples-flbass))
+ 1. inbuilt synth
+ 2. sample set with full set of pitched samples (eg 88 pitched piano samples) 
+ 3. single sample tuned to C
+ 4. sample set with a range of different timbres all tuned to C (eg [flbass](https://github.com/cleary/samples-flbass))
 
-This reference is designed to explain how to use these different sources correctly, with a reminder on how to use `note()` correctly
+This reference is designed to explain how I use these different sources with the `n()` and `note()` functions
 
-## `n()` is for numerical scale degrees, in conjunction with `scale()`
- - ref: https://strudel.cc/understand/voicings/#n
+Source Documentation:
+ - https://strudel.cc/understand/voicings/#n
+ - https://strudel.cc/learn/notes/#notes
+
+## 1. Inbuilt Synth
+ - when combined with `scale()`, `n()` and `note()` are interchangeable
+ - when there is no reference pitch (eg with `scale()`) `note()` requires midi pitches, or note names
 
 ### melody with inbuilt synth
- - always use `n()` and `scale()` together
- - different synth tones available in `s()`
+
+ - always use with `scale()` to set reference pitch
 
 ```
 $: n("0 2 4 1 3 5")
   .scale("A3:minor")
-  .s("square:7")
+  .s("sine")
 ```
+synonymous to:
+```
+$: note("0 2 4 1 3 5")
+  .scale("A3:minor")
+  .s("sine")
+```
+
+### manual chord construction with inbuilt synth
+
+```
+$: n("<[1,3,5] [4,6,8] [0,2,4] [5,7,9]>")
+  .scale("A3:minor")
+  .s("square")
+```
+
+---
 
 ### melody with pitched sample set
  - always use `n()` and `scale()` together
