@@ -150,9 +150,9 @@ $: chord("<Bm7b5 Em Am F>").voicing()
   .sometimesBy(0.5, x=>x.off(0, y=>y.arp("[0 4 5] [2 6 4] [0 2 4] [2 4 0]").transpose(24)))
 ```
 
-# Experiments challenging my notes
+## Experiments challenging my definitions
 
-## using `n()` twice, once to choose notes from a scale, once to choose indexes from sample pack
+### using `n()` twice, once to choose notes from a scale, once to choose indexes from sample pack
  - Notice the containment of `s()` inside the second `n()`
 ```
 $: n("0 2 4 1 3 5")
@@ -161,7 +161,7 @@ $: n("0 2 4 1 3 5")
   .cut(1)
 ```
 
-## using `note()` as a synonym for `n()` with `scale()`
+### using `note()` as a synonym for `n()` with `scale()`
 ```
 $: note("0 2 4 1 3 5")
   .scale("A2:minor")
@@ -169,13 +169,13 @@ $: note("0 2 4 1 3 5")
   .cut(1)
 ```
 
-## Chords with different sample indexes
+### Chords with different sample indexes
 ```
 $: chord("Dm G7 C Am").voicing()
   .n("0 1 2 10".s("flbass"))
 ```
 
-## arpeggiated chords with different sample indexes
+### arpeggiated chords with different sample indexes
 ```
 $: chord("Dm G7 C Am").voicing().arp("<0 3 2 3>*16")
   .n("0 1 2 10".s("flbass"))
