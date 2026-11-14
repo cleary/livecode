@@ -102,7 +102,7 @@ $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
 ### melody using multiple sample indexes at the same pitch (different timbres)
  - use `cut()` or `clip()` to control length
  - `C2` is original sample pitch reference
- - notice the `s()` is contained **within** the `n()` function
+ - notice the `n()` is contained **within** the `s()` function
  - `n()` and `note()` are interchangeable for the melody component
  - `n()` and `note()` are **NOT** interchangeable for the sample index component
  - recommend using `note()` for melody, and `n()` for sample index for clarity
@@ -111,7 +111,7 @@ $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
 samples('https://samples.grbt.com.au/strudel.json')
 $: note("0 2 4 1 3 5")
   .scale("A2:minor")
-  .s("flbass".n("0 1 15 3 4 14"))
+  .s("flbass".n("0 1 15 3 4 14")) // n() is contained **within** the s() function
   .cut(1)
 ```
 
