@@ -111,7 +111,7 @@ $: note("<[57 60 64 59 62 65] [a3 c4 e4 b3 d4 f4]> ")
 samples('https://samples.grbt.com.au/strudel.json')
 $: note("0 2 4 1 3 5")
   .scale("A2:minor")
-  .n("0 1 15 3 4 14".s("flbass"))
+  .s("flbass".n("0 1 15 3 4 14"))
   .cut(1)
 ```
 
